@@ -1,0 +1,6 @@
+{
+  "extends": ["react-app", "airbnb", "prettier", "plugin:react/jsx-runtime"],
+  "rules": {
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
+  }
+}
