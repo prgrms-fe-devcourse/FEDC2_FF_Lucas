@@ -44,6 +44,9 @@ export default {
     wrapperProps: {
       defaultValue: {},
     },
+    wrapperStyles: {
+      defaultValue: {},
+    },
     labelStyles: {
       defaultValue: {},
     },
