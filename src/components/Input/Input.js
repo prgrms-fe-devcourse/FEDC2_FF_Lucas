@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 
 const Wrapper = styled.div`
   display: ${({ block }) => (block ? "block" : "inline-block")};
-  width: ${({ width }) => (width ? `${width}px` : "670px")};
-  height: ${({ height }) => (height ? `${height}px` : "68px")};
+  width: 670px;
+  height: 68ox;
 `;
 
 const Label = styled.label`
@@ -44,11 +44,12 @@ const Input = ({
   placeholder = "",
   maxLength,
   wrapperProps = {},
+  wrapperStyles = {},
   labelStyles = {},
   inputStyles = {},
   ...props
 }) => (
-  <Wrapper block={block} {...wrapperProps}>
+  <Wrapper block={block} {...wrapperProps} style={wrapperStyles}>
     <Label style={labelStyles}>{label}</Label>
     <StyledInput
       type={type}
@@ -76,6 +77,7 @@ Input.propTypes = {
   maxLength: PropTypes.number,
   labelStyles: PropTypes.shape(),
   inputStyles: PropTypes.shape(),
+  wrapperStyles: PropTypes.shape(),
   wrapperProps: PropTypes.shape(),
 };
 
