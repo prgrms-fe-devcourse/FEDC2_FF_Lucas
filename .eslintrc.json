@@ -3,6 +3,7 @@
   "rules": {
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/jsx-props-no-spreading": "OFF",
-    "react/function-component-definition": "OFF"
+    "react/function-component-definition": "OFF",
+    "react/require-default-props": "OFF"
   }
 }
