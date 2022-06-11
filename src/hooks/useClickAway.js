@@ -14,7 +14,8 @@ const useClickAway = handler => {
     if (!element) return undefined;
 
     const eventHandler = e => {
-      !e.target.contain(ref) && savedHandler.current(e);
+      console.log(element, e.target);
+      !element.contains(e.target) && savedHandler.current(e);
     };
 
     document.addEventListener("click", eventHandler);
