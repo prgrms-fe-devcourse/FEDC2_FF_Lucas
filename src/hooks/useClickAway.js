@@ -14,14 +14,13 @@ const useClickAway = handler => {
     if (!element) return undefined;
 
     const eventHandler = e => {
-      console.log(element, e.target);
       !element.contains(e.target) && savedHandler.current(e);
     };
 
-    document.addEventListener("click", eventHandler);
+    document.addEventListener("mousedown", eventHandler);
 
     return () => {
-      document.removeEventListener("click", eventHandler);
+      document.removeEventListener("mousedown", eventHandler);
     };
   }, [ref]);
 
