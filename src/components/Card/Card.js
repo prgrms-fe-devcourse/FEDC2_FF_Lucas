@@ -36,12 +36,13 @@ const SocialWrapper = styled.div`
 `;
 
 export default function Card({
-  src,
-  date,
-  userName,
-  title,
-  commentCount,
-  likeCount,
+  src = "https://picsum.photos/200",
+  profileImg = "https://picsum.photos/200",
+  date = "22.06.13",
+  userName = "루카스팀",
+  title = "fashion feedback",
+  commentCount = 36,
+  likeCount = 5,
   width = 300,
 }) {
   return (
@@ -49,7 +50,11 @@ export default function Card({
       <Image src={src} style={{ height: "auto" }} />
       <InfoWrapper>
         <UserWrapper>
-          <Image src={src} width="40px" style={{ borderRadius: "100%" }} />
+          <Image
+            src={profileImg}
+            width="40px"
+            style={{ borderRadius: "100%" }}
+          />
           <Text block="true" strong="bold" style={{ flexGrow: "1" }}>
             {userName}
           </Text>
@@ -76,6 +81,7 @@ export default function Card({
 Card.propTypes = {
   width: PropTypes.number,
   src: PropTypes.string,
+  profileImg: PropTypes.string,
   date: PropTypes.string,
   userName: PropTypes.string,
   title: PropTypes.string,
