@@ -5,6 +5,6 @@
     "react/jsx-props-no-spreading": "OFF",
     "react/function-component-definition": "OFF",
     "react/require-default-props": "OFF",
-    "no-unused-expressions": [{ "allowShortCircuit": true }]
+    "no-unused-expressions": ["error", { "allowShortCircuit": true }]
   }
 }
