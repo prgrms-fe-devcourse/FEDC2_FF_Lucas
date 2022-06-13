@@ -50,9 +50,10 @@ function UpperHeader() {
         <Button
           width="80px"
           height="100%"
-          fontSize="20px"
+          fontSize="15px"
           backgroundColor="white"
           color="black"
+          style={{ padding: "7px" }}
         >
           로그인
         </Button>
