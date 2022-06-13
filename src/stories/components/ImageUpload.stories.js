@@ -27,7 +27,7 @@ const Label = styled.label`
 `;
 
 export const ImageFile = args => (
-  <ImageUpload previewImageStyles={{ width: "160px", height: "200px" }} {...args}>
+  <ImageUpload {...args} previewImageStyles={{ width: "160px", height: "200px" }}>
     <Label>사진</Label>
     <button type="button">+</button>
   </ImageUpload>
@@ -42,7 +42,7 @@ const ProfileImage = styled.div`
 `;
 
 export const Profile = args => (
-  <ImageUpload isInnerPreview previewImageStyles={{ width: "100%", height: "100%", mode: "cover" }} {...args}>
+  <ImageUpload {...args} isInnerPreview previewImageStyles={{ width: "100%", height: "100%", mode: "cover" }}>
     <ProfileImage />
   </ImageUpload>
 );
