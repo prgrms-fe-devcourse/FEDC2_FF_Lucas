@@ -44,9 +44,10 @@ export default function Card({
   commentCount = 36,
   likeCount = 5,
   width = 300,
+  ...props
 }) {
   return (
-    <Wrapper style={{ width: `${width}px` }}>
+    <Wrapper style={{ width: `${width}px` }} {...props}>
       <Image src={src} style={{ height: "auto" }} />
       <InfoWrapper>
         <UserWrapper>
