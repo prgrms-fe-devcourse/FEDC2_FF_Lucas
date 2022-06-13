@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import PropTypes from "prop-types";
 import { useMemo, useEffect } from "react";
 import ReactDOM from "react-dom";
-import useclickAway from "../../hooks/useClickAway";
+import useClickAway from "../../hooks/useClickAway";
 
 const ModalBackground = styled.div`
   position: fixed;
@@ -33,8 +33,8 @@ const Modal = ({
   onClose,
   ...props
 }) => {
-  const modalRef = useclickAway(() => {
-    visible && onClose && onClose();
+  const modalRef = useClickAway(() => {
+    onClose && onClose();
   });
 
   const modalStyle = useMemo(
@@ -53,10 +53,6 @@ const Modal = ({
       document.body.removeChild(el);
     };
   });
-
-  useEffect(() => {
-    console.log("visible", visible);
-  }, [visible]);
 
   return ReactDOM.createPortal(
     <ModalBackground style={{ display: visible ? "block" : "none" }}>
