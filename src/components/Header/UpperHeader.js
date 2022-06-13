@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { Search, Smile, Bell, User } from "react-feather";
+import Button from "../Button/Button";
 import Common from "../../styles/common";
 
 const Header = styled.div`
@@ -30,7 +31,7 @@ const Wrapper = styled.div`
   display: inline;
   width: fit-content;
   align-items: center;
-  margin: 10px;
+  margin: 20px;
 `;
 
 function UpperHeader() {
@@ -46,7 +47,15 @@ function UpperHeader() {
       <Wrapper style={{ display: "flex", gap: "20px" }}>
         <Bell />
         <User />
-        <button type="button">로그인</button>
+        <Button
+          width="80px"
+          height="100%"
+          fontSize="20px"
+          backgroundColor="white"
+          color="black"
+        >
+          로그인
+        </Button>
       </Wrapper>
     </Header>
   );
