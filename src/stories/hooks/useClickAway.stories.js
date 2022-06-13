@@ -23,7 +23,9 @@ export const Default = () => {
 
   return (
     <div>
-      <button onClick={() => setShow(true)}>Show</button>
+      <button type="button" onClick={() => setShow(true)}>
+        Show
+      </button>
       <Popover ref={ref} style={{ display: show ? "block" : "none" }}>
         Popover
       </Popover>

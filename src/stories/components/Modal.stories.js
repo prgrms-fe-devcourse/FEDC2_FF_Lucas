@@ -19,7 +19,9 @@ export const Default = args => {
   const [visible, setVisible] = useState(false);
   return (
     <>
-      <button onClick={() => setVisible(true)}>Show</button>
+      <button type="button" onClick={() => setVisible(true)}>
+        Show
+      </button>
       <Modal visible={visible} onClose={() => setVisible(false)} {...args}>
         Modal 창입니다
       </Modal>
