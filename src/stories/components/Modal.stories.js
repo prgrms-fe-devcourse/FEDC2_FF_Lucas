@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Modal from "../../components/Modal/Modal";
+import Input from "../../components/Input/Input";
 
 export default {
   title: "Component/Modal",
@@ -24,6 +25,15 @@ export const Default = args => {
       </button>
       <Modal visible={visible} onClose={() => setVisible(false)} {...args}>
         Modal 창입니다
+        <Input
+          type="text"
+          tabIndex={0}
+          invalid={false}
+          wrapperStyles={{
+            width: "100px",
+            height: "30px",
+          }}
+        />
       </Modal>
     </>
   );
