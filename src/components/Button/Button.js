@@ -84,8 +84,8 @@ Button.propTypes = {
   borderColor: PropTypes.string,
   cursor: PropTypes.string,
   transitionDuration: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  hover: PropTypes.shape,
-  active: PropTypes.shape,
+  hover: PropTypes.objectOf(PropTypes.string),
+  active: PropTypes.objectOf(PropTypes.string),
   onClick: PropTypes.func,
   children: PropTypes.string,
 };
