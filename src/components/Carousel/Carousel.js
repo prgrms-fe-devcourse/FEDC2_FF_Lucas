@@ -33,6 +33,7 @@ export default function Carousel({ height, second }) {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    arrows: false,
   };
   return (
     <StyledSlider {...settings}>
