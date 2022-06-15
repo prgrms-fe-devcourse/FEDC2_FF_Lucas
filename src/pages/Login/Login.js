@@ -25,7 +25,6 @@ const LoginHeader = styled.h1`
   font-size: 50px;
   display: grid;
   place-items: center;
-  text-align: center;
 `;
 
 const ButtonWrapper = styled.div`
