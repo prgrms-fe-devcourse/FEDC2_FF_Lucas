@@ -37,7 +37,7 @@ const Input = ({
   label,
   type = "text",
   block = false,
-  invalid = true,
+  invalid = false,
   required = false,
   disabled = false,
   readonly = false,
