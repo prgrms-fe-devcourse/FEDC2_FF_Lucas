@@ -9,9 +9,10 @@ const PreviewImage = ({ children, previewImageWrapperStyles, previewItem }) => {
     gap: 40px;
     padding-left: 40px;
     background-color: #d9d9d9;
-    width: 1130px;
+    width: 100%;
     height: 245px;
     border-radius: 15px;
+    box-sizing: border-box;
   `;
 
   return children ? (
