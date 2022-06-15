@@ -1,7 +1,9 @@
 import styled from "@emotion/styled";
+import { useState } from "react";
 import { Search, Smile, Bell, User } from "react-feather";
 import Button from "../Button/Button";
 import Common from "../../styles/common";
+import UserTooltip from "../UserTooltip/UserTooltip";
 
 const Header = styled.div`
   background-color: ${Common.colors.secondaryColor};
@@ -33,8 +35,20 @@ const Wrapper = styled.div`
   align-items: center;
   margin: 20px;
 `;
+const IconButton = styled.button`
+  background-color: ${Common.colors.secondaryColor};
+  border: none;
+  border-radius: 50%;
+  &:hover {
+    background-color: ${Common.colors.mainColor};
+  }
+`;
 
 function UpperHeader() {
+  const [show, setShow] = useState(false);
+  const toggle = () => {
+    setShow(!show);
+  };
   return (
     <Header>
       <Wrapper>
@@ -45,8 +59,21 @@ function UpperHeader() {
         <Input placeholder="검색어를 입력해주세요." />
       </Wrapper>
       <Wrapper style={{ display: "flex", gap: "20px" }}>
-        <Bell />
-        <User />
+        <Bell stlye={{ cursor: "pointer" }} />
+        <span style={{ position: "relative" }}>
+          <IconButton
+            type="button"
+            onClick={toggle}
+            style={{
+              backgroundColor: show
+                ? Common.colors.mainColor
+                : Common.colors.secondaryColor,
+            }}
+          >
+            <User style={{ position: "relative", cursor: "pointer" }} />
+          </IconButton>
+          <UserTooltip style={{ display: show ? "block" : "none" }} />
+        </span>
         <Button
           width="80px"
           height="100%"
