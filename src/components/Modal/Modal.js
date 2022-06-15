@@ -17,18 +17,28 @@ const ModalBackground = styled.div`
 `;
 
 const ModalContainer = styled.div`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  padding: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  overflow: auto;
+  width: 100vw;
+  height: 100vh;
+`;
+
+const ModalContent = styled.div`
+  position: relative;
+  padding: 8px 8px 20px; // CloseIcon 높이만큼 padding-bottom 적용
+  border-radius: 5px;
   background-color: white;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
-  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  max-width: 90%;
+  margin-top: 3.75em;
+  margin-bottom: 3.75em;
 `;
 
 const Modal = ({
@@ -60,22 +70,30 @@ const Modal = ({
     };
   });
 
+  useEffect(() => {
+    if (visible) document.body.classList.add("modal-open");
+    else document.body.classList.remove("modal-open");
+  }, [visible]);
+
   return ReactDOM.createPortal(
     <ModalBackground style={{ display: visible ? "block" : "none" }}>
-      <FocusTrap active={visible}>
-        <ModalContainer
-          {...props}
-          style={{ ...props.style, ...modalStyle }}
-          ref={modalRef}
-        >
-          <CloseIcon
-            onClick={onClose}
-            style={{ alignSelf: "flex-end", cursor: "pointer" }}
-            tabIndex={0}
-          />
-          {children}
-        </ModalContainer>
-      </FocusTrap>
+      <ModalContainer>
+        <FocusTrap active={visible}>
+          <ModalContent
+            {...props}
+            style={{ ...props.style, ...modalStyle }}
+            ref={modalRef}
+          >
+            <CloseIcon
+              size={20}
+              onClick={onClose}
+              style={{ alignSelf: "flex-end", cursor: "pointer" }}
+              tabIndex={0}
+            />
+            {children}
+          </ModalContent>
+        </FocusTrap>
+      </ModalContainer>
     </ModalBackground>,
     el,
   );
