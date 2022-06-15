@@ -1,4 +1,4 @@
-import Login from "../../pages/Login/Login";
+import Login from "../../../pages/Login/Login";
 
 export default {
   title: "Page/Login",
