@@ -1,7 +1,8 @@
 import { css } from "@emotion/react";
 
 const globalStyle = css`
-  div {
+  body.modal-open {
+    overflow: hidden;
   }
 `;
 
