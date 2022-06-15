@@ -17,7 +17,7 @@ const Label = styled.label`
 const StyledInput = styled.input`
   width: 100%;
   height: 100%;
-  padding: 4px 8px 4px 40px;
+  padding: ${({ label }) => (label ? `4px 8px 4px 40px` : `4px 8px 4px 4px`)};
   border: 1px solid ${({ invalid }) => (invalid ? "red" : "gray")};
   border-radius: 15px;
   box-sizing: border-box;
