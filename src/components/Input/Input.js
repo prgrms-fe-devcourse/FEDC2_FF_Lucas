@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 
 const Wrapper = styled.div`
   display: ${({ block }) => (block ? "block" : "inline-block")};
-  width: 670px;
-  height: 68px;
+  width: 100%;
+  height: 100%;
 `;
 
 const Label = styled.label`
