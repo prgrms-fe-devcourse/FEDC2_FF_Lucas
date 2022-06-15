@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 const Wrapper = styled.div`
   display: ${({ block }) => (block ? "block" : "inline-block")};
   width: 670px;
-  height: 68ox;
+  height: 68px;
 `;
 
 const Label = styled.label`
