@@ -75,10 +75,10 @@ Input.propTypes = {
   readonly: PropTypes.bool,
   placeholder: PropTypes.string,
   maxLength: PropTypes.number,
-  labelStyles: PropTypes.shape(),
-  inputStyles: PropTypes.shape(),
-  wrapperStyles: PropTypes.shape(),
-  wrapperProps: PropTypes.shape(),
+  labelStyles: PropTypes.objectOf(PropTypes.string),
+  inputStyles: PropTypes.objectOf(PropTypes.string),
+  wrapperStyles: PropTypes.objectOf(PropTypes.string),
+  wrapperProps: PropTypes.objectOf(PropTypes.string),
 };
 
 export default Input;
