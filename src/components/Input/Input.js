@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 
 const Wrapper = styled.div`
   display: ${({ block }) => (block ? "block" : "inline-block")};
-  width: 670px;
-  height: 68ox;
+  width: 100%;
+  height: 100%;
 `;
 
 const Label = styled.label`
@@ -17,7 +17,7 @@ const Label = styled.label`
 const StyledInput = styled.input`
   width: 100%;
   height: 100%;
-  padding: 4px 8px 4px 40px;
+  padding: ${({ label }) => (label ? `4px 8px 4px 40px` : `4px 8px 4px 4px`)};
   border: 1px solid ${({ invalid }) => (invalid ? "red" : "gray")};
   border-radius: 15px;
   box-sizing: border-box;
@@ -37,7 +37,7 @@ const Input = ({
   label,
   type = "text",
   block = false,
-  invalid = true,
+  invalid = false,
   required = false,
   disabled = false,
   readonly = false,
@@ -75,10 +75,10 @@ Input.propTypes = {
   readonly: PropTypes.bool,
   placeholder: PropTypes.string,
   maxLength: PropTypes.number,
-  labelStyles: PropTypes.shape(),
-  inputStyles: PropTypes.shape(),
-  wrapperStyles: PropTypes.shape(),
-  wrapperProps: PropTypes.shape(),
+  labelStyles: PropTypes.objectOf(PropTypes.string),
+  inputStyles: PropTypes.objectOf(PropTypes.string),
+  wrapperStyles: PropTypes.objectOf(PropTypes.string),
+  wrapperProps: PropTypes.objectOf(PropTypes.string),
 };
 
 export default Input;
