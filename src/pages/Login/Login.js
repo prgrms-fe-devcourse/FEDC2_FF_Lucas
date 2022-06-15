@@ -23,11 +23,14 @@ const FormWrapper = styled.div`
 
 const LoginHeader = styled.h1`
   font-size: 50px;
+  display: grid;
+  place-items: center;
   text-align: center;
 `;
 
 const ButtonWrapper = styled.div`
   display: flex;
+  align-items: center;
 `;
 
 const Login = () => {
@@ -55,7 +58,12 @@ const Login = () => {
           type="email"
           name="email"
           placeholder="Email"
-          style={{ height: "60px", marginBottom: "-20px" }}
+          style={{
+            height: "60px",
+            marginBottom: "-20px",
+            display: "grid",
+            placeItems: "center",
+          }}
           onChange={handleChange}
         />
         {errors.email && (
@@ -67,7 +75,12 @@ const Login = () => {
           type="password"
           name="password"
           placeholder="Password"
-          style={{ height: "60px", marginBottom: "-20px" }}
+          style={{
+            height: "60px",
+            marginBottom: "-20px",
+            display: "grid",
+            placeItems: "center",
+          }}
           onChange={handleChange}
         />
         {errors.password && (
