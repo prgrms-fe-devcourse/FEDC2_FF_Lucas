@@ -1,4 +1,4 @@
-import { useReducer, createContext, useMemo } from "react";
+import { useReducer, createContext, useMemo, useContext } from "react";
 import { PropTypes } from "prop-types";
 
 const initialState = {
@@ -27,7 +27,8 @@ const reducer = (state, action) => {
   }
 };
 
-export const GlobalContext = createContext(null);
+const GlobalContext = createContext(null);
+export const useGlobalContext = () => useContext(GlobalContext);
 
 const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
