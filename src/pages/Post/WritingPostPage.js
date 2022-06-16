@@ -101,7 +101,7 @@ const WritingPostPage = () => {
             <Button height="32px" backgroundColor="transparent" color="black">
               +
             </Button>
-            {errors.binaryImage}
+            {errors.image}
           </AddWrapper>
         </ImageUpload>
         <Label>피드백 받고 싶은 내용을 적어주세요.</Label>
