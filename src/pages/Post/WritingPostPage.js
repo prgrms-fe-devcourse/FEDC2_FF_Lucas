@@ -1,4 +1,6 @@
 import styled from "@emotion/styled";
+import { useEffect, useState } from "react";
+import Modal from "../../components/Modal/Modal";
 import Button from "../../components/Button/Button";
 import UpperHeader from "../../components/Header/UpperHeader";
 import ImageUpload from "../../components/ImageUpload/ImageUpload";
@@ -61,11 +63,6 @@ const WritingPostPage = () => {
       image: "",
     },
     onSubmit: async ({ title, content, event }) => {
-      if (!event.target.image.src) {
-        console.log("아직 image를 못불러왔습니다.");
-        return;
-      }
-
       // TODO: api.post
       console.log(`글 작성 등록\n제목: ${title}, 내용: ${content}\n ${event.target.image.dataset.binaryImage}`);
     },
@@ -83,6 +80,17 @@ const WritingPostPage = () => {
       return error;
     },
   });
+  const [modalVisible, setModalVisible] = useState(false);
+
+  useEffect(() => {
+    if (Object.keys(errors).length > 0) {
+      setModalVisible(true);
+
+      return;
+    }
+
+    setModalVisible(false);
+  }, [errors]);
 
   return (
     <>
@@ -94,18 +102,15 @@ const WritingPostPage = () => {
           name="title"
           onChange={handleChange}
         />
-        {errors.title}
         <ImageUpload name="image" previewImageStyles={{ width: "160px", height: "200px" }} onChange={handleChange}>
           <AddWrapper>
             <Label>사진</Label>
             <Button height="32px" backgroundColor="transparent" color="black">
               +
             </Button>
-            {errors.image}
           </AddWrapper>
         </ImageUpload>
         <Label>피드백 받고 싶은 내용을 적어주세요.</Label>
-        {errors.content}
         <StyledTextArea name="content" onChange={handleChange} />
         <SubmitWrapper>
           <Button onClick={handleCancleClick} width="25%">
@@ -116,6 +121,9 @@ const WritingPostPage = () => {
           </Button>
         </SubmitWrapper>
       </Form>
+      <Modal width="50%" visible={modalVisible} onClose={() => setModalVisible(false)}>
+        {Object.values(errors)[0]}
+      </Modal>
     </>
   );
 };
