@@ -1,5 +1,4 @@
-import { useContext } from "react";
-import { GlobalContext } from "../../store/GlobalProvider";
+import { useGlobalContext } from "../../store/GlobalProvider";
 
 export default {
   title: "Component/GlobalContext",
@@ -7,7 +6,7 @@ export default {
 };
 
 export const Default = () => {
-  const { state, dispatch, deleteTodo } = useContext(GlobalContext);
+  const { state, dispatch, deleteTodo } = useGlobalContext();
 
   const addTodo = text =>
     dispatch({
