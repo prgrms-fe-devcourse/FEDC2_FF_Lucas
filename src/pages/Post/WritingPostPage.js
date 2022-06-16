@@ -3,6 +3,7 @@ import Button from "../../components/Button/Button";
 import UpperHeader from "../../components/Header/UpperHeader";
 import ImageUpload from "../../components/ImageUpload/ImageUpload";
 import Input from "../../components/Input/Input";
+import useForm from "../../hooks/useForm";
 
 const Form = styled.form`
   display: flex;
@@ -46,52 +47,77 @@ const SubmitWrapper = styled.div`
   width: 100%;
 `;
 
-const handleSubmit = e => {
-  e.preventDefault();
-
-  const { binaryImage } = e.target.imageUpload.dataset;
-  console.log(binaryImage);
-
-  // TODO: api.post
-  alert(`글 작성 등록\n제목: ${e.target.titleInput.value}, 내용: ${e.target.content.value}\n ${binaryImage}`);
-};
-
 // TODO: 취소시 뒤로가기
 const handleCancleClick = () => {
   // 뒤로가기 구현
   alert("글 작성 취소");
 };
 
-const WritingPostPage = () => (
-  <>
-    <UpperHeader />
-    <Form onSubmit={handleSubmit}>
-      <Input
-        label="제목"
-        name="titleInput"
-        wrapperStyles={{ display: "flex", "flex-direction": "column", gap: "24px" }}
-        required
-      />
-      <ImageUpload name="imageUpload" previewImageStyles={{ width: "160px", height: "200px" }} required>
-        <AddWrapper>
-          <Label>사진</Label>
-          <Button height="32px" backgroundColor="transparent" color="black">
-            +
+const WritingPostPage = () => {
+  const { errors, handleChange, handleSubmit } = useForm({
+    initialValues: {
+      title: "",
+      content: "",
+      image: "",
+    },
+    onSubmit: async ({ title, content, event }) => {
+      if (!event.target.image.src) {
+        console.log("아직 image를 못불러왔습니다.");
+        return;
+      }
+
+      // TODO: api.post
+      console.log(`글 작성 등록\n제목: ${title}, 내용: ${content}\n ${event.target.image.dataset.binaryImage}`);
+    },
+    validate: ({ title, image, content }) => {
+      const error = {};
+      if (!title) {
+        error.title = "제목을 입력해주세요!";
+      }
+      if (!image) {
+        error.image = "사진을 등록해주세요!";
+      }
+      if (!content) {
+        error.content = "내용을 입력해주세요!";
+      }
+      return error;
+    },
+  });
+
+  return (
+    <>
+      <UpperHeader />
+      <Form onSubmit={handleSubmit}>
+        <Input
+          label="제목"
+          wrapperStyles={{ display: "flex", "flex-direction": "column", gap: "24px" }}
+          name="title"
+          onChange={handleChange}
+        />
+        {errors.title}
+        <ImageUpload name="image" previewImageStyles={{ width: "160px", height: "200px" }} onChange={handleChange}>
+          <AddWrapper>
+            <Label>사진</Label>
+            <Button height="32px" backgroundColor="transparent" color="black">
+              +
+            </Button>
+            {errors.binaryImage}
+          </AddWrapper>
+        </ImageUpload>
+        <Label>피드백 받고 싶은 내용을 적어주세요.</Label>
+        {errors.content}
+        <StyledTextArea name="content" onChange={handleChange} />
+        <SubmitWrapper>
+          <Button onClick={handleCancleClick} width="25%">
+            취소
           </Button>
-        </AddWrapper>
-      </ImageUpload>
-      <Label>피드백 받고 싶은 내용을 적어주세요.</Label>
-      <StyledTextArea name="content" required />
-      <SubmitWrapper>
-        <Button onClick={handleCancleClick} width="25%">
-          취소
-        </Button>
-        <Button type="submit" width="25%">
-          작성 완료
-        </Button>
-      </SubmitWrapper>
-    </Form>
-  </>
-);
+          <Button type="submit" width="25%">
+            작성 완료
+          </Button>
+        </SubmitWrapper>
+      </Form>
+    </>
+  );
+};
 
 export default WritingPostPage;
