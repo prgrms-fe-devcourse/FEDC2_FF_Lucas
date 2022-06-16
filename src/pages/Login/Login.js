@@ -13,6 +13,10 @@ const CardForm = styled.form`
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
   border-radius: 20px;
   box-sizing: border-box;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 const FormWrapper = styled.div`
