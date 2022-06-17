@@ -36,6 +36,24 @@ const useGetPostByPostId = ({ postId }) =>
     return data;
   });
 
+const useUpdatePost = ({ postId, title, image, imageToDeletePublicId, channelId, token }) => {
+  const formData = new FormData();
+
+  formData.append("postId", postId);
+  formData.append("title", title);
+  formData.append("image", image);
+  formData.append("channelId", channelId);
+  imageToDeletePublicId && formData.append("imageToDeletePublicId", imageToDeletePublicId);
+
+  return useQuery("/posts/update", async () => {
+    const { data } = await axios.put(`/posts/update`, formData, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    return data;
+  });
+};
+
 const createPost = async ({ title, image, channelId, token }) => {
   const formData = new FormData();
 
@@ -48,4 +66,18 @@ const createPost = async ({ title, image, channelId, token }) => {
   });
 };
 
-export { useGetPosts, useGetPostsByAuthorId, useCreatePost, useGetPostByPostId, createPost };
+const updatePost = async ({ postId, title, image, imageToDeletePublicId, channelId, token }) => {
+  const formData = new FormData();
+
+  formData.append("postId", postId);
+  formData.append("title", title);
+  formData.append("image", image);
+  formData.append("channelId", channelId);
+  imageToDeletePublicId && formData.append("imageToDeletePublicId", imageToDeletePublicId);
+
+  await axios.put(`/posts/update`, formData, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+
+export { useGetPosts, useGetPostsByAuthorId, useCreatePost, useGetPostByPostId, useUpdatePost, createPost, updatePost };
