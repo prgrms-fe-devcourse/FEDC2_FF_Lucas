@@ -7,6 +7,7 @@ const initialState = {
     { id: 2, todo: "provide context" },
   ],
   userInfo: null,
+  channels: [],
 };
 
 const reducer = (state, action) => {
@@ -15,6 +16,12 @@ const reducer = (state, action) => {
       return {
         ...state,
         userInfo: action.userInfo,
+      };
+    }
+    case "SET_CHANNELS": {
+      return {
+        ...state,
+        channels: action.channels,
       };
     }
     case "ADD_TODO": {
@@ -44,22 +51,21 @@ const GlobalProvider = ({ children }) => {
     dispatch({ type: "SET_USER", userInfo });
   };
 
+  const setChannels = channels =>
+    dispatch({
+      type: "SET_CHANNELS",
+      channels,
+    });
+
   const deleteTodo = id =>
     dispatch({
       type: "DELETE_TODO",
       id,
     });
 
-  const provideValue = useMemo(
-    () => ({ state, dispatch, deleteTodo, setUser }),
-    [state, dispatch],
-  );
+  const provideValue = useMemo(() => ({ state, dispatch, deleteTodo, setUser, setChannels }), [state, dispatch]);
 
-  return (
-    <GlobalContext.Provider value={provideValue}>
-      {children}
-    </GlobalContext.Provider>
-  );
+  return <GlobalContext.Provider value={provideValue}>{children}</GlobalContext.Provider>;
 };
 
 GlobalProvider.propTypes = {
