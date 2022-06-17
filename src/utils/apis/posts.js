@@ -29,6 +29,13 @@ const useCreatePost = ({ title, image, channelId, token }) => {
   });
 };
 
+const useGetPostByPostId = ({ postId }) =>
+  useQuery("/posts/postId", async () => {
+    const { data } = await axios.get(`/posts/${postId}`);
+
+    return data;
+  });
+
 const createPost = async ({ title, image, channelId, token }) => {
   const formData = new FormData();
 
@@ -41,4 +48,4 @@ const createPost = async ({ title, image, channelId, token }) => {
   });
 };
 
-export { useGetPosts, useGetPostsByAuthorId, useCreatePost, createPost };
+export { useGetPosts, useGetPostsByAuthorId, useCreatePost, useGetPostByPostId, createPost };
