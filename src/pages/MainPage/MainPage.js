@@ -1,11 +1,14 @@
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
+import { Edit, ArrowUp } from "react-feather";
 import UpperHeader from "../../components/Header/UpperHeader";
 import LowerHeader from "../../components/Header/LowerHeader";
 import Carousel from "../../components/Carousel/Carousel";
 import Card from "../../components/Card/Card";
 import Button from "../../components/Button/Button";
 import Footer from "../../components/Footer/Footer";
+import Modal from "../../components/Modal/Modal";
+import DetailPage from "../../components/DetailPage/DetailPage";
 import { useGetPosts } from "../../utils/apis/posts";
 
 const ContentDiv = styled.div`
@@ -39,8 +42,11 @@ export default function MainPage() {
   const moveToTop = () => {
     document.documentElement.scrollTo({ top: 0, behavior: "smooth" });
   };
+
   const [channelId, setChannelId] = useState("");
   const [postArr, setPostArr] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedPost, setSeletedPost] = useState(null);
   const { data } = useGetPosts({ chanelId: channelId });
   useEffect(() => {
     setPostArr(data);
@@ -51,7 +57,6 @@ export default function MainPage() {
         <UpperHeader />
         <LowerHeader setChannelId={setChannelId} />
       </Header>
-      {channelId}
       <Main>
         <Carousel second={5000} height={300} />
         <ContentDiv>
@@ -60,9 +65,15 @@ export default function MainPage() {
                 <StyledCard
                   width={250}
                   title={e.title}
-                  likeCount={e.likes}
-                  // commentCount={e.comments.length}
+                  userName={e.author.fullName}
+                  likeCount={e.likes.length}
+                  commentCount={e.comments.length}
                   date={e.createdAt.slice(0, 10)}
+                  key={e._id}
+                  onClick={() => {
+                    setIsModalOpen(true);
+                    setSeletedPost(e);
+                  }}
                 />
               ))
             : null}
@@ -77,7 +88,7 @@ export default function MainPage() {
             right: "3%",
           }}
         >
-          +
+          <Edit />
         </Button>
         <Button
           onClick={moveToTop}
@@ -90,9 +101,17 @@ export default function MainPage() {
             right: "3%",
           }}
         >
-          🠕
+          <ArrowUp />
         </Button>
       </Main>
+
+      <Modal
+        width="80%"
+        visible={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      >
+        {selectedPost ? <DetailPage post={selectedPost} /> : null}
+      </Modal>
       <Footer />
     </>
   );
