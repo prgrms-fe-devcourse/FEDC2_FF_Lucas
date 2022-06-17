@@ -35,7 +35,9 @@ function LowerHeader({ setChannelId }) {
     <Header>
       {categoryList
         ? categoryList.map(e => (
-            <Wrapper onClick={() => setChannelId(e._id)}>{e.name}</Wrapper>
+            <Wrapper key={e._id} onClick={() => setChannelId(e._id)}>
+              {e.name}
+            </Wrapper>
           ))
         : null}
     </Header>
