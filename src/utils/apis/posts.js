@@ -1,15 +1,25 @@
 import { useQuery } from "react-query";
 import axios from "axios";
 
-const useGetPosts = ({ chanelId, offset, limit }) =>
-  useQuery("/posts/channel", async () => {
-    const { data } = await axios.get(`/posts/channel/${chanelId}`, { params: { offset, limit } });
-    return data;
-  });
+const useGetPosts = ({ chanelId, offset = 0, limit = 10 }) =>
+  useQuery(
+    `/posts/channel/${chanelId}`,
+    async () => {
+      const { data } = await axios.get(`/posts/channel/${chanelId}`, {
+        params: { offset, limit },
+      });
+      return data;
+    },
+    {
+      enabled: !!chanelId,
+    },
+  );
 
 const useGetPostsByAuthorId = ({ authorId, offset, limit }) =>
   useQuery("/posts/author", async () => {
-    const { data } = await axios.get(`/posts/author/${authorId}`, { params: { offset, limit } });
+    const { data } = await axios.get(`/posts/author/${authorId}`, {
+      params: { offset, limit },
+    });
     return data;
   });
 
@@ -36,14 +46,22 @@ const useGetPostByPostId = ({ postId }) =>
     return data;
   });
 
-const useUpdatePost = ({ postId, title, image, imageToDeletePublicId, channelId, token }) => {
+const useUpdatePost = ({
+  postId,
+  title,
+  image,
+  imageToDeletePublicId,
+  channelId,
+  token,
+}) => {
   const formData = new FormData();
 
   formData.append("postId", postId);
   formData.append("title", title);
   formData.append("image", image);
   formData.append("channelId", channelId);
-  imageToDeletePublicId && formData.append("imageToDeletePublicId", imageToDeletePublicId);
+  imageToDeletePublicId &&
+    formData.append("imageToDeletePublicId", imageToDeletePublicId);
 
   return useQuery("/posts/update", async () => {
     const { data } = await axios.put(`/posts/update`, formData, {
@@ -75,14 +93,22 @@ const createPost = async ({ title, image, channelId, token }) => {
   });
 };
 
-const updatePost = async ({ postId, title, image, imageToDeletePublicId, channelId, token }) => {
+const updatePost = async ({
+  postId,
+  title,
+  image,
+  imageToDeletePublicId,
+  channelId,
+  token,
+}) => {
   const formData = new FormData();
 
   formData.append("postId", postId);
   formData.append("title", title);
   formData.append("image", image);
   formData.append("channelId", channelId);
-  imageToDeletePublicId && formData.append("imageToDeletePublicId", imageToDeletePublicId);
+  imageToDeletePublicId &&
+    formData.append("imageToDeletePublicId", imageToDeletePublicId);
 
   await axios.put(`/posts/update`, formData, {
     headers: { Authorization: `Bearer ${token}` },
