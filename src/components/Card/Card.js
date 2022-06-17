@@ -56,15 +56,15 @@ export default function Card({
             width="40px"
             style={{ borderRadius: "100%" }}
           />
-          <Text block="true" strong="bold" style={{ flexGrow: "1" }}>
+          <Text block strong style={{ flexGrow: "1" }}>
             {userName}
           </Text>
-          <Text block="true" size="13px">
+          <Text block size="13px">
             {date}
           </Text>
         </UserWrapper>
         <DescriptionWrapper>
-          <Text block="true" style={{ lineHeight: "25px" }}>
+          <Text block style={{ lineHeight: "25px" }}>
             {title}
           </Text>
           <SocialWrapper>
