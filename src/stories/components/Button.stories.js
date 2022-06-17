@@ -1,3 +1,4 @@
+import { Heart } from "react-feather";
 import Button from "../../components/Button/Button";
 import Common from "../../styles/common";
 
@@ -41,3 +42,9 @@ export default {
 };
 
 export const Default = args => <Button {...args}>버튼</Button>;
+
+export const IconButton = args => (
+  <Button {...args}>
+    <Heart />
+  </Button>
+);
