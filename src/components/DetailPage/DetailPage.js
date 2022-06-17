@@ -79,7 +79,7 @@ const DetailPage = ({ post }) => {
             style={{ borderRadius: "50%", marginRight: "5px" }}
           />
           <Text strong color="#333">
-            {post.author.nickname}
+            {post.author.fullName}
           </Text>
           <button
             type="button"
@@ -163,7 +163,7 @@ DetailPage.propTypes = {
     title: PropTypes.string,
     content: PropTypes.string,
     author: PropTypes.shape({
-      nickname: PropTypes.string,
+      fullName: PropTypes.string,
     }),
     createdAt: PropTypes.string,
     updatedAt: PropTypes.string,
