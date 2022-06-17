@@ -1,11 +1,12 @@
-// import PropTypes from "prop-types";
 import styled from "@emotion/styled";
+import { useEffect, useState } from "react";
 import UpperHeader from "../../components/Header/UpperHeader";
 import LowerHeader from "../../components/Header/LowerHeader";
 import Carousel from "../../components/Carousel/Carousel";
 import Card from "../../components/Card/Card";
 import Button from "../../components/Button/Button";
 import Footer from "../../components/Footer/Footer";
+import { useGetPosts } from "../../utils/apis/posts";
 
 const ContentDiv = styled.div`
   display: flex;
@@ -38,32 +39,33 @@ export default function MainPage() {
   const moveToTop = () => {
     document.documentElement.scrollTo({ top: 0, behavior: "smooth" });
   };
-
+  const [channelId, setChannelId] = useState("");
+  const [postArr, setPostArr] = useState([]);
+  const { data } = useGetPosts({ chanelId: channelId });
+  useEffect(() => {
+    setPostArr(data);
+  }, [data]);
   return (
     <>
       <Header>
         <UpperHeader />
-        <LowerHeader />
+        <LowerHeader setChannelId={setChannelId} />
       </Header>
+      {channelId}
       <Main>
         <Carousel second={5000} height={300} />
         <ContentDiv>
-          {/* {postArr.map(e => (
-            <Card
-              width={250}
-              title={e.title}
-              likeCount={e.likes}
-              commentCount={e.comments.length}
-              date={e.createdAt}
-            />
-          ))} */}
-          <StyledCard title="0" width={250} />
-          <StyledCard title="1" width={250} />
-          <StyledCard title="2" width={250} />
-          <StyledCard title="3" width={250} />
-          <StyledCard title="4" width={250} />
-          <StyledCard title="5" width={250} />
-          <StyledCard title="6" width={250} />
+          {postArr
+            ? postArr.map(e => (
+                <StyledCard
+                  width={250}
+                  title={e.title}
+                  likeCount={e.likes}
+                  // commentCount={e.comments.length}
+                  date={e.createdAt.slice(0, 10)}
+                />
+              ))
+            : null}
         </ContentDiv>
         <Button
           width="50px"
@@ -95,7 +97,3 @@ export default function MainPage() {
     </>
   );
 }
-
-// MainPage.propTypes = {
-//   postArr: PropTypes.arrayOf(PropTypes.string),
-// };
