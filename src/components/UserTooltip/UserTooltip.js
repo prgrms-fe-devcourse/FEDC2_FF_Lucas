@@ -45,7 +45,7 @@ export default function UserTooltip({
         />
       </Wrapper>
       <Wrapper>
-        <Text block="true">{userName}</Text>
+        <Text block>{userName}</Text>
       </Wrapper>
       <Wrapper>
         <Text>게시물: &ensp;</Text>
