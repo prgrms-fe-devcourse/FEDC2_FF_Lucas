@@ -11,15 +11,15 @@ const FooterWrapper = styled.footer`
 export default function Footer() {
   return (
     <FooterWrapper>
-      <Text block="true" size="15px" strong="true">
+      <Text block size="15px" strong>
         주식회사 루카스 팀(Lucas Team)
       </Text>
       <br />
-      <Text block="true" size="11px">
+      <Text block size="11px">
         대표자: 루카스 | 사업자 등록: 123-45-6789 | 사업자 등록 확인
       </Text>
       <br />
-      <Text block="true" size="10px">
+      <Text block size="10px">
         주소: 서울 서초구 강남대로 327 2층 프로그래머스
       </Text>
       <br />
