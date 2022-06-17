@@ -30,7 +30,7 @@ function LowerHeader({ setChannelId }) {
   const { data } = useGetChannelList();
   useEffect(() => {
     setCategoryList(data);
-  });
+  }, [data]);
   return (
     <Header>
       {categoryList
@@ -44,7 +44,6 @@ function LowerHeader({ setChannelId }) {
 
 LowerHeader.propTypes = {
   setChannelId: PropTypes.func,
-  // money: PropTypes.number,
 };
 
 export default LowerHeader;
