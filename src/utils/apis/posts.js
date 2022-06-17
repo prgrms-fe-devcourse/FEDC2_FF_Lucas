@@ -13,4 +13,32 @@ const useGetPostsByAuthorId = ({ authorId, offset, limit }) =>
     return data;
   });
 
-export { useGetPosts, useGetPostsByAuthorId };
+const useCreatePost = ({ title, image, channelId, token }) => {
+  const formData = new FormData();
+
+  formData.append("title", title);
+  formData.append("image", image);
+  formData.append("channelId", channelId);
+
+  return useQuery("/posts/create", async () => {
+    const { data } = await axios.post(`/posts/create/`, formData, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    return data;
+  });
+};
+
+const createPost = async ({ title, image, channelId, token }) => {
+  const formData = new FormData();
+
+  formData.append("title", title);
+  formData.append("image", image);
+  formData.append("channelId", channelId);
+
+  axios.post(`/posts/create/`, formData, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+
+export { useGetPosts, useGetPostsByAuthorId, useCreatePost, createPost };
