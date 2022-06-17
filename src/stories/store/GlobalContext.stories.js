@@ -6,11 +6,23 @@ export default {
 };
 
 export const Default = () => {
-  const { state, dispatch, deleteTodo, setUser } = useGlobalContext();
+  const { state, dispatch, deleteTodo, setUser, setChannels } = useGlobalContext();
   const userData = {
     user: "user",
     token: "1234",
   };
+  const channels = [
+    {
+      name: "채널1",
+    },
+    {
+      name: "채널2",
+    },
+    {
+      name: "채널3",
+    },
+  ];
+
   const addTodo = text =>
     dispatch({
       type: "ADD_TODO",
@@ -28,15 +40,22 @@ export const Default = () => {
       <button type="button" onClick={() => setUser(userData)}>
         setUser
       </button>
+      <button type="button" onClick={() => setChannels(channels)}>
+        set channel
+      </button>
       <ul>
         {state.todos.map(todo => (
           <li>{todo.todo}</li>
         ))}
       </ul>
       <div>
-        {state.userInfo && state.userInfo.user}{" "}
-        {state.userInfo && state.userInfo.token}
+        {state.userInfo && state.userInfo.user} {state.userInfo && state.userInfo.token}
       </div>
+      <ul>
+        {state.channels.map(channel => (
+          <li>{channel.name}</li>
+        ))}
+      </ul>
     </>
   );
 };
