@@ -7,4 +7,10 @@ const useGetPosts = ({ chanelId, offset, limit }) =>
     return data;
   });
 
-export default useGetPosts;
+const useGetPostsByAuthorId = ({ authorId, offset, limit }) =>
+  useQuery("/posts/author", async () => {
+    const { data } = await axios.get(`/posts/author/${authorId}`, { params: { offset, limit } });
+    return data;
+  });
+
+export { useGetPosts, useGetPostsByAuthorId };
