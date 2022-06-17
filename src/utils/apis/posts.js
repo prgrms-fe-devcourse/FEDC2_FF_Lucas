@@ -54,6 +54,15 @@ const useUpdatePost = ({ postId, title, image, imageToDeletePublicId, channelId,
   });
 };
 
+const useDeletePostById = ({ id, token }) =>
+  useQuery(
+    "/posts/delete",
+    axios.delete(`/posts/delete`, {
+      headers: { Authorization: `Bearer ${token}` },
+      data: { id },
+    }),
+  );
+
 const createPost = async ({ title, image, channelId, token }) => {
   const formData = new FormData();
 
@@ -80,4 +89,13 @@ const updatePost = async ({ postId, title, image, imageToDeletePublicId, channel
   });
 };
 
-export { useGetPosts, useGetPostsByAuthorId, useCreatePost, useGetPostByPostId, useUpdatePost, createPost, updatePost };
+export {
+  useGetPosts,
+  useGetPostsByAuthorId,
+  useCreatePost,
+  useGetPostByPostId,
+  useUpdatePost,
+  useDeletePostById,
+  createPost,
+  updatePost,
+};
