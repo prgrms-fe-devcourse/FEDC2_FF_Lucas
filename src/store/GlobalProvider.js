@@ -6,10 +6,17 @@ const initialState = {
     { id: 1, todo: "create context" },
     { id: 2, todo: "provide context" },
   ],
+  userInfo: null,
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
+    case "SET_USER": {
+      return {
+        ...state,
+        userInfo: action.userInfo,
+      };
+    }
     case "ADD_TODO": {
       return {
         ...state,
@@ -33,6 +40,10 @@ export const useGlobalContext = () => useContext(GlobalContext);
 const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  const setUser = async userInfo => {
+    dispatch({ type: "SET_USER", userInfo });
+  };
+
   const deleteTodo = id =>
     dispatch({
       type: "DELETE_TODO",
@@ -40,7 +51,7 @@ const GlobalProvider = ({ children }) => {
     });
 
   const provideValue = useMemo(
-    () => ({ state, dispatch, deleteTodo }),
+    () => ({ state, dispatch, deleteTodo, setUser }),
     [state, dispatch],
   );
 
