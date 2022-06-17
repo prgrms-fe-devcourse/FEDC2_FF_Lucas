@@ -87,7 +87,7 @@ Button.propTypes = {
   hover: PropTypes.objectOf(PropTypes.string),
   active: PropTypes.objectOf(PropTypes.string),
   onClick: PropTypes.func,
-  children: PropTypes.string,
+  children: PropTypes.node,
 };
 
 export default Button;
