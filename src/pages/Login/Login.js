@@ -1,9 +1,11 @@
 // import PropTypes from "prop-types";
 import styled from "@emotion/styled";
+import axios from "axios";
 import Text from "../../components/Text/Text";
 import Input from "../../components/Input/Input";
 import Button from "../../components/Button/Button";
 import useForm from "../../hooks/useForm";
+import { useGlobalContext } from "../../store/GlobalProvider";
 
 const CardForm = styled.form`
   padding: 0 10%;
@@ -37,17 +39,30 @@ const ButtonWrapper = styled.div`
 `;
 
 const Login = () => {
+  const { setUser } = useGlobalContext();
   const { errors, isLoading, handleChange, handleSubmit } = useForm({
     initialValues: {
       email: "",
       password: "",
     },
-    onSubmit: () => {
-      // TODO 로그인 요청
+    // onSubmit: async userInfo => {
+    //   await handleLogin(userInfo);
+    // },
+    onSubmit: async ({ email, password }) => {
+      const { data } = await axios({
+        method: "POST",
+        url: "/login",
+        data: {
+          email,
+          password,
+        },
+      });
+      console.log(data);
+      setUser(data);
     },
     validate: ({ email, password }) => {
       const newErrors = {};
-      if (!email) newErrors.email = "이름을 입력해주세요.";
+      if (!email) newErrors.email = "이메일을 입력해주세요.";
       if (!password) newErrors.password = "비밀번호를 입력해주세요.";
       return newErrors;
     },

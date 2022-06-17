@@ -14,4 +14,17 @@ const useTest = id =>
     return data;
   });
 
-export { useGetUsers, useTest };
+const useLogin = id =>
+  useQuery(`/login/${id}`, async ({ email, password }) => {
+    const { data } = await axios({
+      method: "POST",
+      url: "/login",
+      data: {
+        email,
+        password,
+      },
+    });
+    return data;
+  });
+
+export { useGetUsers, useTest, useLogin };
