@@ -30,9 +30,9 @@ const StyledButton = styled.button`
     "&:active": active,
     ...style,
   })}
-  border: ${(borderWidth, borderColor) =>
+  border: ${({ borderWidth, borderColor }) =>
     borderWidth ? `${borderWidth} solid ${borderColor}` : "none"};
-  border-radius: ${borderRadius => borderRadius || "15px"};
+  border-radius: ${({ borderRadius }) => borderRadius || "15px"};
 `;
 
 const Button = ({
