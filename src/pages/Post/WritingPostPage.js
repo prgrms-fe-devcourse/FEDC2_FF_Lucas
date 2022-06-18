@@ -9,6 +9,7 @@ import useForm from "../../hooks/useForm";
 import { useGlobalContext } from "../../store/GlobalProvider";
 import Select from "../../components/Select/Select";
 import { createPost } from "../../utils/apis/posts";
+import Footer from "../../components/Footer/Footer";
 
 const Form = styled.form`
   display: flex;
@@ -166,6 +167,7 @@ const WritingPostPage = () => {
           </Button>
         </SubmitWrapper>
       </Form>
+      <Footer />
       <Modal
         width="50%"
         visible={modalVisible}
