@@ -133,7 +133,7 @@ const WritingPostPage = () => {
           label="제목"
           wrapperStyles={{
             display: "flex",
-            "flex-direction": "column",
+            flexDirection: "column",
             gap: "24px",
           }}
           inputStyles={{
