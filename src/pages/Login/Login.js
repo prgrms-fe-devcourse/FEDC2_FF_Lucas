@@ -121,6 +121,7 @@ const Login = () => {
             type="submit"
             disabled={isLoading}
             style={{ marginLeft: "16px" }}
+            onClick={() => navigate("/signup")}
           >
             회원가입
           </Button>
