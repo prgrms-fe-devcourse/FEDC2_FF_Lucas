@@ -1,4 +1,3 @@
-// import PropTypes from "prop-types";
 import styled from "@emotion/styled";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -47,9 +46,6 @@ const Login = () => {
       email: "",
       password: "",
     },
-    // onSubmit: async userInfo => {
-    //   await handleLogin(userInfo);
-    // },
     onSubmit: async ({ email, password }) => {
       try {
         const { data } = await axios({
@@ -130,9 +126,5 @@ const Login = () => {
     </CardForm>
   );
 };
-
-// Login.propTypes = {
-//   onSubmit: PropTypes.func,
-// };
 
 export default Login;
