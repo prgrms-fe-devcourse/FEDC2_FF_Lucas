@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Modal from "../../components/Modal/Modal";
 import Button from "../../components/Button/Button";
 import UpperHeader from "../../components/Header/UpperHeader";
@@ -53,14 +54,10 @@ const SubmitWrapper = styled.div`
   width: 100%;
 `;
 
-// TODO: 취소시 뒤로가기
-const handleCancleClick = () => {
-  // 뒤로가기 구현
-  alert("글 작성 취소");
-};
-
 const WritingPostPage = () => {
   const { state } = useGlobalContext();
+  const navigate = useNavigate();
+  const goMainPage = ({ replace = false }) => navigate("/", { replace });
 
   const { errors, handleChange, handleSubmit } = useForm({
     initialValues: {
@@ -79,6 +76,7 @@ const WritingPostPage = () => {
       // TODO: 전역상태의 token 사용하기
       // createPost({ title, image, channelId, token: state.userInfo.token });
       createPost({ title, image, channelId, token });
+      goMainPage({ replace: true });
     },
     validate: ({ title, image, content, channelId }) => {
       const error = {};
@@ -159,7 +157,7 @@ const WritingPostPage = () => {
         <Label>피드백 받고 싶은 내용을 적어주세요.</Label>
         <StyledTextArea name="content" onChange={handleChange} />
         <SubmitWrapper>
-          <Button onClick={handleCancleClick} width="25%">
+          <Button width="25%" onClick={goMainPage}>
             취소
           </Button>
           <Button type="submit" width="25%">
