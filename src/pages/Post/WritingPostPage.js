@@ -40,7 +40,7 @@ const StyledTextArea = styled.textarea`
   line-height: 32px;
   background-color: #d9d9d9;
   border-radius: 15px;
-  border: 1px solid;
+  border: none;
   resize: none;
   box-sizing: border-box;
 `;
@@ -124,6 +124,11 @@ const WritingPostPage = () => {
           }
           placeholder="카테고리를 선택해주세요"
           onChange={handleChange}
+          style={{
+            backgroundColor: "#d9d9d9",
+            border: "none",
+            borderRadius: "15px",
+          }}
         />
         <Input
           label="제목"
@@ -131,6 +136,9 @@ const WritingPostPage = () => {
             display: "flex",
             "flex-direction": "column",
             gap: "24px",
+          }}
+          inputStyles={{
+            border: "none",
           }}
           name="title"
           onChange={handleChange}
