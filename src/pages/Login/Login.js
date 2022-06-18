@@ -64,7 +64,7 @@ const Login = () => {
         setUser(data);
         navigate("/", { replace: true });
       } catch (e) {
-        console.error(e);
+        alert(`로그인 실패.\n ${e}`);
       }
     },
     validate: ({ email, password }) => {
