@@ -6,6 +6,9 @@ import UpperHeader from "../../components/Header/UpperHeader";
 import ImageUpload from "../../components/ImageUpload/ImageUpload";
 import Input from "../../components/Input/Input";
 import useForm from "../../hooks/useForm";
+import { useGlobalContext } from "../../store/GlobalProvider";
+import Select from "../../components/Select/Select";
+import { createPost } from "../../utils/apis/posts";
 
 const Form = styled.form`
   display: flex;
@@ -56,17 +59,27 @@ const handleCancleClick = () => {
 };
 
 const WritingPostPage = () => {
+  const { state } = useGlobalContext();
+
   const { errors, handleChange, handleSubmit } = useForm({
     initialValues: {
       title: "",
       content: "",
       image: "",
+      channelId: "",
     },
-    onSubmit: async ({ title, content, event }) => {
-      // TODO: api.post
-      console.log(`글 작성 등록\n제목: ${title}, 내용: ${content}\n ${event.target.image.dataset.binaryImage}`);
+    onSubmit: async ({ title, content, channelId, event }) => {
+      // TODO: content 칼럼도 전송하기
+      console.log(`글 작성 등록\n제목: ${title}, 내용: ${content}\n `);
+      const image = event.target.image.dataset.binaryImage;
+      const token =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYyYWFiZDE3NTg0ZTcyNzU1YTc5ZmNjYiIsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSJ9LCJpYXQiOjE2NTU0NzkzODN9.Wmaor7H0SZ0Uu_Mm5tW7xDUwd9XHWHn1Qu8NniER0ew";
+
+      // TODO: 전역상태의 token 사용하기
+      // createPost({ title, image, channelId, token: state.userInfo.token });
+      createPost({ title, image, channelId, token });
     },
-    validate: ({ title, image, content }) => {
+    validate: ({ title, image, content, channelId }) => {
       const error = {};
       if (!title) {
         error.title = "제목을 입력해주세요!";
@@ -77,10 +90,15 @@ const WritingPostPage = () => {
       if (!content) {
         error.content = "내용을 입력해주세요!";
       }
+      if (!channelId) {
+        error.content = "카테고리를 선택해주세요";
+      }
       return error;
     },
   });
   const [modalVisible, setModalVisible] = useState(false);
+  const getSelectData = channels =>
+    channels.map(({ name, _id }) => ({ label: name, value: _id }));
 
   useEffect(() => {
     if (Object.keys(errors).length > 0) {
@@ -96,13 +114,32 @@ const WritingPostPage = () => {
     <>
       <UpperHeader />
       <Form onSubmit={handleSubmit}>
+        <Select
+          label="카테고리"
+          name="channelId"
+          data={
+            state.channels && state.channels.length > 0
+              ? getSelectData(state.channels)
+              : []
+          }
+          placeholder="카테고리를 선택해주세요"
+          onChange={handleChange}
+        />
         <Input
           label="제목"
-          wrapperStyles={{ display: "flex", "flex-direction": "column", gap: "24px" }}
+          wrapperStyles={{
+            display: "flex",
+            "flex-direction": "column",
+            gap: "24px",
+          }}
           name="title"
           onChange={handleChange}
         />
-        <ImageUpload name="image" previewImageStyles={{ width: "160px", height: "200px" }} onChange={handleChange}>
+        <ImageUpload
+          name="image"
+          previewImageStyles={{ width: "160px", height: "200px" }}
+          onChange={handleChange}
+        >
           <AddWrapper>
             <Label>사진</Label>
             <Button height="32px" backgroundColor="transparent" color="black">
@@ -121,7 +158,11 @@ const WritingPostPage = () => {
           </Button>
         </SubmitWrapper>
       </Form>
-      <Modal width="50%" visible={modalVisible} onClose={() => setModalVisible(false)}>
+      <Modal
+        width="50%"
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+      >
         {Object.values(errors)[0]}
       </Modal>
     </>
