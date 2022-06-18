@@ -81,7 +81,12 @@ const useDeletePostById = ({ id, token }) =>
     }),
   );
 
-const createPost = async ({ title, image, channelId, token }) => {
+const createPost = async ({
+  title = "",
+  image = null,
+  channelId = "",
+  token = "",
+}) => {
   const formData = new FormData();
 
   formData.append("title", title);
