@@ -75,8 +75,13 @@ const WritingPostPage = () => {
 
       // TODO: 전역상태의 token 사용하기
       // createPost({ title, image, channelId, token: state.userInfo.token });
-      createPost({ title, image, channelId, token });
-      goMainPage({ replace: true });
+
+      try {
+        createPost({ title, image, channelId, token });
+        goMainPage({ replace: true });
+      } catch (e) {
+        console.error(e);
+      }
     },
     validate: ({ title, image, content, channelId }) => {
       const error = {};
