@@ -1,16 +1,11 @@
-/* eslint-disable import/prefer-default-export */
 import { useQuery } from "react-query";
-
 import axios from "axios";
 
-const useGetChannels = () =>
-  useQuery("/channels/get-posts", async ({ channelId }) => {
+const useGetChannelByName = ({ name = "" }) =>
+  useQuery("/channels/get-channel-by-name", async () => {
     const { data } = await axios({
       method: "GET",
-      url: `/channels`,
-      data: {
-        channelId,
-      },
+      url: `/channels/${name}`,
     });
     return data;
   });
@@ -24,4 +19,4 @@ const useGetChannelList = () =>
     return data;
   });
 
-export { useGetChannels, useGetChannelList };
+export { useGetChannelList, useGetChannelByName };
