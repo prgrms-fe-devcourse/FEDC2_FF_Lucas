@@ -1,6 +1,7 @@
 // import PropTypes from "prop-types";
 import styled from "@emotion/styled";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import Text from "../../components/Text/Text";
 import Input from "../../components/Input/Input";
 import Button from "../../components/Button/Button";
@@ -40,6 +41,7 @@ const ButtonWrapper = styled.div`
 
 const Login = () => {
   const { setUser } = useGlobalContext();
+  const navigate = useNavigate();
   const { errors, isLoading, handleChange, handleSubmit } = useForm({
     initialValues: {
       email: "",
@@ -60,6 +62,7 @@ const Login = () => {
         });
 
         setUser(data);
+        navigate("/", { replace: true });
       } catch (e) {
         console.error(e);
       }
