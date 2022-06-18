@@ -49,16 +49,20 @@ const Login = () => {
     //   await handleLogin(userInfo);
     // },
     onSubmit: async ({ email, password }) => {
-      const { data } = await axios({
-        method: "POST",
-        url: "/login",
-        data: {
-          email,
-          password,
-        },
-      });
-      console.log(data);
-      setUser(data);
+      try {
+        const { data } = await axios({
+          method: "POST",
+          url: "/login",
+          data: {
+            email,
+            password,
+          },
+        });
+
+        setUser(data);
+      } catch (e) {
+        console.error(e);
+      }
     },
     validate: ({ email, password }) => {
       const newErrors = {};
