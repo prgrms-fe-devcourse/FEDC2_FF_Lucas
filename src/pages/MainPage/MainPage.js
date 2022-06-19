@@ -110,7 +110,7 @@ export default function MainPage() {
         visible={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       >
-        {selectedPost ? <DetailPage post={selectedPost} /> : null}
+        {selectedPost ? <DetailPage post={selectedPost} /> : <>No Post</>}
       </Modal>
       <Footer />
     </>

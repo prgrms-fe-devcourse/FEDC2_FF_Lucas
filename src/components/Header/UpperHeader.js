@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
 import { Search, Smile, Bell, User } from "react-feather";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Button from "../Button/Button";
 import Common from "../../styles/common";
 import UserTooltip from "../UserTooltip/UserTooltip";
@@ -76,17 +76,18 @@ function UpperHeader() {
           </IconButton>
           <UserTooltip style={{ display: show ? "block" : "none" }} />
         </span>
-        <Button
-          width="80px"
-          height="100%"
-          fontSize="15px"
-          backgroundColor="white"
-          color="black"
-          style={{ padding: "7px" }}
-          onClick={() => navigate("/login")}
-        >
-          로그인
-        </Button>
+        <Link to="/login">
+          <Button
+            width="80px"
+            height="100%"
+            fontSize="15px"
+            backgroundColor="white"
+            color="black"
+            style={{ padding: "7px" }}
+          >
+            로그인
+          </Button>
+        </Link>
       </Wrapper>
     </Header>
   );

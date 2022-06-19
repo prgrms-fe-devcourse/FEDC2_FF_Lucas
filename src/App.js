@@ -11,16 +11,28 @@ import { useGetChannelList } from "./utils/apis/channels";
 import { useGlobalContext } from "./store/GlobalProvider";
 import WritingPostPage from "./pages/Post/WritingPostPage";
 import NotFoundPage from "./pages/NotFound/NotFoundPage";
+import { useGetAuthUser } from "./utils/apis/auth";
 
 axios.defaults.baseURL = `http://kdt.frontend.2nd.programmers.co.kr:5006`;
 
 function App() {
-  const { setChannels } = useGlobalContext();
+  const { storedToken, setChannels, setUser } = useGlobalContext();
   const { data: channels } = useGetChannelList();
 
+  const { data: userInfo } = useGetAuthUser({ token: storedToken });
+
   useEffect(() => {
+    if (!channels) return;
+
     setChannels(channels);
   }, [channels]);
+
+  useEffect(() => {
+    if (!userInfo) return;
+
+    console.log("App User", userInfo);
+    setUser(userInfo);
+  }, [userInfo]);
 
   return (
     <div className="App">
