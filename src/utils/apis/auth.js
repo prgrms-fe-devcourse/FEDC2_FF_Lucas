@@ -9,4 +9,12 @@ const useGetAuthUser = ({ token = "NoToken" }) =>
     return data;
   });
 
-export default useGetAuthUser;
+const getAuthUser = async ({ token = "NoToken" }) => {
+  const { data } = await axios.get(`/auth-user`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  return data;
+};
+
+export { useGetAuthUser, getAuthUser };
