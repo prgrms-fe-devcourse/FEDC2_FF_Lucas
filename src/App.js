@@ -31,8 +31,7 @@ function App() {
 
   useEffect(() => {
     if (!userInfo) return;
-
-    setUser(userInfo);
+    setUser({ user: userInfo });
   }, [userInfo]);
 
   return (
