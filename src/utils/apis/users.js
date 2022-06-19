@@ -27,4 +27,13 @@ const useLogin = id =>
     return data;
   });
 
-export { useGetUsers, useTest, useLogin };
+const useLogout = id =>
+  useQuery(`/logout/${id}`, async () => {
+    const { data } = await axios({
+      method: "POST",
+      url: "/logout",
+    });
+    return data;
+  });
+
+export { useGetUsers, useTest, useLogin, useLogout };

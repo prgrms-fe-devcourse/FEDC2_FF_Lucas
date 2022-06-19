@@ -56,7 +56,6 @@ const Login = () => {
             password,
           },
         });
-
         setUser(data);
         navigate("/", { replace: true });
       } catch (e) {
