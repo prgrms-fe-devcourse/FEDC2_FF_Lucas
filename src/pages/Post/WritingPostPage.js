@@ -70,17 +70,17 @@ const WritingPostPage = () => {
       // TODO: content 칼럼도 전송하기
       console.log(`글 작성 등록\n제목: ${title}, 내용: ${content}\n `);
       const image = event.target.image.dataset.binaryImage;
-      const token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYyYWFiZDE3NTg0ZTcyNzU1YTc5ZmNjYiIsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSJ9LCJpYXQiOjE2NTU0NzkzODN9.Wmaor7H0SZ0Uu_Mm5tW7xDUwd9XHWHn1Qu8NniER0ew";
-
-      // TODO: 전역상태의 token 사용하기
-      // createPost({ title, image, channelId, token: state.userInfo.token });
 
       try {
-        createPost({ title, image, channelId, token });
+        await createPost({
+          title,
+          image,
+          channelId,
+          token: (state.userInfo && state.userInfo.token) || "NoToken",
+        });
         goMainPage({ replace: true });
       } catch (e) {
-        console.error(e);
+        alert(`글 작성 실패 ${e}`);
       }
     },
     validate: ({ title, image, content, channelId }) => {
