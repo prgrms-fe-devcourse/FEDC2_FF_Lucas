@@ -10,6 +10,7 @@ import Footer from "../../components/Footer/Footer";
 import Modal from "../../components/Modal/Modal";
 import DetailPage from "../../components/DetailPage/DetailPage";
 import { useGetPosts } from "../../utils/apis/posts";
+import { useGlobalContext } from "../../store/GlobalProvider";
 
 const ContentDiv = styled.div`
   display: flex;
@@ -48,6 +49,7 @@ export default function MainPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPost, setSeletedPost] = useState(null);
   const { data } = useGetPosts({ chanelId: channelId });
+  const { state } = useGlobalContext();
   useEffect(() => {
     setPostArr(data);
   }, [data]);
@@ -78,18 +80,20 @@ export default function MainPage() {
               ))
             : null}
         </ContentDiv>
-        <Button
-          width="50px"
-          height="50px"
-          borderRadius="100%"
-          style={{
-            position: "fixed",
-            top: "90%",
-            right: "3%",
-          }}
-        >
-          <Edit />
-        </Button>
+        {state.userInfo ? (
+          <Button
+            width="50px"
+            height="50px"
+            borderRadius="100%"
+            style={{
+              position: "fixed",
+              top: "88%",
+              right: "3%",
+            }}
+          >
+            <Edit />
+          </Button>
+        ) : null}
         <Button
           onClick={moveToTop}
           width="50px"
@@ -97,7 +101,7 @@ export default function MainPage() {
           borderRadius="100%"
           style={{
             position: "fixed",
-            top: "82%",
+            top: "80%",
             right: "3%",
           }}
         >
