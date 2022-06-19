@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import axios from "axios";
 import PropTypes from "prop-types";
+// import { useContext } from "react";
 import Button from "../Button/Button";
 import Image from "../Image/Image";
 import Text from "../Text/Text";
@@ -45,6 +46,9 @@ export default function UserTooltip({
     });
     setUser(null);
   };
+
+  // const userInfo = useContext(GlobalProvider);
+
   return (
     <Content className="tooltip" {...props}>
       <Wrapper>

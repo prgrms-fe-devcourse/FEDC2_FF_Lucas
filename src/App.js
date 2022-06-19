@@ -12,6 +12,8 @@ import { useGlobalContext } from "./store/GlobalProvider";
 import WritingPostPage from "./pages/Post/WritingPostPage";
 import NotFoundPage from "./pages/NotFound/NotFoundPage";
 import { useGetAuthUser } from "./utils/apis/auth";
+import Profile from "./pages/Profile/Profile";
+import AlarmPage from "./pages/Alarm/AlarmPage";
 
 axios.defaults.baseURL = `http://kdt.frontend.2nd.programmers.co.kr:5006`;
 
@@ -42,6 +44,8 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<SignUp />} />
           <Route path="write" element={<WritingPostPage />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="alarm" element={<AlarmPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
