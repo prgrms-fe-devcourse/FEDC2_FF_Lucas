@@ -14,6 +14,7 @@ import NotFoundPage from "./pages/NotFound/NotFoundPage";
 import { useGetAuthUser } from "./utils/apis/auth";
 import Profile from "./pages/Profile/Profile";
 import AlarmPage from "./pages/Alarm/AlarmPage";
+import ProtectedRoute from "./routes/ProtectedRoute";
 
 axios.defaults.baseURL = `http://kdt.frontend.2nd.programmers.co.kr:5006`;
 
@@ -31,7 +32,8 @@ function App() {
 
   useEffect(() => {
     if (!userInfo) return;
-    setUser({ user: userInfo });
+
+    setUser({ user: userInfo, token: storedToken });
   }, [userInfo]);
 
   return (
@@ -45,6 +47,14 @@ function App() {
           <Route path="write" element={<WritingPostPage />} />
           <Route path="profile" element={<Profile />} />
           <Route path="alarm" element={<AlarmPage />} />
+          <Route
+            path="write"
+            element={
+              <ProtectedRoute>
+                <WritingPostPage />
+              </ProtectedRoute>
+            }
+          />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
