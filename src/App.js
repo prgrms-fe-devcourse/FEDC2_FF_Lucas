@@ -13,6 +13,7 @@ import WritingPostPage from "./pages/Post/WritingPostPage";
 import NotFoundPage from "./pages/NotFound/NotFoundPage";
 import { useGetAuthUser } from "./utils/apis/auth";
 import Profile from "./pages/Profile/Profile";
+import UpdateProfile from "./pages/UpdateProfile/UpdateProfile";
 import AlarmPage from "./pages/Alarm/AlarmPage";
 import ProtectedRoute from "./routes/ProtectedRoute";
 
@@ -46,6 +47,7 @@ function App() {
           <Route path="signup" element={<SignUp />} />
           <Route path="write" element={<WritingPostPage />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="update-profile" element={<UpdateProfile />} />
           <Route path="alarm" element={<AlarmPage />} />
           <Route
             path="write"
