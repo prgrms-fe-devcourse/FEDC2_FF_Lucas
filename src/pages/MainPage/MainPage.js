@@ -55,6 +55,14 @@ export default function MainPage() {
   useEffect(() => {
     setPostArr(data);
   }, [data]);
+
+  const handleLikes = (likes, postId) => {
+    const tempPost = postArr.map(post =>
+      post._id === postId ? { ...post, likes } : post,
+    );
+    setPostArr(tempPost);
+  };
+
   return (
     <>
       <Header>
@@ -117,7 +125,11 @@ export default function MainPage() {
         visible={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       >
-        {selectedPost ? <DetailPage post={selectedPost} /> : <>No Post</>}
+        {selectedPost ? (
+          <DetailPage post={selectedPost} handleLikes={handleLikes} />
+        ) : (
+          <>No Post</>
+        )}
       </Modal>
       <Footer />
     </>
