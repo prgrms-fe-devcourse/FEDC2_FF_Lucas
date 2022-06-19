@@ -47,7 +47,7 @@ const IconButton = styled.button`
 
 function UpperHeader() {
   const [show, setShow] = useState(false);
-  const navigate = useNavigate();
+
   const toggle = () => {
     setShow(!show);
   };
