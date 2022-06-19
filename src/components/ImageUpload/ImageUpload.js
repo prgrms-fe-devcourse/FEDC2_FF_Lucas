@@ -29,7 +29,9 @@ const ImageUpload = ({
 
   const handleLoad = () => {
     setBinaryImage(reader.result);
-    const image = <Image alt="사진 미리보기" src={reader.result} {...previewImageStyles} />;
+    const image = (
+      <Image alt="사진 미리보기" src={reader.result} {...previewImageStyles} />
+    );
 
     setPreviewItem(image);
   };
@@ -70,7 +72,10 @@ const ImageUpload = ({
           data-binary-image={binaryImage}
         />
         {isInnerPreview ? (
-          <PreviewImage previewImageWrapperStyles={previewImageWrapperStyles} previewItem={previewItem}>
+          <PreviewImage
+            previewImageWrapperStyles={previewImageWrapperStyles}
+            previewItem={previewItem}
+          >
             {children}
           </PreviewImage>
         ) : (
@@ -78,7 +83,10 @@ const ImageUpload = ({
         )}
       </UploadContainer>
       {!isInnerPreview && (
-        <PreviewImage previewImageWrapperStyles={previewImageWrapperStyles} previewItem={previewItem} />
+        <PreviewImage
+          previewImageWrapperStyles={previewImageWrapperStyles}
+          previewItem={previewItem}
+        />
       )}
     </>
   );
