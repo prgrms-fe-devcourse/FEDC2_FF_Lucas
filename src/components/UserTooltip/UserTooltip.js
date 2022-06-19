@@ -1,8 +1,10 @@
 import styled from "@emotion/styled";
+import axios from "axios";
 import PropTypes from "prop-types";
 import Button from "../Button/Button";
 import Image from "../Image/Image";
 import Text from "../Text/Text";
+import { useGlobalContext } from "../../store/GlobalProvider";
 
 const Content = styled.div`
   display: flex;
@@ -34,6 +36,15 @@ export default function UserTooltip({
   src = "https://picsum.photos/200",
   ...props
 }) {
+  const { setUser } = useGlobalContext();
+
+  const handleLogout = async () => {
+    await axios({
+      method: "POST",
+      url: "/logout",
+    });
+    setUser(null);
+  };
   return (
     <Content className="tooltip" {...props}>
       <Wrapper>
@@ -56,7 +67,12 @@ export default function UserTooltip({
         {following}&ensp;
       </Wrapper>
       <Wrapper>
-        <Button width="50%" height="35px" fontSize="1rem">
+        <Button
+          width="50%"
+          height="35px"
+          fontSize="1rem"
+          onClick={handleLogout}
+        >
           로그아웃
         </Button>
       </Wrapper>

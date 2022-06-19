@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
 import { Search, Smile, Bell, User } from "react-feather";
+import { useNavigate } from "react-router-dom";
 import Button from "../Button/Button";
 import Common from "../../styles/common";
 import UserTooltip from "../UserTooltip/UserTooltip";
@@ -46,6 +47,7 @@ const IconButton = styled.button`
 
 function UpperHeader() {
   const [show, setShow] = useState(false);
+  const navigate = useNavigate();
   const toggle = () => {
     setShow(!show);
   };
@@ -59,7 +61,7 @@ function UpperHeader() {
         <Input placeholder="검색어를 입력해주세요." />
       </Wrapper>
       <Wrapper style={{ display: "flex", gap: "20px" }}>
-        <Bell stlye={{ cursor: "pointer" }} />
+        <Bell style={{ cursor: "pointer" }} />
         <span style={{ position: "relative" }}>
           <IconButton
             type="button"
@@ -81,6 +83,7 @@ function UpperHeader() {
           backgroundColor="white"
           color="black"
           style={{ padding: "7px" }}
+          onClick={() => navigate("/login")}
         >
           로그인
         </Button>
