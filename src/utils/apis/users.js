@@ -8,6 +8,20 @@ const useGetUsers = () =>
     return data;
   });
 
+const useSignup = id =>
+  useQuery(`/signup/${id}`, async ({ email, fullName, password }) => {
+    const { data } = await axios({
+      method: "POST",
+      url: "/signup",
+      data: {
+        email,
+        fullName,
+        password,
+      },
+    });
+    return data;
+  });
+
 const useLogin = id =>
   useQuery(`/login/${id}`, async ({ email, password }) => {
     const { data } = await axios({
@@ -30,4 +44,4 @@ const useLogout = id =>
     return data;
   });
 
-export { useGetUsers, useLogin, useLogout };
+export { useGetUsers, useLogin, useLogout, useSignup };
