@@ -1,5 +1,6 @@
-// import PropTypes from "prop-types";
 import styled from "@emotion/styled";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import Text from "../../components/Text/Text";
 import Input from "../../components/Input/Input";
 import Button from "../../components/Button/Button";
@@ -38,6 +39,7 @@ const ButtonWrapper = styled.div`
 `;
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const { errors, isLoading, handleChange, handleSubmit } = useForm({
     initialValues: {
       email: "",
@@ -45,10 +47,23 @@ const SignUp = () => {
       password: "",
       confirm: "",
     },
-    onSubmit: () => {
-      // TODO 로그인 요청
+    onSubmit: async ({ email, fullName, password }) => {
+      try {
+        await axios({
+          method: "POST",
+          url: "/signup",
+          data: {
+            email,
+            fullName,
+            password,
+          },
+        });
+        navigate("/login", { replace: true });
+      } catch (e) {
+        alert(`회원가입 실패.\n ${e}`);
+      }
     },
-    validate: ({ email, name, password, passwordConfirm }) => {
+    validate: ({ email, fullName, password, passwordConfirm }) => {
       const newErrors = {};
 
       if (!email) {
@@ -57,8 +72,8 @@ const SignUp = () => {
       if (!/^.+@.+\..+$/.test(email)) {
         newErrors.email = "올바른 이메일을 입력해주세요.";
       }
-      if (!name) {
-        newErrors.name = "이름를 입력해주세요.";
+      if (!fullName) {
+        newErrors.fullName = "이름를 입력해주세요.";
       }
       if (!password) {
         newErrors.password = "비밀번호를 입력해주세요.";
@@ -97,7 +112,7 @@ const SignUp = () => {
         )}
         <Input
           type="name"
-          name="name"
+          name="fullName"
           placeholder="Name"
           style={{
             height: "60px",
@@ -107,9 +122,9 @@ const SignUp = () => {
           }}
           onChange={handleChange}
         />
-        {errors.name && (
+        {errors.fullName && (
           <Text size="20px" color="red">
-            {errors.name}
+            {errors.fullName}
           </Text>
         )}
         <Input
@@ -131,7 +146,7 @@ const SignUp = () => {
         )}
         <Input
           type="password"
-          name="password"
+          name="passwordConfirm"
           placeholder="Confirm"
           style={{
             height: "60px",
@@ -155,9 +170,5 @@ const SignUp = () => {
     </CardForm>
   );
 };
-
-// Login.propTypes = {
-//   onSubmit: PropTypes.func,
-// };
 
 export default SignUp;
