@@ -93,7 +93,7 @@ const createPost = async ({
   formData.append("image", image);
   formData.append("channelId", channelId);
 
-  axios.post(`/posts/create/`, formData, {
+  return axios.post(`/posts/create/`, formData, {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
