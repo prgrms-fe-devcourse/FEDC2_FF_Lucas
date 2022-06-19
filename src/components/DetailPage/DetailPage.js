@@ -44,7 +44,7 @@ const PostInfoContainer = styled.div`
 
 const CommentContainer = styled.div``;
 
-const DetailPage = ({ post }) => {
+const DetailPage = ({ post, handleLikes }) => {
   const imageProps = {
     src: "https://picsum.photos/500",
     placeholder: "https://via.placeholder.com/300",
@@ -93,7 +93,7 @@ const DetailPage = ({ post }) => {
         </Text>
         <hr style={{ color: "#bbb", width: "100%", margin: "15px 0" }} />
         <PostInfoContainer>{post.content}</PostInfoContainer>
-        <Likes likes={post.likes} />
+        <Likes likes={post.likes} postId={post._id} handleLikes={handleLikes} />
         <hr style={{ color: "#bbb", width: "100%", margin: "15px 0" }} />
         <CommentContainer>
           <Text size={18} strong>
@@ -136,7 +136,16 @@ const DetailPage = ({ post }) => {
 
 DetailPage.propTypes = {
   post: PropTypes.shape({
-    likes: PropTypes.arrayOf(PropTypes.string),
+    likes: PropTypes.arrayOf(
+      PropTypes.shape({
+        createdAt: PropTypes.string,
+        post: PropTypes.string,
+        updatedAt: PropTypes.string,
+        user: PropTypes.string,
+        __v: PropTypes.number,
+        _id: PropTypes.string,
+      }),
+    ),
     comments: PropTypes.arrayOf(PropTypes.string),
     _id: PropTypes.string,
     title: PropTypes.string,
@@ -147,6 +156,7 @@ DetailPage.propTypes = {
     createdAt: PropTypes.string,
     updatedAt: PropTypes.string,
   }),
+  handleLikes: PropTypes.func,
 };
 
 export default DetailPage;

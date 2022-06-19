@@ -1,26 +1,29 @@
 import axios from "axios";
 
-const createLike = async postId => {
-  if (!postId) {
-    alert("no postId ", postId);
+const createLike = async (postId, token) => {
+  if (!postId || !token) {
+    alert("no postId OR no token", postId, token);
     return undefined;
   }
 
-  return axios.post("/likes/create", {
-    // headers: { Authorization: `Bearer ${token}` },
-    data: { postId },
-  });
+  return axios.post(
+    "/likes/create",
+    { postId },
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    },
+  );
 };
 
-const deleteLike = async id => {
-  if (!id) {
-    alert("no Id ", id);
-    return undefined;
+const deleteLike = async (id, token) => {
+  if (!id || !token) {
+    alert("no Id OR no token", id, token);
+    return;
   }
 
-  return axios.delete("/likes/delete", {
-    // headers: { Authorization: `Bearer ${token}` },
+  axios.delete("/likes/delete", {
     data: { id },
+    headers: { Authorization: `Bearer ${token}` },
   });
 };
 
