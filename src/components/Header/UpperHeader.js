@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Search, Smile, Bell, User } from "react-feather";
-import { Link } from "react-router-dom";
 import Button from "../Button/Button";
 import Common from "../../styles/common";
 import UserTooltip from "../UserTooltip/UserTooltip";
@@ -61,20 +61,27 @@ function UpperHeader() {
         <Input placeholder="검색어를 입력해주세요." />
       </Wrapper>
       <Wrapper style={{ display: "flex", gap: "20px" }}>
-        <Bell style={{ cursor: "pointer" }} />
+        <Link to="/alarm">
+          <Bell stlye={{ cursor: "pointer" }} />
+        </Link>
         <span style={{ position: "relative" }}>
-          <IconButton
-            type="button"
-            onClick={toggle}
-            style={{
-              backgroundColor: show
-                ? Common.colors.mainColor
-                : Common.colors.secondaryColor,
-            }}
-          >
-            <User style={{ position: "relative", cursor: "pointer" }} />
-          </IconButton>
-          <UserTooltip style={{ display: show ? "block" : "none" }} />
+          <Link to="/profile">
+            <IconButton
+              type="button"
+              onMouseEnter={toggle}
+              style={{
+                backgroundColor: show
+                  ? Common.colors.mainColor
+                  : Common.colors.secondaryColor,
+              }}
+            >
+              <User style={{ position: "relative", cursor: "pointer" }} />
+            </IconButton>
+          </Link>
+          <UserTooltip
+            onMouseLeave={toggle}
+            style={{ display: show ? "block" : "none" }}
+          />
         </span>
         <Link to="/login">
           <Button
