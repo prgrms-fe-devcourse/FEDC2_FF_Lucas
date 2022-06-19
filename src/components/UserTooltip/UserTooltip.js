@@ -1,7 +1,7 @@
+import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 import axios from "axios";
 import PropTypes from "prop-types";
-// import { useContext } from "react";
 import Button from "../Button/Button";
 import Image from "../Image/Image";
 import Text from "../Text/Text";
@@ -30,10 +30,6 @@ const Wrapper = styled.div`
 `;
 
 export default function UserTooltip({
-  userName = "홍길동",
-  postNum = 10,
-  follower = 20,
-  following = 5,
   src = "https://picsum.photos/200",
   ...props
 }) {
@@ -47,40 +43,47 @@ export default function UserTooltip({
     setUser(null);
   };
 
-  // const userInfo = useContext(GlobalProvider);
+  const { state } = useGlobalContext();
 
   return (
-    <Content className="tooltip" {...props}>
-      <Wrapper>
-        <Image
-          src={src}
-          width="50px"
-          height="50px"
-          style={{ borderRadius: "100%" }}
-        />
-      </Wrapper>
-      <Wrapper>
-        <Text block>{userName}</Text>
-      </Wrapper>
-      <Wrapper>
-        <Text>게시물: &ensp;</Text>
-        {postNum}&ensp;
-        <Text>팔로워: &ensp;</Text>
-        {follower}&ensp;
-        <Text>팔로잉: &ensp;</Text>
-        {following}&ensp;
-      </Wrapper>
-      <Wrapper>
-        <Button
-          width="50%"
-          height="35px"
-          fontSize="1rem"
-          onClick={handleLogout}
-        >
-          로그아웃
-        </Button>
-      </Wrapper>
-    </Content>
+    <div>
+      {state.userInfo ? (
+        <Content className="tooltip" {...props}>
+          {/* {state.userInfo?} */}
+          <Wrapper>
+            <Image
+              src={src}
+              width="50px"
+              height="50px"
+              style={{ borderRadius: "100%" }}
+            />
+          </Wrapper>
+          <Wrapper>
+            <Text block>{state.userInfo.user.fullName}</Text>
+          </Wrapper>
+          <Wrapper>
+            <Text>게시물: &ensp;</Text>
+            {state.userInfo.user.posts.length}&ensp;
+            <Text>팔로워: &ensp;</Text>
+            {state.userInfo.user.followers.length}&ensp;
+            <Text>팔로잉: &ensp;</Text>
+            {state.userInfo.user.following.length}&ensp;
+          </Wrapper>
+          <Wrapper style={{ marginTop: "30px" }}>
+            <Link to="/">
+              <Button
+                width="200px"
+                height="35px"
+                fontSize="1rem"
+                onClick={handleLogout}
+              >
+                로그아웃
+              </Button>
+            </Link>
+          </Wrapper>
+        </Content>
+      ) : null}
+    </div>
   );
 }
 
