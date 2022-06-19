@@ -2,10 +2,6 @@ import { useReducer, createContext, useMemo, useContext } from "react";
 import { PropTypes } from "prop-types";
 
 const initialState = {
-  todos: [
-    { id: 1, todo: "create context" },
-    { id: 2, todo: "provide context" },
-  ],
   userInfo: null,
   channels: [],
 };
@@ -22,18 +18,6 @@ const reducer = (state, action) => {
       return {
         ...state,
         channels: action.channels,
-      };
-    }
-    case "ADD_TODO": {
-      return {
-        ...state,
-        todos: state.todos.concat({ id: 4, todo: action.text }),
-      };
-    }
-    case "DELETE_TODO": {
-      return {
-        ...state,
-        todos: state.todos.filter(todo => action.id !== todo.id),
       };
     }
     default:
@@ -57,15 +41,16 @@ const GlobalProvider = ({ children }) => {
       channels,
     });
 
-  const deleteTodo = id =>
-    dispatch({
-      type: "DELETE_TODO",
-      id,
-    });
+  const provideValue = useMemo(
+    () => ({ state, dispatch, setUser, setChannels }),
+    [state, dispatch],
+  );
 
-  const provideValue = useMemo(() => ({ state, dispatch, deleteTodo, setUser, setChannels }), [state, dispatch]);
-
-  return <GlobalContext.Provider value={provideValue}>{children}</GlobalContext.Provider>;
+  return (
+    <GlobalContext.Provider value={provideValue}>
+      {children}
+    </GlobalContext.Provider>
+  );
 };
 
 GlobalProvider.propTypes = {
