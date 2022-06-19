@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 import { Edit, ArrowUp } from "react-feather";
+import { useNavigate } from "react-router-dom";
 import UpperHeader from "../../components/Header/UpperHeader";
 import LowerHeader from "../../components/Header/LowerHeader";
 import Carousel from "../../components/Carousel/Carousel";
@@ -40,6 +41,7 @@ const StyledCard = styled(Card)`
 `;
 
 export default function MainPage() {
+  const navigate = useNavigate();
   const moveToTop = () => {
     document.documentElement.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -90,6 +92,7 @@ export default function MainPage() {
               top: "88%",
               right: "3%",
             }}
+            onClick={() => navigate("/write", { replace: true })}
           >
             <Edit />
           </Button>
