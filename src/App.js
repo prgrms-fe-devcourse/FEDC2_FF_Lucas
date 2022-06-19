@@ -30,7 +30,6 @@ function App() {
   useEffect(() => {
     if (!userInfo) return;
 
-    console.log("App User", userInfo);
     setUser(userInfo);
   }, [userInfo]);
 
