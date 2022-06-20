@@ -89,7 +89,7 @@ const Comments = ({ comments, postId, handlePosts }) => {
           <Text block style={{ flexGrow: "1" }}>
             {comment.comment}
           </Text>
-          {state.userInfo.user._id === comment.author._id ? (
+          {state.userInfo && state.userInfo.user._id === comment.author._id ? (
             <DeleteIcon
               className="comments-delete-icon"
               style={{
@@ -104,35 +104,37 @@ const Comments = ({ comments, postId, handlePosts }) => {
           ) : null}
         </CommentWrapper>
       ))}
-      <InputContainer>
-        <Input
-          type="text"
-          name="comment"
-          wrapperStyles={{
-            flexGrow: "1",
-            marginRight: "10px",
-          }}
-          inputStyles={{
-            backgroundColor: "transparent",
-            padding: "5px 10px",
-            fontSize: "16px",
-            fontWeight: "normal",
-          }}
-          onChange={e => setInputValue(e.target.value)}
-          onKeyPress={onKeyPress}
-          onSubmit={onSubmit}
-          value={inputValue}
-        />
-        <Button
-          fontSize="14px"
-          height="100%"
-          width="inherit"
-          style={{ padding: "5px 10px", flexShrink: "0" }}
-          onClick={onSubmit}
-        >
-          등록
-        </Button>
-      </InputContainer>
+      {state.userInfo && (
+        <InputContainer>
+          <Input
+            type="text"
+            name="comment"
+            wrapperStyles={{
+              flexGrow: "1",
+              marginRight: "10px",
+            }}
+            inputStyles={{
+              backgroundColor: "transparent",
+              padding: "5px 10px",
+              fontSize: "16px",
+              fontWeight: "normal",
+            }}
+            onChange={e => setInputValue(e.target.value)}
+            onKeyPress={onKeyPress}
+            onSubmit={onSubmit}
+            value={inputValue}
+          />
+          <Button
+            fontSize="14px"
+            height="100%"
+            width="inherit"
+            style={{ padding: "5px 10px", flexShrink: "0" }}
+            onClick={onSubmit}
+          >
+            등록
+          </Button>
+        </InputContainer>
+      )}
     </CommentsContainer>
   );
 };
