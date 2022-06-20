@@ -16,6 +16,7 @@ import Profile from "./pages/Profile/Profile";
 import UpdateProfile from "./pages/UpdateProfile/UpdateProfile";
 import AlarmPage from "./pages/Alarm/AlarmPage";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import SearchPage from "./pages/Search/SearchPage";
 
 axios.defaults.baseURL = `http://kdt.frontend.2nd.programmers.co.kr:5006`;
 
@@ -49,6 +50,7 @@ function App() {
           <Route path="profile" element={<Profile />} />
           <Route path="update-profile" element={<UpdateProfile />} />
           <Route path="alarm" element={<AlarmPage />} />
+          <Route path="search" element={<SearchPage />} />
           <Route
             path="write"
             element={
