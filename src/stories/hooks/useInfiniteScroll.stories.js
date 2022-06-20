@@ -18,7 +18,7 @@ const Card = styled.div`
 export const Default = () => {
   const [offset, setOffset] = useState(0);
   const [result, setResult] = useState([]);
-  const limit = 2;
+  const limit = 4;
   const channelId = "62aac619584e72755a79fcfc";
   const onIntersecting = useCallback(
     () => setOffset(offset + limit),
@@ -30,7 +30,7 @@ export const Default = () => {
   });
 
   const { data } = useGetPosts({
-    chanelId: channelId,
+    channelId,
     offset,
     limit,
   });
