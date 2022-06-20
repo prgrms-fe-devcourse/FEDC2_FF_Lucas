@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import PreviewImage from "./PreviewImage";
 import Image from "../Image/Image";
@@ -100,4 +100,4 @@ ImageUpload.propTypes = {
   name: PropTypes.string,
 };
 
-export default ImageUpload;
+export default React.memo(ImageUpload);
