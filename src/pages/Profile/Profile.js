@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 import styled from "@emotion/styled";
+import { useState, useEffect } from "react";
 import Common from "../../styles/common";
 import UpperHeader from "../../components/Header/UpperHeader";
 import Image from "../../components/Image/Image";
@@ -7,6 +9,7 @@ import Text from "../../components/Text/Text";
 import Button from "../../components/Button/Button";
 import Card from "../../components/Card/Card";
 import Footer from "../../components/Footer/Footer";
+import { useGetPostsByAuthorId } from "../../utils/apis/posts";
 import { useGlobalContext } from "../../store/GlobalProvider";
 
 const Header = styled.header`
@@ -45,8 +48,16 @@ const StyledCard = styled(Card)`
   margin-bottom: 30px;
 `;
 
-const Profile = () => {
+const Profile = ({ authorId }) => {
   const { state } = useGlobalContext();
+  // const authorId = state.userInfo.user._id;
+  const { data } = useGetPostsByAuthorId({ authorId });
+
+  const [postArr, setPostArr] = useState([]);
+  useEffect(() => {
+    setPostArr(data);
+  }, [data]);
+
   return (
     <>
       <Header>
@@ -66,7 +77,7 @@ const Profile = () => {
         <FlexDiv>
           <GridDiv>
             <Text bold="true" size={`${Common.fontSize.fs16}`}>
-              5
+              {state.userInfo.user.posts.length}
             </Text>
             <Text bold="true" size={`${Common.fontSize.fs16}`}>
               게시물
@@ -74,7 +85,7 @@ const Profile = () => {
           </GridDiv>
           <GridDiv>
             <Text bold="true" size={`${Common.fontSize.fs16}`}>
-              5
+              {state.userInfo.user.followers.length}
             </Text>
             <Text bold="true" size={`${Common.fontSize.fs16}`}>
               팔로워
@@ -82,7 +93,7 @@ const Profile = () => {
           </GridDiv>
           <GridDiv>
             <Text bold="true" size={`${Common.fontSize.fs16}`}>
-              5
+              {state.userInfo.user.following.length}
             </Text>
             <Text bold="true" size={`${Common.fontSize.fs16}`}>
               팔로잉
@@ -100,7 +111,7 @@ const Profile = () => {
           </Text>
           <span style={{ margin: "1%" }} />
           <Text bold="true" size={`${Common.fontSize.fs16}`}>
-            월드스타
+            {state.userInfo.user.fullName}
           </Text>
           <span style={{ margin: "0 5%" }} />
           <Text
@@ -130,18 +141,26 @@ const Profile = () => {
         )}
 
         <ContentDiv>
-          <StyledCard title="0" width={250} />
-          <StyledCard title="1" width={250} />
-          <StyledCard title="2" width={250} />
-          <StyledCard title="3" width={250} />
-          <StyledCard title="4" width={250} />
-          <StyledCard title="5" width={250} />
-          <StyledCard title="6" width={250} />
+          {postArr
+            ? postArr.map(e => (
+                <StyledCard
+                  width={250}
+                  title={e.title}
+                  likeCount={e.likes.length}
+                  date={e.createdAt.slice(0, 10)}
+                  key={e._id}
+                />
+              ))
+            : null}
         </ContentDiv>
       </Main>
       <Footer />
     </>
   );
+};
+
+Profile.propTypes = {
+  authorId: PropTypes.string,
 };
 
 export default Profile;
