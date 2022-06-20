@@ -95,6 +95,7 @@ export default function MainPage() {
 
   useEffect(() => {
     setPostArr([]);
+    setDefaultPostArr([]);
     setOffset(0);
   }, [channelId]);
 
