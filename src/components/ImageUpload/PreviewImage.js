@@ -18,7 +18,9 @@ const PreviewImage = ({ children, previewImageWrapperStyles, previewItem }) => {
   return children ? (
     React.cloneElement(children, null, [previewItem])
   ) : (
-    <PreviewImageWrapper style={previewImageWrapperStyles}>{previewItem}</PreviewImageWrapper>
+    <PreviewImageWrapper style={previewImageWrapperStyles}>
+      {previewItem}
+    </PreviewImageWrapper>
   );
 };
 
@@ -28,4 +30,4 @@ PreviewImage.propTypes = {
   previewItem: PropTypes.node,
 };
 
-export default PreviewImage;
+export default React.memo(PreviewImage);
