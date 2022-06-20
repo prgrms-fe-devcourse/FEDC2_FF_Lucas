@@ -65,8 +65,8 @@ export default function MainPage() {
     onIntersecting,
     options: { threshold: 0.3 },
   });
-  const { data } = useGetPosts({ chanelId: channelId, offset, limit: LIMIT });
-  const { data: total } = useGetPosts({ chanelId: channelId, key: "total" });
+  const { data } = useGetPosts({ channelId, offset, limit: LIMIT });
+  const { data: total } = useGetPosts({ channelId, key: "total" });
   const { state } = useGlobalContext();
   useEffect(() => {
     if (!data) {
