@@ -120,6 +120,18 @@ const updatePost = async ({
   });
 };
 
+const deletePost = async ({ id, token }) => {
+  if (!id || !token) {
+    alert("no Id OR no token", id, token);
+    return;
+  }
+
+  axios.delete(`/posts/delete`, {
+    headers: { Authorization: `Bearer ${token}` },
+    data: { id },
+  });
+};
+
 const useGetAllPost = () =>
   useQuery("/posts", async () => {
     const { data } = await axios.get(`/posts`);
@@ -135,5 +147,6 @@ export {
   useDeletePostById,
   createPost,
   updatePost,
+  deletePost,
   useGetAllPost,
 };
