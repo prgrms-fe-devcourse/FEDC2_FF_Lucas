@@ -50,6 +50,7 @@ const IconButton = styled.button`
 function UpperHeader() {
   const [show, setShow] = useState(false);
   const { state, setUser } = useGlobalContext();
+  const [query, setQuery] = useState("");
   const handleLogout = async () => {
     await axios({
       method: "POST",
@@ -70,15 +71,23 @@ function UpperHeader() {
         </Link>
       </Wrapper>
       <Wrapper>
-        <Button
-          type="submit"
-          height="40px"
-          width="40px"
-          style={{ marginTop: "5px" }}
-        >
-          <Search style={{ paddingTop: "5px" }} />
-        </Button>
-        <Input placeholder="검색어를 입력해주세요." />
+        <form>
+          <Link to="/search" state={{ resultlist: query }}>
+            <Button
+              type="submit"
+              height="40px"
+              width="40px"
+              style={{ marginTop: "5px" }}
+            >
+              <Search style={{ paddingTop: "5px" }} />
+            </Button>
+          </Link>
+          <Input
+            name="query"
+            placeholder="검색어를 입력해주세요."
+            onChange={e => setQuery(e.target.value)}
+          />
+        </form>
       </Wrapper>
       <Wrapper style={{ display: "flex", gap: "20px" }}>
         {state.userInfo ? (

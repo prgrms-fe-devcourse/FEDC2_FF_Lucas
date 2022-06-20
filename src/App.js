@@ -15,6 +15,7 @@ import { useGetAuthUser } from "./utils/apis/auth";
 import Profile from "./pages/Profile/Profile";
 import AlarmPage from "./pages/Alarm/AlarmPage";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import SearchPage from "./pages/Search/SearchPage";
 
 axios.defaults.baseURL = `http://kdt.frontend.2nd.programmers.co.kr:5006`;
 
@@ -47,6 +48,7 @@ function App() {
           <Route path="write" element={<WritingPostPage />} />
           <Route path="profile" element={<Profile />} />
           <Route path="alarm" element={<AlarmPage />} />
+          <Route path="search" element={<SearchPage />} />
           <Route
             path="write"
             element={
