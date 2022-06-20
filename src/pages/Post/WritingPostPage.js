@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Camera } from "react-feather";
 import Modal from "../../components/Modal/Modal";
 import Button from "../../components/Button/Button";
 import UpperHeader from "../../components/Header/UpperHeader";
@@ -25,13 +26,18 @@ const Label = styled.label`
   font-size: 36px;
   font-weight: 700;
   line-height: 32px;
-  cursor: pointer;
 `;
 
-const AddWrapper = styled.label`
-  display: inline-flex;
-  align-items: flex-end;
-  gap: 24px;
+const ImageUploadWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  padding-left: 40px;
+  background-color: #d9d9d9;
+  width: 100%;
+  height: 245px;
+  border-radius: 15px;
+  box-sizing: border-box;
 `;
 
 const StyledTextArea = styled.textarea`
@@ -146,18 +152,30 @@ const WritingPostPage = () => {
           name="title"
           onChange={handleChange}
         />
-        <ImageUpload
-          name="image"
-          previewImageStyles={{ width: "160px", height: "200px" }}
-          onChange={handleChange}
-        >
-          <AddWrapper>
-            <Label>사진</Label>
-            <Button height="32px" backgroundColor="transparent" color="black">
-              +
+        <Label>사진</Label>
+        <ImageUploadWrapper>
+          <ImageUpload
+            name="image"
+            wrapperStyles={{
+              flexDirection: "row",
+              alignItems: "center",
+              width: "100%",
+              height: "100%",
+            }}
+            previewImageStyles={{ height: "80%" }}
+            previewImageWrapperStyles={{
+              backgroundColor: "transparent",
+              width: "100%",
+              aspectRatio: "4 / 5",
+            }}
+            style={{ height: "80%", aspectRatio: "1 / 1" }}
+            onChange={handleChange}
+          >
+            <Button width="100%" height="100%" borderRadius="100%">
+              <Camera size={100} />
             </Button>
-          </AddWrapper>
-        </ImageUpload>
+          </ImageUpload>
+        </ImageUploadWrapper>
         <Label>피드백 받고 싶은 내용을 적어주세요.</Label>
         <StyledTextArea name="content" onChange={handleChange} />
         <SubmitWrapper>

@@ -4,6 +4,12 @@ import PropTypes from "prop-types";
 import PreviewImage from "./PreviewImage";
 import Image from "../Image/Image";
 
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+`;
 const UploadContainer = styled.div`
   display: inline-flex;
   cursor: pointer;
@@ -18,6 +24,7 @@ const reader = new FileReader();
 const ImageUpload = ({
   isInnerPreview = false,
   children,
+  wrapperStyles,
   previewImageWrapperStyles,
   previewImageStyles,
   name,
@@ -61,7 +68,7 @@ const ImageUpload = ({
   };
 
   return (
-    <>
+    <Wrapper style={wrapperStyles}>
       <UploadContainer onClick={handleChooseFile} {...props}>
         <Input
           ref={inputRef}
@@ -88,15 +95,16 @@ const ImageUpload = ({
           previewItem={previewItem}
         />
       )}
-    </>
+    </Wrapper>
   );
 };
 
 ImageUpload.propTypes = {
   isInnerPreview: PropTypes.bool,
   children: PropTypes.node,
-  previewImageWrapperStyles: PropTypes.shape(),
-  previewImageStyles: PropTypes.shape(),
+  wrapperStyles: PropTypes.objectOf(PropTypes.string),
+  previewImageWrapperStyles: PropTypes.objectOf(PropTypes.string),
+  previewImageStyles: PropTypes.objectOf(PropTypes.string),
   name: PropTypes.string,
 };
 
