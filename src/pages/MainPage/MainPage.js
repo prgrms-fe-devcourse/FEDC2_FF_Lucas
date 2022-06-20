@@ -82,10 +82,11 @@ export default function MainPage() {
     setTotalCount(total.length);
   }, [total]);
 
-  const handleLikes = (likes, postId) => {
+  const handlePosts = ({ changedTarget, postId }) => {
     const tempPost = postArr.map(post =>
-      post._id === postId ? { ...post, likes } : post,
+      post._id === postId ? { ...post, ...changedTarget } : post,
     );
+    setSeletedPost(tempPost.find(post => post._id === postId));
     setPostArr(tempPost);
   };
 
@@ -171,7 +172,7 @@ export default function MainPage() {
         onClose={() => setIsModalOpen(false)}
       >
         {selectedPost ? (
-          <DetailPage post={selectedPost} handleLikes={handleLikes} />
+          <DetailPage post={selectedPost} handlePosts={handlePosts} />
         ) : (
           <>No Post</>
         )}
