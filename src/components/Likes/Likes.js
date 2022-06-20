@@ -23,7 +23,7 @@ const LikesContainer = styled.div`
   }
 `;
 
-const Likes = ({ likes, postId, handlePosts }) => {
+const Likes = ({ likes, postId, onHandlePost }) => {
   const [currentUserLike, setCurrentUserLike] = useState(null);
   const { state, storedToken } = useGlobalContext();
 
@@ -45,7 +45,7 @@ const Likes = ({ likes, postId, handlePosts }) => {
         await deleteLike(currentUserLike._id, storedToken);
 
         setCurrentUserLike(null);
-        handlePosts({
+        onHandlePost({
           changedTarget: {
             likes: likes.filter(like => like._id !== currentUserLike._id),
           },
@@ -58,7 +58,7 @@ const Likes = ({ likes, postId, handlePosts }) => {
       try {
         const { data } = await createLike(postId, storedToken);
         setCurrentUserLike(data);
-        handlePosts({ changedTarget: { likes: likes.concat(data) }, postId });
+        onHandlePost({ changedTarget: { likes: likes.concat(data) }, postId });
       } catch (e) {
         console.error(e);
       }
@@ -87,7 +87,7 @@ Likes.propTypes = {
     }),
   ),
   postId: PropTypes.string,
-  handlePosts: PropTypes.func,
+  onHandlePost: PropTypes.func,
 };
 
 export default Likes;
