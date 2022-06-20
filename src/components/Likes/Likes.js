@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import { Heart } from "react-feather";
 import Text from "../Text/Text";
@@ -23,10 +23,9 @@ const LikesContainer = styled.div`
   }
 `;
 
-const Likes = ({ likes, postId, handleLikes }) => {
+const Likes = ({ likes, postId, handlePosts }) => {
   const [currentUserLike, setCurrentUserLike] = useState(null);
   const { state, storedToken } = useGlobalContext();
-  const likeCount = useRef(likes.length);
 
   useEffect(() => {
     if (!state.userInfo || !state.userInfo.user) return;
@@ -34,7 +33,6 @@ const Likes = ({ likes, postId, handleLikes }) => {
     const currentLike = likes.find(
       like => like.user === state.userInfo.user._id,
     );
-    likeCount.current = likes.length;
 
     setCurrentUserLike(currentLike);
   }, [state, likes]);
@@ -45,11 +43,12 @@ const Likes = ({ likes, postId, handleLikes }) => {
         await deleteLike(currentUserLike._id, storedToken);
 
         setCurrentUserLike(null);
-        handleLikes(
-          likes.filter(like => like._id !== currentUserLike._id),
+        handlePosts({
+          changedTarget: {
+            likes: likes.filter(like => like._id !== currentUserLike._id),
+          },
           postId,
-        );
-        likeCount.current -= 1;
+        });
       } catch (e) {
         console.error(e);
       }
@@ -57,8 +56,7 @@ const Likes = ({ likes, postId, handleLikes }) => {
       try {
         const { data } = await createLike(postId, storedToken);
         setCurrentUserLike(data);
-        handleLikes(likes.concat(data), postId);
-        likeCount.current += 1;
+        handlePosts({ changedTarget: { likes: likes.concat(data) }, postId });
       } catch (e) {
         console.error(e);
       }
@@ -69,7 +67,7 @@ const Likes = ({ likes, postId, handleLikes }) => {
     <LikesContainer onClick={toggleLike}>
       <Heart size={30} color="red" fill={currentUserLike ? "red" : "white"} />
       <Text size={15} color="#333" strong>
-        {likeCount.current}
+        {likes.length}
       </Text>
     </LikesContainer>
   );
@@ -87,7 +85,7 @@ Likes.propTypes = {
     }),
   ),
   postId: PropTypes.string,
-  handleLikes: PropTypes.func,
+  handlePosts: PropTypes.func,
 };
 
 export default Likes;
