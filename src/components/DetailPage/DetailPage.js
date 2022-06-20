@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import { Heart } from "react-feather";
 import Image from "../Image/Image";
 import Text from "../Text/Text";
-import Input from "../Input/Input";
 import Likes from "../Likes/Likes";
+import Comments from "../Comments/Comments";
 
 const PageContainer = styled.div`
   display: flex;
@@ -37,14 +37,13 @@ const ProfileContainer = styled.div`
 `;
 
 const PostInfoContainer = styled.div`
+  height: 70%;
   flex-grow: 2;
   color: #333;
   font-size: 14px;
 `;
 
-const CommentContainer = styled.div``;
-
-const DetailPage = ({ post, handleLikes }) => {
+const DetailPage = ({ post, handlePosts }) => {
   const imageProps = {
     src: "https://picsum.photos/500",
     placeholder: "https://via.placeholder.com/300",
@@ -93,42 +92,13 @@ const DetailPage = ({ post, handleLikes }) => {
         </Text>
         <hr style={{ color: "#bbb", width: "100%", margin: "15px 0" }} />
         <PostInfoContainer>{post.content}</PostInfoContainer>
-        <Likes likes={post.likes} postId={post._id} handleLikes={handleLikes} />
+        <Likes likes={post.likes} postId={post._id} handlePosts={handlePosts} />
         <hr style={{ color: "#bbb", width: "100%", margin: "15px 0" }} />
-        <CommentContainer>
-          <Text size={18} strong>
-            댓글 ({post.comments.length})
-          </Text>
-          {post.comments.map(comment => (
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                margin: "5px 0",
-              }}
-            >
-              <Image
-                src="https://picsum.photos/100"
-                width={30}
-                height={30}
-                style={{ borderRadius: "50%", marginRight: "10px" }}
-              />
-              <Text block key={comment}>
-                {comment}
-              </Text>
-            </div>
-          ))}
-          <Input
-            type="text"
-            wrapperStyles={{ height: "32px", marginTop: "10px" }}
-            inputStyles={{
-              backgroundColor: "transparent",
-              padding: "5px 10px",
-              fontSize: "16px",
-              fontWeight: "normal",
-            }}
-          />
-        </CommentContainer>
+        <Comments
+          comments={post.comments}
+          postId={post._id}
+          handlePosts={handlePosts}
+        />
       </ContentContainer>
     </PageContainer>
   );
@@ -146,7 +116,18 @@ DetailPage.propTypes = {
         _id: PropTypes.string,
       }),
     ),
-    comments: PropTypes.arrayOf(PropTypes.string),
+    comments: PropTypes.arrayOf(
+      PropTypes.shape({
+        _id: PropTypes.string,
+        comment: PropTypes.string,
+        author: PropTypes.shape({
+          fullName: PropTypes.string,
+        }),
+        post: PropTypes.string,
+        createdAt: PropTypes.string,
+        updatedAt: PropTypes.string,
+      }),
+    ),
     _id: PropTypes.string,
     title: PropTypes.string,
     content: PropTypes.string,
@@ -156,7 +137,7 @@ DetailPage.propTypes = {
     createdAt: PropTypes.string,
     updatedAt: PropTypes.string,
   }),
-  handleLikes: PropTypes.func,
+  handlePosts: PropTypes.func,
 };
 
 export default DetailPage;
