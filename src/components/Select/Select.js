@@ -13,14 +13,15 @@ const Label = styled.label`
   flex-shrink: 0;
   font-size: 36px;
   font-weight: 700;
-  line-height: 32px;
+  line-height: 34px;
 `;
 
 const StyledSelect = styled.select`
   width: 100%;
+  height: 40px;
   padding: 4px 8px;
   border: 1px solid ${({ invalid }) => (invalid ? "red" : "gray")};
-  border-radius: 4px;
+  border-radius: 15px;
   box-sizing: border-box;
 `;
 
