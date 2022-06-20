@@ -14,6 +14,7 @@ const PreviewImage = ({ children, previewImageWrapperStyles, previewItem }) => {
     border-radius: 15px;
     box-sizing: border-box;
   `;
+  console.log(previewImageWrapperStyles);
 
   return children ? (
     React.cloneElement(children, null, [previewItem])
