@@ -48,6 +48,7 @@ const StyledCard = styled(Card)`
   min-width: 100px;
   box-sizing: border-box;
   margin-bottom: 30px;
+  cursor: pointer;
 `;
 
 export default function MainPage() {
