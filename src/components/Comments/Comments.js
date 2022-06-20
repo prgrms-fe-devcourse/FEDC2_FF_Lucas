@@ -34,7 +34,7 @@ const InputContainer = styled.div`
   height: 32px;
 `;
 
-const Comments = ({ comments, postId, handlePosts }) => {
+const Comments = ({ comments, postId, onHandlePost }) => {
   const [inputValue, setInputValue] = useState("");
   const { state, storedToken } = useGlobalContext();
 
@@ -43,7 +43,7 @@ const Comments = ({ comments, postId, handlePosts }) => {
 
     try {
       const { data } = await createComment(inputValue, postId, storedToken);
-      handlePosts({
+      onHandlePost({
         changedTarget: { comments: comments.concat(data) },
         postId,
       });
@@ -56,7 +56,7 @@ const Comments = ({ comments, postId, handlePosts }) => {
   const onDelete = async id => {
     try {
       await deleteComment(id, storedToken);
-      handlePosts({
+      onHandlePost({
         changedTarget: {
           comments: comments.filter(comment => comment._id !== id),
         },
@@ -153,7 +153,7 @@ Comments.propTypes = {
     }),
   ),
   postId: PropTypes.string,
-  handlePosts: PropTypes.func,
+  onHandlePost: PropTypes.func,
 };
 
 export default React.memo(Comments);
