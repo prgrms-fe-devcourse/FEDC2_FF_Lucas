@@ -8,7 +8,6 @@ const useGetUsers = ({ token }) => {
     const { data } = await axios.post(`/users/get-users`, formData, {
       headers: { Authorization: `Bearer ${token}` },
     });
-
     return data;
   });
 };
