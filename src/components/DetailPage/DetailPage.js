@@ -45,7 +45,7 @@ const PostInfoContainer = styled.div`
 
 const DetailPage = ({ post, handlePosts }) => {
   const imageProps = {
-    src: "https://picsum.photos/500",
+    src: post.image ?? "https://via.placeholder.com/300",
     placeholder: "https://via.placeholder.com/300",
     lazy: true,
     width: "100%",
@@ -136,6 +136,7 @@ DetailPage.propTypes = {
     }),
     createdAt: PropTypes.string,
     updatedAt: PropTypes.string,
+    image: PropTypes.string,
   }),
   handlePosts: PropTypes.func,
 };
