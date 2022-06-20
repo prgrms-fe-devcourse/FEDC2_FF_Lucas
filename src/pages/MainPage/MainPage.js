@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Edit, ArrowUp } from "react-feather";
 import { useNavigate } from "react-router-dom";
 import UpperHeader from "../../components/Header/UpperHeader";
@@ -10,6 +10,7 @@ import Button from "../../components/Button/Button";
 import Footer from "../../components/Footer/Footer";
 import Modal from "../../components/Modal/Modal";
 import DetailPage from "../../components/DetailPage/DetailPage";
+import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 import { useGetPosts } from "../../utils/apis/posts";
 import { useGlobalContext } from "../../store/GlobalProvider";
 
@@ -46,15 +47,48 @@ export default function MainPage() {
     document.documentElement.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const LIMIT = 4;
   const [channelId, setChannelId] = useState("");
   const [postArr, setPostArr] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPost, setSeletedPost] = useState(null);
-  const { data } = useGetPosts({ chanelId: channelId });
+  const [offset, setOffset] = useState(0);
+  const [totalCount, setTotalCount] = useState(LIMIT);
+
+  const onIntersecting = useCallback(() => {
+    if (postArr.length >= totalCount) {
+      return;
+    }
+    setOffset(offset + LIMIT);
+  }, [setOffset, offset, totalCount]);
+  const { setLastIntersectingImage } = useInfiniteScroll({
+    onIntersecting,
+    options: { threshold: 0.3 },
+  });
+  const { data } = useGetPosts({ channelId, offset, limit: LIMIT });
+  const { data: total } = useGetPosts({ channelId, key: "total" });
   const { state } = useGlobalContext();
   useEffect(() => {
-    setPostArr(data);
+    if (!data) {
+      return;
+    }
+    setPostArr([...postArr, ...data]);
   }, [data]);
+
+  useEffect(() => {
+    if (!total) {
+      return;
+    }
+    setTotalCount(total.length);
+  }, [total]);
+
+  const handleLikes = (likes, postId) => {
+    const tempPost = postArr.map(post =>
+      post._id === postId ? { ...post, likes } : post,
+    );
+    setPostArr(tempPost);
+  };
+
   return (
     <>
       <Header>
@@ -65,21 +99,40 @@ export default function MainPage() {
         <Carousel second={5000} height={300} />
         <ContentDiv>
           {postArr
-            ? postArr.map(e => (
-                <StyledCard
-                  width={250}
-                  title={e.title}
-                  userName={e.author.fullName}
-                  likeCount={e.likes.length}
-                  commentCount={e.comments.length}
-                  date={e.createdAt.slice(0, 10)}
-                  key={e._id}
-                  onClick={() => {
-                    setIsModalOpen(true);
-                    setSeletedPost(e);
-                  }}
-                />
-              ))
+            ? postArr.map((e, index) => {
+                const isLast = index === postArr.length - 1;
+                return isLast ? (
+                  <div ref={setLastIntersectingImage} key={e._id}>
+                    <StyledCard
+                      width={250}
+                      title={e.title}
+                      userName={e.author.fullName}
+                      likeCount={e.likes.length}
+                      commentCount={e.comments.length}
+                      date={e.createdAt.slice(0, 10)}
+                      key={e._id}
+                      onClick={() => {
+                        setIsModalOpen(true);
+                        setSeletedPost(e);
+                      }}
+                    />
+                  </div>
+                ) : (
+                  <StyledCard
+                    width={250}
+                    title={e.title}
+                    userName={e.author.fullName}
+                    likeCount={e.likes.length}
+                    commentCount={e.comments.length}
+                    date={e.createdAt.slice(0, 10)}
+                    key={e._id}
+                    onClick={() => {
+                      setIsModalOpen(true);
+                      setSeletedPost(e);
+                    }}
+                  />
+                );
+              })
             : null}
         </ContentDiv>
         {state.userInfo ? (
@@ -117,7 +170,11 @@ export default function MainPage() {
         visible={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       >
-        {selectedPost ? <DetailPage post={selectedPost} /> : <>No Post</>}
+        {selectedPost ? (
+          <DetailPage post={selectedPost} handleLikes={handleLikes} />
+        ) : (
+          <>No Post</>
+        )}
       </Modal>
       <Footer />
     </>

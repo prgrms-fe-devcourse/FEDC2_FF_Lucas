@@ -1,17 +1,17 @@
 import { useQuery } from "react-query";
 import axios from "axios";
 
-const useGetPosts = ({ chanelId, offset = 0, limit = 10 }) =>
+const useGetPosts = ({ channelId, offset = 0, limit, key = "" }) =>
   useQuery(
-    `/posts/channel/${chanelId}`,
+    [`/posts/channel/${channelId}${key}`, offset],
     async () => {
-      const { data } = await axios.get(`/posts/channel/${chanelId}`, {
-        params: { offset, limit },
+      const { data } = await axios.get(`/posts/channel/${channelId}`, {
+        params: limit ? { offset, limit } : { offset },
       });
       return data;
     },
     {
-      enabled: !!chanelId,
+      enabled: !!channelId,
     },
   );
 

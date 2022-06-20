@@ -1,12 +1,16 @@
 import { useQuery } from "react-query";
-
 import axios from "axios";
 
-const useGetUsers = () =>
-  useQuery("/users/get-users", async () => {
-    const { data } = await axios.get("/users/get-users");
+const useGetUsers = ({ token }) => {
+  const formData = new FormData();
+
+  return useQuery("/users/get-users", async () => {
+    const { data } = await axios.post(`/users/get-users`, formData, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     return data;
   });
+};
 
 const useSignup = id =>
   useQuery(`/signup/${id}`, async ({ email, fullName, password }) => {

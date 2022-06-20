@@ -4,6 +4,7 @@ import { Heart } from "react-feather";
 import Image from "../Image/Image";
 import Text from "../Text/Text";
 import Input from "../Input/Input";
+import Likes from "../Likes/Likes";
 
 const PageContainer = styled.div`
   display: flex;
@@ -41,26 +42,9 @@ const PostInfoContainer = styled.div`
   font-size: 14px;
 `;
 
-const LikesContainer = styled.div`
-  width: 40px;
-  height: 40px;
-  align-self: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-  border: 1px solid #ddd;
-  padding: 5px;
-  border-radius: 5px;
-  cursor: pointer;
-  &:hover {
-    border: 1px solid red;
-  }
-`;
-
 const CommentContainer = styled.div``;
 
-const DetailPage = ({ post }) => {
+const DetailPage = ({ post, handleLikes }) => {
   const imageProps = {
     src: "https://picsum.photos/500",
     placeholder: "https://via.placeholder.com/300",
@@ -109,12 +93,7 @@ const DetailPage = ({ post }) => {
         </Text>
         <hr style={{ color: "#bbb", width: "100%", margin: "15px 0" }} />
         <PostInfoContainer>{post.content}</PostInfoContainer>
-        <LikesContainer>
-          <Heart size={30} color="tranparent" fill="red" />
-          <Text size={14} color="#333" strong>
-            {post.likes.length}
-          </Text>
-        </LikesContainer>
+        <Likes likes={post.likes} postId={post._id} handleLikes={handleLikes} />
         <hr style={{ color: "#bbb", width: "100%", margin: "15px 0" }} />
         <CommentContainer>
           <Text size={18} strong>
@@ -157,7 +136,16 @@ const DetailPage = ({ post }) => {
 
 DetailPage.propTypes = {
   post: PropTypes.shape({
-    likes: PropTypes.arrayOf(PropTypes.string),
+    likes: PropTypes.arrayOf(
+      PropTypes.shape({
+        createdAt: PropTypes.string,
+        post: PropTypes.string,
+        updatedAt: PropTypes.string,
+        user: PropTypes.string,
+        __v: PropTypes.number,
+        _id: PropTypes.string,
+      }),
+    ),
     comments: PropTypes.arrayOf(PropTypes.string),
     _id: PropTypes.string,
     title: PropTypes.string,
@@ -168,6 +156,7 @@ DetailPage.propTypes = {
     createdAt: PropTypes.string,
     updatedAt: PropTypes.string,
   }),
+  handleLikes: PropTypes.func,
 };
 
 export default DetailPage;
