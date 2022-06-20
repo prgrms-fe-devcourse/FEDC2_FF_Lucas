@@ -15,11 +15,22 @@ import { useGetPosts } from "../../utils/apis/posts";
 import { useGlobalContext } from "../../store/GlobalProvider";
 
 const ContentDiv = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(auto-filt, minmax(300px, 4fr));
+  justify-items: center;
   padding-top: 50px;
   margin: 0 15%;
+  border: 1px solid;
+  @media (max-width: 1400px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: 780px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 
 const Header = styled.header`
@@ -37,7 +48,6 @@ const StyledCard = styled(Card)`
   margin-bottom: 10px;
   min-width: 100px;
   box-sizing: border-box;
-  margin-left: 30px;
   margin-bottom: 30px;
 `;
 
@@ -106,6 +116,7 @@ export default function MainPage() {
                   <div ref={setLastIntersectingImage} key={e._id}>
                     <StyledCard
                       width={250}
+                      src={e.image}
                       title={e.title}
                       userName={e.author.fullName}
                       likeCount={e.likes.length}
@@ -121,6 +132,7 @@ export default function MainPage() {
                 ) : (
                   <StyledCard
                     width={250}
+                    src={e.image}
                     title={e.title}
                     userName={e.author.fullName}
                     likeCount={e.likes.length}
