@@ -38,6 +38,8 @@ const Likes = ({ likes, postId, handlePosts }) => {
   }, [state, likes]);
 
   const toggleLike = async () => {
+    if (!state.userInfo || !state.userInfo.user) return;
+
     if (currentUserLike) {
       try {
         await deleteLike(currentUserLike._id, storedToken);
