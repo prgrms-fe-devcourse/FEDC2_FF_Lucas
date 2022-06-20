@@ -8,6 +8,7 @@ const Wrapper = styled.div`
   border: 1px solid #d9d9d9;
   display: flex;
   flex-direction: column;
+  height: fit-content;
 `;
 
 const InfoWrapper = styled.div`
