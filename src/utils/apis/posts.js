@@ -3,7 +3,7 @@ import axios from "axios";
 
 const useGetPosts = ({ chanelId, offset = 0, limit = 10 }) =>
   useQuery(
-    `/posts/channel/${chanelId}`,
+    [`/posts/channel/${chanelId}`, offset],
     async () => {
       const { data } = await axios.get(`/posts/channel/${chanelId}`, {
         params: { offset, limit },
