@@ -92,6 +92,12 @@ export default function MainPage() {
     }
     setTotalCount(total.length);
   }, [total]);
+
+  useEffect(() => {
+    setPostArr([]);
+    setOffset(0);
+  }, [channelId]);
+
   const { data: allPost, isLoading } = useGetAllPost();
   useEffect(() => {
     if (!isLoading) {
