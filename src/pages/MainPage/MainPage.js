@@ -72,13 +72,16 @@ export default function MainPage() {
     }
     setOffset(offset + LIMIT);
   }, [setOffset, offset, totalCount]);
+
   const { setLastIntersectingImage } = useInfiniteScroll({
     onIntersecting,
     options: { threshold: 0.3 },
   });
+
   const { data } = useGetPosts({ channelId, offset, limit: LIMIT });
   const { data: total } = useGetPosts({ channelId, key: "total" });
   const { state } = useGlobalContext();
+
   useEffect(() => {
     if (!data) {
       return;
@@ -106,12 +109,18 @@ export default function MainPage() {
     }
   }, [allPost]);
 
-  const handlePosts = ({ changedTarget, postId }) => {
+  const onHandlePost = ({ changedTarget, postId }) => {
     const tempPost = postArr.map(post =>
       post._id === postId ? { ...post, ...changedTarget } : post,
     );
     setSeletedPost(tempPost.find(post => post._id === postId));
     setPostArr(tempPost);
+  };
+
+  const onDeletePost = postId => {
+    setSeletedPost(null);
+    setIsModalOpen(false);
+    setPostArr(postArr.filter(post => post._id !== postId));
   };
 
   return (
@@ -233,7 +242,11 @@ export default function MainPage() {
         onClose={() => setIsModalOpen(false)}
       >
         {selectedPost ? (
-          <DetailPage post={selectedPost} handlePosts={handlePosts} />
+          <DetailPage
+            post={selectedPost}
+            onHandlePost={onHandlePost}
+            onDeletePost={onDeletePost}
+          />
         ) : (
           <>No Post</>
         )}
