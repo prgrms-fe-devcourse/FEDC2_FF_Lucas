@@ -23,6 +23,7 @@ const StyledSelect = styled.select`
   border: 1px solid ${({ invalid }) => (invalid ? "red" : "gray")};
   border-radius: 15px;
   box-sizing: border-box;
+  font-size: 32px;
 `;
 
 const Select = ({
