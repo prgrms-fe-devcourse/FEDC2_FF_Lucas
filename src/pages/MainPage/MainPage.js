@@ -11,7 +11,7 @@ import Footer from "../../components/Footer/Footer";
 import Modal from "../../components/Modal/Modal";
 import DetailPage from "../../components/DetailPage/DetailPage";
 import useInfiniteScroll from "../../hooks/useInfiniteScroll";
-import { useGetPosts } from "../../utils/apis/posts";
+import { useGetAllPost, useGetPosts } from "../../utils/apis/posts";
 import { useGlobalContext } from "../../store/GlobalProvider";
 
 const ContentDiv = styled.div`
@@ -21,7 +21,6 @@ const ContentDiv = styled.div`
   justify-items: center;
   padding-top: 50px;
   margin: 0 15%;
-  border: 1px solid;
   @media (max-width: 1400px) {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -60,6 +59,7 @@ export default function MainPage() {
   const LIMIT = 4;
   const [channelId, setChannelId] = useState("");
   const [postArr, setPostArr] = useState([]);
+  const [defaultPostArr, setDefaultPostArr] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPost, setSeletedPost] = useState(null);
   const [offset, setOffset] = useState(0);
@@ -91,6 +91,12 @@ export default function MainPage() {
     }
     setTotalCount(total.length);
   }, [total]);
+  const { data: allPost, isLoading } = useGetAllPost();
+  useEffect(() => {
+    if (!isLoading) {
+      setDefaultPostArr(allPost);
+    }
+  }, [allPost]);
 
   const handlePosts = ({ changedTarget, postId }) => {
     const tempPost = postArr.map(post =>
@@ -109,7 +115,7 @@ export default function MainPage() {
       <Main>
         <Carousel second={5000} height={300} />
         <ContentDiv>
-          {postArr
+          {postArr.length !== 0
             ? postArr.map((e, index) => {
                 const isLast = index === postArr.length - 1;
                 return isLast ? (
@@ -146,7 +152,42 @@ export default function MainPage() {
                   />
                 );
               })
-            : null}
+            : defaultPostArr.map((e, index) => {
+                const isLast = index === postArr.length - 1;
+                return isLast ? (
+                  <div ref={setLastIntersectingImage} key={e._id}>
+                    <StyledCard
+                      width={250}
+                      src={e.image}
+                      title={e.title}
+                      userName={e.author.fullName}
+                      likeCount={e.likes.length}
+                      commentCount={e.comments.length}
+                      date={e.createdAt.slice(0, 10)}
+                      key={e._id}
+                      onClick={() => {
+                        setIsModalOpen(true);
+                        setSeletedPost(e);
+                      }}
+                    />
+                  </div>
+                ) : (
+                  <StyledCard
+                    width={250}
+                    src={e.image}
+                    title={e.title}
+                    userName={e.author.fullName}
+                    likeCount={e.likes.length}
+                    commentCount={e.comments.length}
+                    date={e.createdAt.slice(0, 10)}
+                    key={e._id}
+                    onClick={() => {
+                      setIsModalOpen(true);
+                      setSeletedPost(e);
+                    }}
+                  />
+                );
+              })}
         </ContentDiv>
         {state.userInfo ? (
           <Button

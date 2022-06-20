@@ -120,6 +120,12 @@ const updatePost = async ({
   });
 };
 
+const useGetAllPost = () =>
+  useQuery("/posts", async () => {
+    const { data } = await axios.get(`/posts`);
+    return data;
+  });
+
 export {
   useGetPosts,
   useGetPostsByAuthorId,
@@ -129,4 +135,5 @@ export {
   useDeletePostById,
   createPost,
   updatePost,
+  useGetAllPost,
 };
