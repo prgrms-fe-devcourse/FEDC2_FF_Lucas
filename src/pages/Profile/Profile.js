@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import styled from "@emotion/styled";
 import { useState, useEffect } from "react";
 import Common from "../../styles/common";
@@ -48,10 +48,12 @@ const StyledCard = styled(Card)`
   margin-bottom: 30px;
 `;
 
-const Profile = ({ authorId }) => {
+const Profile = () => {
   const { state } = useGlobalContext();
-  // const authorId = state.userInfo.user._id;
+  const authorId = state.userInfo.user._id;
   const { data } = useGetPostsByAuthorId({ authorId });
+  const userInfoObj =
+    state.userInfo.user.username && JSON.parse(state.userInfo.user.username);
 
   const [postArr, setPostArr] = useState([]);
   useEffect(() => {
@@ -113,19 +115,23 @@ const Profile = ({ authorId }) => {
           <Text bold="true" size={`${Common.fontSize.fs16}`}>
             {state.userInfo.user.fullName}
           </Text>
-          <span style={{ margin: "0 5%" }} />
-          <Text
-            bold="true"
-            size={`${Common.fontSize.fs16}`}
-            color="rgba(1,1,1,0.5)"
-          >
-            체형
-          </Text>
-          <span style={{ margin: "1%" }} />
 
-          <Text bold="true" size={`${Common.fontSize.fs16}`}>
-            170cm, 70kg
-          </Text>
+          {state.userInfo.user.username && (
+            <>
+              <span style={{ margin: "0 5%" }} />
+              <Text
+                bold="true"
+                size={`${Common.fontSize.fs16}`}
+                color="rgba(1,1,1,0.5)"
+              >
+                체형
+              </Text>
+              <span style={{ margin: "1%" }} />
+              <Text bold="true" size={`${Common.fontSize.fs16}`}>
+                {userInfoObj.height}cm, {userInfoObj.weight}kg
+              </Text>
+            </>
+          )}
         </FlexDiv>
 
         {state.userInfo ? (
@@ -160,7 +166,7 @@ const Profile = ({ authorId }) => {
 };
 
 Profile.propTypes = {
-  authorId: PropTypes.string,
+  // authorId: PropTypes.string,
 };
 
 export default Profile;
