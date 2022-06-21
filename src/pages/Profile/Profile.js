@@ -1,5 +1,4 @@
-import { Link } from "react-router-dom";
-// import PropTypes from "prop-types";
+import { Link, useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
 import { useState, useEffect } from "react";
 import Common from "../../styles/common";
@@ -14,6 +13,7 @@ import DetailPage from "../../components/DetailPage/DetailPage";
 import { useGetPostsByAuthorId } from "../../utils/apis/posts";
 import { useGlobalContext } from "../../store/GlobalProvider";
 import parseJsonStringToObject from "../../utils/parseJsonString";
+import { useGetUser } from "../../utils/apis/users";
 
 const Header = styled.header`
   position: sticky;
@@ -63,14 +63,17 @@ const StyledCard = styled(Card)`
 
 const Profile = () => {
   const { state } = useGlobalContext();
-  const authorId = state.userInfo.user._id;
-  const { data } = useGetPostsByAuthorId({ authorId });
-  const userInfoObj =
-    state.userInfo.user.username && JSON.parse(state.userInfo.user.username);
+  const { state: searchState } = useLocation();
+  const authorId =
+    (searchState && searchState.authorId) || state.userInfo.user._id;
+  const { data } = useGetPostsByAuthorId({ authorId: authorId || "" });
+  const { data: user } = useGetUser(authorId);
 
   const [postArr, setPostArr] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPost, setSeletedPost] = useState(null);
+  const [userInfo, setUserInfo] = useState(null);
+  const [parsedUserInfo, setParsedUserInfo] = useState(null);
 
   useEffect(() => {
     if (!data) return;
@@ -86,6 +89,25 @@ const Profile = () => {
 
     setPostArr(parsed);
   }, [data]);
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+
+    setUserInfo(user);
+    setParsedUserInfo(
+      parseJsonStringToObject({
+        jsonString: user.username,
+        restKeys: ["weight", "height", "age"],
+      }),
+    );
+  }, [user]);
+  console.log(state.userInfo, userInfo);
+  const isOwnProfile =
+    state.userInfo &&
+    state.userInfo.user &&
+    userInfo &&
+    state.userInfo.user._id === userInfo._id;
 
   const onHandlePost = ({ changedTarget, postId }) => {
     const tempPost = postArr.map(post =>
@@ -145,37 +167,43 @@ const Profile = () => {
         </FlexDiv>
 
         <FlexDiv>
-          <Text
-            bold="true"
-            size={`${Common.fontSize.fs16}`}
-            color="rgba(1,1,1,0.5)"
-          >
-            닉네임
-          </Text>
-          <span style={{ margin: "1%" }} />
-          <Text bold="true" size={`${Common.fontSize.fs16}`}>
-            {state.userInfo.user.fullName}
-          </Text>
-
-          {state.userInfo.user.username && (
+          {userInfo && parsedUserInfo ? (
             <>
-              <span style={{ margin: "0 5%" }} />
               <Text
                 bold="true"
                 size={`${Common.fontSize.fs16}`}
                 color="rgba(1,1,1,0.5)"
               >
-                체형
+                닉네임
               </Text>
               <span style={{ margin: "1%" }} />
               <Text bold="true" size={`${Common.fontSize.fs16}`}>
-                {userInfoObj.height}cm, {userInfoObj.weight}kg
+                {userInfo.fullName}
               </Text>
+
+              {state.userInfo.user.username && (
+                <>
+                  <span style={{ margin: "0 5%" }} />
+                  <Text
+                    bold="true"
+                    size={`${Common.fontSize.fs16}`}
+                    color="rgba(1,1,1,0.5)"
+                  >
+                    체형
+                  </Text>
+                  <span style={{ margin: "1%" }} />
+                  <Text bold="true" size={`${Common.fontSize.fs16}`}>
+                    {parsedUserInfo.height || "?"}cm,{" "}
+                    {parsedUserInfo.weight || "?"}
+                    kg
+                  </Text>
+                </>
+              )}
             </>
-          )}
+          ) : null}
         </FlexDiv>
 
-        {state.userInfo ? (
+        {isOwnProfile ? (
           <Link to="/update-profile">
             <Button width="50%" height="50px" margin="1% 0">
               프로필 편집
