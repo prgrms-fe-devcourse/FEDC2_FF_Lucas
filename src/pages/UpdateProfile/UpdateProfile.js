@@ -8,6 +8,7 @@ import Text from "../../components/Text/Text";
 import Button from "../../components/Button/Button";
 import { useGlobalContext } from "../../store/GlobalProvider";
 import useForm from "../../hooks/useForm";
+import parseJsonStringToObject from "../../utils/parseJsonString";
 
 const Header = styled.header`
   position: sticky;
@@ -51,26 +52,17 @@ const FlexDiv = styled.div`
 
 const UpdateProfile = () => {
   const { state, storedToken } = useGlobalContext();
-
-  let defaultFullName = "";
-  let defaultHeight = "";
-  let defaultWeight = "";
-  let defaultAge = "";
-  let userInfoObject = null;
-
-  try {
-    userInfoObject = JSON.parse(state.userInfo.user.username);
-  } catch (e) {
-    console.error(e);
-    userInfoObject = { height: "", weight: "", age: "" };
-  }
-
-  if (userInfoObject) {
-    defaultFullName = state.userInfo.user.fullName;
-    defaultHeight = userInfoObject.height;
-    defaultWeight = userInfoObject.weight;
-    defaultAge = userInfoObject.age;
-  }
+  const jsonString = state.userInfo.user && state.userInfo.user.username;
+  const defaultFullName =
+    (state.userInfo.user && state.userInfo.user.fullName) || "";
+  const {
+    height: defaultHeight,
+    weight: defaultWeight,
+    age: defaultAge,
+  } = parseJsonStringToObject({
+    jsonString,
+    restKeys: ["height", "weight", "age"],
+  });
 
   const {
     errors,
