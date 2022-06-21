@@ -57,4 +57,24 @@ const useGetUser = (userId = "") =>
     return data;
   });
 
-export { useGetUsers, useLogin, useLogout, useSignup, useGetUser };
+const updateProfileImage = async ({ image = "", token = "" }) => {
+  const formData = new FormData();
+
+  formData.append("isCover", false);
+  formData.append("image", image);
+
+  const { data } = await axios.post(`/users/upload-photo`, formData, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  return data;
+};
+
+export {
+  useGetUsers,
+  useLogin,
+  useLogout,
+  useSignup,
+  useGetUser,
+  updateProfileImage,
+};
