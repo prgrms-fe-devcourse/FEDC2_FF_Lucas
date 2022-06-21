@@ -52,16 +52,36 @@ const FlexDiv = styled.div`
 const UpdateProfile = () => {
   const { state, storedToken } = useGlobalContext();
 
+  let defaultFullName = "";
+  let defaultHeight = "";
+  let defaultWeight = "";
+  let defaultAge = "";
+  let userInfoObject = null;
+
+  try {
+    userInfoObject = JSON.parse(state.userInfo.user.username);
+  } catch (e) {
+    console.error(e);
+    userInfoObject = { height: "", weight: "", age: "" };
+  }
+
+  if (userInfoObject) {
+    defaultFullName = state.userInfo.user.fullName;
+    defaultHeight = userInfoObject.height;
+    defaultWeight = userInfoObject.weight;
+    defaultAge = userInfoObject.age;
+  }
+
   const {
     errors,
     handleChange: handleInfoChange,
     handleSubmit: handleInfoSubmit,
   } = useForm({
     initialValues: {
-      fullName: "",
-      height: "",
-      weight: "",
-      age: "",
+      fullName: defaultFullName,
+      height: defaultHeight,
+      weight: defaultWeight,
+      age: defaultAge,
     },
     onSubmit: async ({ fullName, height, weight, age }) => {
       try {
@@ -70,7 +90,7 @@ const UpdateProfile = () => {
           weight,
           age,
         });
-        const { data } = await axios({
+        await axios({
           method: "PUT",
           url: "/settings/update-user",
           headers: { Authorization: `Bearer ${storedToken}` },
@@ -79,8 +99,7 @@ const UpdateProfile = () => {
             username: userInfoString,
           },
         });
-
-        console.log(data);
+        alert("회원정보를 변경했습니다.");
       } catch (e) {
         alert(`회원정보 변경 실패.\n ${e}`);
       }
@@ -104,7 +123,6 @@ const UpdateProfile = () => {
       return newErrors;
     },
   });
-  const userInfoParse = JSON.parse(state.userInfo.user.username);
   const {
     errors: error,
     handleChange: handlePasswordChange,
@@ -116,7 +134,7 @@ const UpdateProfile = () => {
     },
     onSubmit: async ({ password }) => {
       try {
-        const { data } = await axios({
+        await axios({
           method: "PUT",
           url: "/settings/update-password",
           headers: { Authorization: `Bearer ${storedToken}` },
@@ -124,7 +142,7 @@ const UpdateProfile = () => {
             password,
           },
         });
-        console.log(data);
+        alert("비밀번호를 변경했습니다.");
       } catch (e) {
         alert(`비밀번호 변경 실패.\n ${e}`);
       }
@@ -180,7 +198,7 @@ const UpdateProfile = () => {
               name="fullName"
               wrapperStyles={{ width: "40%" }}
               onChange={handleInfoChange}
-              defaultValue={state.userInfo.user.fullName}
+              defaultValue={defaultFullName}
             />
           </FlexDiv>
           {document.getElementsByName("fullName").value && errors.fullName && (
@@ -204,7 +222,7 @@ const UpdateProfile = () => {
             <Input
               type="name"
               name="height"
-              defaultValue={userInfoParse.height}
+              defaultValue={defaultHeight}
               wrapperStyles={{ width: "40%" }}
               onChange={handleInfoChange}
             />
@@ -230,7 +248,7 @@ const UpdateProfile = () => {
             <Input
               type="name"
               name="weight"
-              defaultValue={userInfoParse.weight}
+              defaultValue={defaultWeight}
               wrapperStyles={{ width: "40%" }}
               onChange={handleInfoChange}
             />
@@ -256,7 +274,7 @@ const UpdateProfile = () => {
             <Input
               type="name"
               name="age"
-              defaultValue={userInfoParse.age}
+              defaultValue={defaultAge}
               wrapperStyles={{ width: "40%" }}
               onChange={handleInfoChange}
             />
