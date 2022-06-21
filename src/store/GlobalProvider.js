@@ -13,7 +13,10 @@ const reducer = (state, action) => {
   switch (action.type) {
     case "SET_USER": {
       // logout 할때
-      if (action.userInfo === null) action.removeStoredToken();
+      if (action.userInfo === null) {
+        action.removeStoredToken();
+        action.setStoredToken("");
+      }
 
       // login 성공해서 token이 return될때
       if (action.userInfo && action.userInfo.token)
