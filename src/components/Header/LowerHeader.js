@@ -25,7 +25,7 @@ const Wrapper = styled.div`
   cursor: pointer;
 `;
 
-function LowerHeader({ setChannelId }) {
+function LowerHeader({ onChangeChannel }) {
   const [categoryList, setCategoryList] = useState([]);
   const { data } = useGetChannelList();
   useEffect(() => {
@@ -33,9 +33,12 @@ function LowerHeader({ setChannelId }) {
   }, [data]);
   return (
     <Header>
+      <Wrapper key="defulat_channel" onClick={() => onChangeChannel()}>
+        전체
+      </Wrapper>
       {categoryList
         ? categoryList.map(e => (
-            <Wrapper key={e._id} onClick={() => setChannelId(e._id)}>
+            <Wrapper key={e._id} onClick={() => onChangeChannel(e._id)}>
               {e.name}
             </Wrapper>
           ))
@@ -45,7 +48,7 @@ function LowerHeader({ setChannelId }) {
 }
 
 LowerHeader.propTypes = {
-  setChannelId: PropTypes.func,
+  onChangeChannel: PropTypes.func,
 };
 
 export default LowerHeader;
