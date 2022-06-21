@@ -17,6 +17,7 @@ import UpdateProfile from "./pages/UpdateProfile/UpdateProfile";
 import AlarmPage from "./pages/Alarm/AlarmPage";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import SearchPage from "./pages/Search/SearchPage";
+import EditPage from "./pages/Post/EditPage";
 
 axios.defaults.baseURL = `http://kdt.frontend.2nd.programmers.co.kr:5006`;
 
@@ -59,6 +60,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <WritingPostPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="edit"
+              element={
+                <ProtectedRoute>
+                  <EditPage />
                 </ProtectedRoute>
               }
             />
