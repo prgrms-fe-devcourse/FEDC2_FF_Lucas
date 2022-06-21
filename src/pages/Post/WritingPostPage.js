@@ -73,12 +73,12 @@ const WritingPostPage = () => {
       channelId: "",
     },
     onSubmit: async ({ title, content, channelId, event }) => {
-      // TODO: content 칼럼도 전송하기
-      console.log(`글 작성 등록\n제목: ${title}, 내용: ${content}\n `);
-
       try {
         await createPost({
-          title,
+          title: JSON.stringify({
+            title,
+            content,
+          }),
           image: event.target.image.files[0],
           channelId,
           token: (state.userInfo && state.userInfo.token) || "NoToken",
