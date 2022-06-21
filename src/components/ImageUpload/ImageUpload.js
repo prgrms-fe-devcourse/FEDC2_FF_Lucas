@@ -28,6 +28,7 @@ const ImageUpload = ({
   previewImageWrapperStyles,
   previewImageStyles,
   name,
+  prevImageUrl,
   ...props
 }) => {
   const [previewItem, setPreviewItem] = useState(null);
@@ -66,6 +67,16 @@ const ImageUpload = ({
   const handleChooseFile = () => {
     inputRef.current.click();
   };
+
+  useEffect(() => {
+    if (!prevImageUrl) {
+      return;
+    }
+    const prevImage = (
+      <Image alt="사진 미리보기" src={prevImageUrl} {...previewImageStyles} />
+    );
+    setPreviewItem(prevImage);
+  }, [prevImageUrl]);
 
   return (
     <Wrapper style={wrapperStyles}>
@@ -106,6 +117,7 @@ ImageUpload.propTypes = {
   previewImageWrapperStyles: PropTypes.objectOf(PropTypes.string),
   previewImageStyles: PropTypes.objectOf(PropTypes.string),
   name: PropTypes.string,
+  prevImageUrl: PropTypes.string,
 };
 
 export default React.memo(ImageUpload);
