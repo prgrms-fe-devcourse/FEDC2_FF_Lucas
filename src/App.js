@@ -21,10 +21,10 @@ import SearchPage from "./pages/Search/SearchPage";
 axios.defaults.baseURL = `http://kdt.frontend.2nd.programmers.co.kr:5006`;
 
 function App() {
-  const { storedToken, setChannels, setUser } = useGlobalContext();
+  const { state, storedToken, setChannels, setUser } = useGlobalContext();
   const { data: channels } = useGetChannelList();
 
-  const { data: userInfo } = useGetAuthUser({ token: storedToken });
+  const { data: authUser } = useGetAuthUser({ token: storedToken });
 
   useEffect(() => {
     if (!channels) return;
@@ -33,35 +33,40 @@ function App() {
   }, [channels]);
 
   useEffect(() => {
-    if (!userInfo) return;
+    if (!authUser) return;
 
-    setUser({ user: userInfo, token: storedToken });
-  }, [userInfo]);
+    setUser({ user: authUser, token: storedToken });
+  }, [authUser]);
+
+  const NO_AUTH_USER = "";
+  const isReadyState =
+    (authUser && state.userInfo !== null) || authUser === NO_AUTH_USER;
 
   return (
     <div className="App">
       <Global styles={[resetStyle, globalStyle]} />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="login" element={<Login />} />
-          <Route path="signup" element={<SignUp />} />
-          <Route path="write" element={<WritingPostPage />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="update-profile" element={<UpdateProfile />} />
-          <Route path="alarm" element={<AlarmPage />} />
-          <Route path="search" element={<SearchPage />} />
-          <Route
-            path="write"
-            element={
-              <ProtectedRoute>
-                <WritingPostPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-      </BrowserRouter>
+      {isReadyState ? (
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<MainPage />} />
+            <Route path="login" element={<Login />} />
+            <Route path="signup" element={<SignUp />} />
+            <Route
+              path="write"
+              element={
+                <ProtectedRoute>
+                  <WritingPostPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="profile" element={<Profile />} />
+            <Route path="update-profile" element={<UpdateProfile />} />
+            <Route path="alarm" element={<AlarmPage />} />
+            <Route path="search" element={<SearchPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </BrowserRouter>
+      ) : null}
     </div>
   );
 }
