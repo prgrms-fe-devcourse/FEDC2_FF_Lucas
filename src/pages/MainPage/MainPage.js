@@ -116,10 +116,6 @@ export default function MainPage() {
     setPostArr([...postArr, ...parsed]);
   }, [data]);
 
-  // useEffect(() => {
-  //   console.log("postArr 변경", postArr, data);
-  // }, [postArr]);
-
   useEffect(() => {
     if (!total) {
       return;
@@ -179,9 +175,7 @@ export default function MainPage() {
                   key={e._id}
                   onClick={() => {
                     setIsModalOpen(true);
-                    setSeletedPost({
-                      ...e,
-                    });
+                    setSeletedPost(e);
                   }}
                 />
               </div>
