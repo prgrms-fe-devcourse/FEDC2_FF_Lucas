@@ -93,7 +93,9 @@ function UpperHeader() {
         {state.userInfo ? (
           <>
             <Link to="/alarm">
-              <Bell style={{ cursor: "pointer", color: "black" }} />
+              <IconButton>
+                <Bell style={{ cursor: "pointer", color: "black" }} />
+              </IconButton>
             </Link>
             <span style={{ position: "relative" }}>
               <Link to="/profile">

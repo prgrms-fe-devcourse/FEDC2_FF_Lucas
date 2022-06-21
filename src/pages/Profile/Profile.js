@@ -32,11 +32,21 @@ const GridDiv = styled.div`
 `;
 
 const ContentDiv = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  padding-top: 3%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(auto-filt, minmax(300px, 4fr));
+  justify-items: center;
+  padding-top: 50px;
   margin: 0 15%;
+  @media (max-width: 1400px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: 780px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 
 const StyledCard = styled(Card)`
@@ -59,7 +69,6 @@ const Profile = () => {
   useEffect(() => {
     setPostArr(data);
   }, [data]);
-  console.log(data);
 
   return (
     <>
