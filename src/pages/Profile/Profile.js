@@ -9,6 +9,8 @@ import Text from "../../components/Text/Text";
 import Button from "../../components/Button/Button";
 import Card from "../../components/Card/Card";
 import Footer from "../../components/Footer/Footer";
+import Modal from "../../components/Modal/Modal";
+import DetailPage from "../../components/DetailPage/DetailPage";
 import { useGetPostsByAuthorId } from "../../utils/apis/posts";
 import { useGlobalContext } from "../../store/GlobalProvider";
 import parseJsonStringToObject from "../../utils/parseJsonString";
@@ -67,9 +69,26 @@ const Profile = () => {
     state.userInfo.user.username && JSON.parse(state.userInfo.user.username);
 
   const [postArr, setPostArr] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedPost, setSeletedPost] = useState(null);
+
   useEffect(() => {
     setPostArr(data);
   }, [data]);
+
+  const onHandlePost = ({ changedTarget, postId }) => {
+    const tempPost = postArr.map(post =>
+      post._id === postId ? { ...post, ...changedTarget } : post,
+    );
+    setSeletedPost({ ...selectedPost, ...changedTarget });
+    setPostArr(tempPost);
+  };
+
+  const onDeletePost = postId => {
+    setSeletedPost(null);
+    setIsModalOpen(false);
+    setPostArr(postArr.filter(post => post._id !== postId));
+  };
 
   return (
     <>
@@ -172,8 +191,18 @@ const Profile = () => {
                   title={title}
                   content={content}
                   likeCount={e.likes.length}
+                  commentCount={e.comments.length}
+                  src={e.image}
                   date={e.createdAt.slice(0, 10)}
                   key={e._id}
+                  onClick={() => {
+                    setIsModalOpen(true);
+                    setSeletedPost({
+                      ...e,
+                      title,
+                      content,
+                    });
+                  }}
                 />
               );
             })
@@ -189,6 +218,21 @@ const Profile = () => {
           )}
         </ContentDiv>
       </Main>
+      <Modal
+        width="80%"
+        visible={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      >
+        {selectedPost ? (
+          <DetailPage
+            post={selectedPost}
+            onHandlePost={onHandlePost}
+            onDeletePost={onDeletePost}
+          />
+        ) : (
+          <>No Post</>
+        )}
+      </Modal>
       <Footer />
     </>
   );
