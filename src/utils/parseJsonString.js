@@ -1,4 +1,4 @@
-const parseJsonStringToObject = ({ jsonString, defaultKey, restKeys }) => {
+const parseJsonStringToObject = ({ jsonString, defaultKey, restKeys = [] }) => {
   let parsedObject = null;
 
   if (typeof jsonString !== "string") {
@@ -9,7 +9,7 @@ const parseJsonStringToObject = ({ jsonString, defaultKey, restKeys }) => {
     parsedObject = JSON.parse(jsonString);
   } catch (error) {
     console.error(error);
-    parsedObject = { [defaultKey]: jsonString };
+    parsedObject = defaultKey ? { [defaultKey]: jsonString } : {};
 
     Array.isArray(restKeys) &&
       restKeys.forEach(key => {
