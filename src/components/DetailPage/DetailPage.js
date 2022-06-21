@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 import { Heart, Edit2 as EditIcon, Trash2 as DeleteIcon } from "react-feather";
 import { useGlobalContext } from "../../store/GlobalProvider";
 import Image from "../Image/Image";
@@ -50,7 +51,7 @@ const ButtonContainer = styled.div`
   display: flex;
   height: 40px;
 
-  & > button {
+  & button {
     width: 80px;
     height: 100%;
     font-size: 16px;
@@ -72,6 +73,7 @@ const ButtonContainer = styled.div`
 
 const DetailPage = ({ post, onHandlePost, onDeletePost }) => {
   const { state, storedToken } = useGlobalContext();
+  const navigate = useNavigate();
 
   const imageProps = {
     src: post.image ?? "https://via.placeholder.com/300",
@@ -147,7 +149,11 @@ const DetailPage = ({ post, onHandlePost, onDeletePost }) => {
       </PageContainer>
       {state.userInfo && state.userInfo.user._id === post.author._id ? (
         <ButtonContainer>
-          <Button backgroundColor="#5bc0de" color="white">
+          <Button
+            backgroundColor="#5bc0de"
+            color="white"
+            onClick={() => navigate("/edit", { state: { post } })}
+          >
             <EditIcon size={16} />
             수정
           </Button>
