@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-boolean-value */
 import styled from "@emotion/styled";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -77,7 +78,10 @@ function UpperHeader() {
       </Wrapper>
       <Wrapper>
         <form>
-          <Link to="/search" state={{ resultlist: query }}>
+          <Link
+            to={query.trim() ? "/search" : "/"}
+            state={{ resultlist: query }}
+          >
             <Button
               type="submit"
               height="40px"
