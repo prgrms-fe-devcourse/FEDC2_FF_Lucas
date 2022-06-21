@@ -60,8 +60,22 @@ function App() {
               }
             />
             <Route path="profile" element={<Profile />} />
-            <Route path="update-profile" element={<UpdateProfile />} />
-            <Route path="alarm" element={<AlarmPage />} />
+            <Route
+              path="update-profile"
+              element={
+                <ProtectedRoute>
+                  <UpdateProfile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="alarm"
+              element={
+                <ProtectedRoute>
+                  <AlarmPage />
+                </ProtectedRoute>
+              }
+            />
             <Route path="search" element={<SearchPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
