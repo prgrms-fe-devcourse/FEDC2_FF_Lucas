@@ -38,16 +38,26 @@ const InputWrapper = styled.form`
   display: grid;
   margin-bottom: 3%;
   padding: 2%;
-  margin: 2%;
-  border-radius: 10px;
+  padding-right: 5%;
+  margin: 0 15%;
+  margin-bottom: 2%;
+  border-radius: 15px;
   background-color: rgba(0, 0, 0, 0.05);
-  position: relative;
+  place-items: center;
+  // position: relative;
 `;
 
 const FlexDiv = styled.div`
   display: flex;
   justify-content: center;
   margin: 10px 0;
+`;
+
+const StyledInput = styled(Input)`
+  border-radius: 10px;
+  background-color: white;
+  border: none;
+  outline: none;
 `;
 
 const UpdateProfile = () => {
@@ -185,13 +195,14 @@ const UpdateProfile = () => {
                 닉네임
               </Text>
             </span>
-            <Input
+            <StyledInput
               type="name"
               name="fullName"
-              wrapperStyles={{ width: "40%" }}
+              wrapperStyles={{ width: "50%" }}
               onChange={handleInfoChange}
               defaultValue={defaultFullName}
             />
+            <span style={{ marginRight: "25px" }} />
           </FlexDiv>
           {document.getElementsByName("fullName").value && errors.fullName && (
             <Text
@@ -211,13 +222,14 @@ const UpdateProfile = () => {
                 키
               </Text>
             </span>
-            <Input
+            <StyledInput
               type="name"
               name="height"
               defaultValue={defaultHeight}
-              wrapperStyles={{ width: "40%" }}
+              wrapperStyles={{ width: "50%" }}
               onChange={handleInfoChange}
             />
+            <span style={{ marginRight: "25px" }} />
           </FlexDiv>
           {errors.height && (
             <Text
@@ -237,13 +249,14 @@ const UpdateProfile = () => {
                 몸무게
               </Text>
             </span>
-            <Input
+            <StyledInput
               type="name"
               name="weight"
               defaultValue={defaultWeight}
-              wrapperStyles={{ width: "40%" }}
+              wrapperStyles={{ width: "50%" }}
               onChange={handleInfoChange}
             />
+            <span style={{ marginRight: "25px" }} />
           </FlexDiv>
           {errors.weight && (
             <Text
@@ -263,13 +276,14 @@ const UpdateProfile = () => {
                 나이
               </Text>
             </span>
-            <Input
+            <StyledInput
               type="name"
               name="age"
               defaultValue={defaultAge}
-              wrapperStyles={{ width: "40%" }}
+              wrapperStyles={{ width: "50%" }}
               onChange={handleInfoChange}
             />
+            <span style={{ marginRight: "25px" }} />
           </FlexDiv>
           {errors.age && (
             <Text
@@ -285,9 +299,9 @@ const UpdateProfile = () => {
 
           <Button
             type="submit"
-            width="20%"
+            width="40%"
             height="50px"
-            style={{ position: "relative", marginTop: "20px", left: "40%" }}
+            style={{ position: "relative", marginTop: "20px", left: "2%" }}
           >
             회원정보 변경
           </Button>
@@ -300,10 +314,10 @@ const UpdateProfile = () => {
                 비밀번호 변경
               </Text>
             </span>
-            <Input
+            <StyledInput
               type="password"
               name="password"
-              wrapperStyles={{ width: "40%" }}
+              wrapperStyles={{ width: "50%" }}
               onChange={handlePasswordChange}
             />
           </FlexDiv>
@@ -321,10 +335,10 @@ const UpdateProfile = () => {
                 비밀번호 확인
               </Text>
             </span>
-            <Input
+            <StyledInput
               type="password"
               name="passwordConfirm"
-              wrapperStyles={{ width: "40%" }}
+              wrapperStyles={{ width: "50%" }}
               onChange={handlePasswordChange}
             />
           </FlexDiv>
@@ -341,9 +355,9 @@ const UpdateProfile = () => {
           )}
           <Button
             type="submit"
-            width="20%"
+            width="40%"
             height="50px"
-            style={{ position: "relative", marginTop: "20px", left: "40%" }}
+            style={{ position: "relative", marginTop: "20px", left: "2%" }}
           >
             비밀번호 변경
           </Button>
