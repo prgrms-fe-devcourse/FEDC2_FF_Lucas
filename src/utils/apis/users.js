@@ -48,4 +48,13 @@ const useLogout = id =>
     return data;
   });
 
-export { useGetUsers, useLogin, useLogout, useSignup };
+const useGetUser = (userId = "") =>
+  useQuery(`/users/${userId}`, async () => {
+    const { data } = await axios({
+      method: "GET",
+      url: `/users/${userId}`,
+    });
+    return data;
+  });
+
+export { useGetUsers, useLogin, useLogout, useSignup, useGetUser };
