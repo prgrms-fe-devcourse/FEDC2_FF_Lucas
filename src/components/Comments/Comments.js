@@ -8,6 +8,7 @@ import Text from "../Text/Text";
 import Button from "../Button/Button";
 import { useGlobalContext } from "../../store/GlobalProvider";
 import { createComment, deleteComment } from "../../utils/apis/comments";
+import { useCreateAlarm } from "../../utils/apis/notifications";
 
 const CommentsContainer = styled.div`
   overflow: auto;
@@ -34,8 +35,9 @@ const InputContainer = styled.div`
   height: 32px;
 `;
 
-const Comments = ({ comments, postId, onHandlePost }) => {
+const Comments = ({ comments, postId, onHandlePost, userId }) => {
   const [inputValue, setInputValue] = useState("");
+  const [commentId, setCommentId] = useState("");
   const { state, storedToken } = useGlobalContext();
 
   const onSubmit = async () => {
@@ -43,6 +45,7 @@ const Comments = ({ comments, postId, onHandlePost }) => {
 
     try {
       const { data } = await createComment(inputValue, postId, storedToken);
+      setCommentId(data._id);
       onHandlePost({
         changedTarget: { comments: comments.concat(data) },
         postId,
@@ -66,6 +69,14 @@ const Comments = ({ comments, postId, onHandlePost }) => {
       console.error(e);
     }
   };
+
+  useCreateAlarm({
+    token: storedToken,
+    notificationType: "COMMENT",
+    notificationTypeId: commentId,
+    userId,
+    postId,
+  });
 
   const onKeyPress = e => {
     if (e.key === "Enter") {
@@ -153,6 +164,7 @@ Comments.propTypes = {
     }),
   ),
   postId: PropTypes.string,
+  userId: PropTypes.string,
   onHandlePost: PropTypes.func,
 };
 
