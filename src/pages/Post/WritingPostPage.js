@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Camera } from "react-feather";
+import { Image } from "react-feather";
 import Modal from "../../components/Modal/Modal";
 import Button from "../../components/Button/Button";
 import UpperHeader from "../../components/Header/UpperHeader";
@@ -12,6 +12,7 @@ import { useGlobalContext } from "../../store/GlobalProvider";
 import Select from "../../components/Select/Select";
 import { createPost } from "../../utils/apis/posts";
 import Footer from "../../components/Footer/Footer";
+import Common from "../../styles/common";
 
 const Form = styled.form`
   display: flex;
@@ -31,9 +32,8 @@ const Label = styled.label`
 const ImageUploadWrapper = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 40px;
-  padding-left: 40px;
-  background-color: #d9d9d9;
   width: 100%;
   height: 245px;
   border-radius: 15px;
@@ -42,15 +42,27 @@ const ImageUploadWrapper = styled.div`
 
 const StyledTextArea = styled.textarea`
   width: 100%;
-  height: 240px;
-  font-size: 36px;
+  height: 400px;
+  font-size: ${Common.fontSize.fs16};
+  padding: 8px;
   font-weight: 700;
   line-height: 32px;
-  background-color: #d9d9d9;
+  letter-spacing: -0.09em;
   border-radius: 15px;
   border: none;
+  outline: none;
   resize: none;
   box-sizing: border-box;
+`;
+
+const StyledInput = styled(Input)`
+  border: none;
+  outline: none;
+  background-color: white;
+  &::placeholder {
+    padding: 0;
+    color: rgba(0, 0, 0, 0.5);
+  }
 `;
 
 const SubmitWrapper = styled.div`
@@ -58,6 +70,23 @@ const SubmitWrapper = styled.div`
   justify-content: flex-end;
   gap: 24px;
   width: 100%;
+`;
+
+const StyledSelect = styled(Select)`
+  background-color: #d9d9d9;
+  width: 160px;
+  border: none;
+  outline: none;
+  border-radius: 15px;
+  padding: 0.2em 0.9em;
+  font-size: ${Common.fontSize.fs13};
+  font-weight: 700;
+  line-height: 32px;
+  color: rgba(0, 0, 0, 0.42);
+  cursor: pointer;
+  appearance: none;
+  display: inline-block;
+  margin-right: 10px;
 `;
 
 const WritingPostPage = () => {
@@ -123,36 +152,65 @@ const WritingPostPage = () => {
     <>
       <UpperHeader />
       <Form onSubmit={handleSubmit}>
-        <Select
-          label="카테고리"
-          name="channelId"
-          data={
-            state.channels && state.channels.length > 0
-              ? getSelectData(state.channels)
-              : []
-          }
-          placeholder="카테고리를 선택해주세요"
-          onChange={handleChange}
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <Label style={{ display: "none" }}>카테고리</Label>
+          <StyledSelect
+            name="channelId"
+            data={
+              state.channels && state.channels.length > 0
+                ? getSelectData(state.channels)
+                : []
+            }
+            placeholder="카테고리 선택"
+            onChange={handleChange}
+          />
+        </div>
+
+        <hr
           style={{
-            backgroundColor: "#d9d9d9",
-            border: "none",
-            borderRadius: "15px",
+            width: "100%",
+            margin: "-10px",
+            border: "solid 1px #d9d9d9",
           }}
         />
-        <Input
-          label="제목"
+
+        <Label style={{ display: "none" }}>제목</Label>
+        <StyledInput
+          placeholder="제목을 입력하세요."
           wrapperStyles={{
             display: "flex",
             flexDirection: "column",
-            gap: "24px",
-          }}
-          inputStyles={{
-            border: "none",
           }}
           name="title"
           onChange={handleChange}
         />
-        <Label>사진</Label>
+
+        <hr
+          style={{
+            width: "100%",
+            margin: "-10px",
+            border: "solid 1px #d9d9d9",
+          }}
+        />
+
+        <Label style={{ display: "none" }}>
+          피드백 받고 싶은 내용을 적어주세요.
+        </Label>
+        <StyledTextArea
+          name="content"
+          placeholder="피드백 받고 싶은 내용을 작성하세요."
+          onChange={handleChange}
+        />
+
+        <hr
+          style={{
+            width: "100%",
+            margin: "-10px",
+            border: "solid 1px #d9d9d9",
+          }}
+        />
+
+        <Label style={{ display: "none" }}>사진</Label>
         <ImageUploadWrapper>
           <ImageUpload
             name="image"
@@ -171,18 +229,34 @@ const WritingPostPage = () => {
             style={{ height: "80%", aspectRatio: "1 / 1" }}
             onChange={handleChange}
           >
-            <Button width="100%" height="100%" borderRadius="100%">
-              <Camera size={100} />
+            <Button
+              width="100%"
+              height="100%"
+              borderRadius="5%"
+              backgroundColor="#d9d9d9"
+              color="white"
+              hover="{backgroundColor: '#959595'}"
+              active="#b7b7b7"
+            >
+              <Image size={100} />
             </Button>
           </ImageUpload>
         </ImageUploadWrapper>
-        <Label>피드백 받고 싶은 내용을 적어주세요.</Label>
-        <StyledTextArea name="content" onChange={handleChange} />
+
+        <hr
+          style={{
+            width: "100%",
+            margin: "-10px",
+            marginBottom: "10px",
+            border: "solid 1px #d9d9d9",
+          }}
+        />
+
         <SubmitWrapper>
-          <Button width="25%" onClick={goMainPage}>
+          <Button width="25%" height="55px" onClick={goMainPage}>
             취소
           </Button>
-          <Button type="submit" width="25%">
+          <Button type="submit" width="25%" height="55px">
             작성 완료
           </Button>
         </SubmitWrapper>
