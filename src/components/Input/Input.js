@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import PropTypes from "prop-types";
+import Common from "../../styles/common";
 
 const Wrapper = styled.div`
   display: ${({ block }) => (block ? "block" : "inline-block")};
@@ -22,14 +23,16 @@ const StyledInput = styled.input`
   border-radius: 15px;
   box-sizing: border-box;
   background-color: #d9d9d9;
-  font-size: 30px;
+  font-size: ${Common.fontSize.fs16};
   font-weight: 700;
   line-height: 32px;
   letter-spacing: -0.017em;
+  padding: 8px;
   &::placeholder {
     display: flex;
     align-items: center;
     color: rgba(0, 0, 0, 0.42);
+    padding: 10px;
   }
 `;
 
