@@ -146,12 +146,20 @@ export default function MainPage() {
         <ContentDiv>
           {postArr.map((e, index) => {
             const isLast = index === postArr.length - 1;
+            let titleContentObject = {};
+            try {
+              titleContentObject = JSON.parse(e.title);
+            } catch (error) {
+              console.error(error);
+              titleContentObject = { title: e.title, content: "" };
+            }
             return (
               <div ref={isLast ? setLastIntersectingImage : null} key={e._id}>
                 <StyledCard
                   width={250}
                   src={e.image}
-                  title={e.title}
+                  title={titleContentObject.title}
+                  content={titleContentObject.content}
                   userName={e.author.fullName}
                   likeCount={e.likes.length}
                   commentCount={e.comments.length}
@@ -159,7 +167,11 @@ export default function MainPage() {
                   key={e._id}
                   onClick={() => {
                     setIsModalOpen(true);
-                    setSeletedPost(e);
+                    setSeletedPost({
+                      ...e,
+                      title: titleContentObject.title,
+                      content: titleContentObject.content,
+                    });
                   }}
                 />
               </div>
