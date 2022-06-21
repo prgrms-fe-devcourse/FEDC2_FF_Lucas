@@ -8,34 +8,35 @@ import useForm from "../../hooks/useForm";
 import { useGlobalContext } from "../../store/GlobalProvider";
 
 const CardForm = styled.form`
-  padding: 0 10%;
-  width: 1000px;
-  height: 700px;
-  background-color: rgba(0, 0, 0, 0.05);
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
-  border-radius: 20px;
-  box-sizing: border-box;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
 `;
 
 const FormWrapper = styled.div`
-  padding: 15% 0;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.05);
+  width: 100%;
   height: 70%;
-  display: grid;
+  margin: 0 35%;
+  justify-content: center;
+  text-align: center;
+  gap: 30px;
 `;
 
 const LoginHeader = styled.h1`
   font-size: 50px;
-  display: grid;
-  place-items: center;
+  margin-bottom: 50px;
 `;
 
 const ButtonWrapper = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
+  gap: 30px;
 `;
 
 const Login = () => {
@@ -73,49 +74,53 @@ const Login = () => {
   return (
     <CardForm onSubmit={handleSubmit}>
       <FormWrapper>
-        <LoginHeader>Fashion Feedback</LoginHeader>
-        <Input
-          type="email"
-          name="email"
-          placeholder="Email"
-          style={{
-            height: "60px",
-            marginBottom: "-20px",
-            display: "grid",
-            placeItems: "center",
-          }}
-          onChange={handleChange}
-        />
-        {errors.email && (
-          <Text size="20px" color="red">
-            {errors.email}
-          </Text>
-        )}
-        <Input
-          type="password"
-          name="password"
-          placeholder="Password"
-          style={{
-            height: "60px",
-            marginBottom: "-20px",
-            display: "grid",
-            placeItems: "center",
-          }}
-          onChange={handleChange}
-        />
-        {errors.password && (
-          <Text size="20px" color="red">
-            {errors.password}
-          </Text>
-        )}
+        <div style={{ display: "flex", flexDirection: "column", gap: "30px" }}>
+          <LoginHeader>Fashion Feedback</LoginHeader>
+          <Input
+            type="email"
+            name="email"
+            placeholder="Email"
+            style={{
+              width: "70%",
+              textAlign: "center",
+              height: "50px",
+            }}
+            onChange={handleChange}
+          />
+          {errors.email && (
+            <Text size="20px" color="red">
+              {errors.email}
+            </Text>
+          )}
+          <Input
+            type="password"
+            name="password"
+            placeholder="Password"
+            style={{
+              width: "70%",
+              textAlign: "center",
+              height: "50px",
+            }}
+            onChange={handleChange}
+          />
+          {errors.password && (
+            <Text size="20px" color="red">
+              {errors.password}
+            </Text>
+          )}
+        </div>
         <ButtonWrapper>
-          <Button type="submit" disabled={isLoading}>
+          <Button
+            type="submit"
+            disabled={isLoading}
+            style={{ width: "70%", height: "50px" }}
+          >
             로그인
           </Button>
           <Button
             type="submit"
             disabled={isLoading}
-            style={{ marginLeft: "16px" }}
+            style={{ width: "70%", height: "50px" }}
             onClick={() => navigate("/signup")}
           >
             회원가입
