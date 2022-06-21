@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import UpperHeader from "../../components/Header/UpperHeader";
 import Card from "../../components/Card/Card";
 import UserSearch from "../../components/UserSearch/UserSearch";
@@ -35,6 +35,7 @@ const StyledText = styled(Text)`
 `;
 export default function SearchPage() {
   let query = "";
+  const navigate = useNavigate();
   const location = useLocation();
   query = location.state.resultlist;
   const { data = [] } = useSearch(query);
@@ -102,7 +103,13 @@ export default function SearchPage() {
         <UserWrapper>
           {postArr.map(e =>
             e !== undefined && e.role ? (
-              <UserSearch userName={e.fullName} key={e._id} />
+              <UserSearch
+                userName={e.fullName}
+                key={e._id}
+                onClick={() =>
+                  navigate("/profile", { state: { authorId: e._id } })
+                }
+              />
             ) : null,
           )}
         </UserWrapper>
