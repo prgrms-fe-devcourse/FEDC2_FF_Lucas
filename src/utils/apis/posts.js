@@ -40,11 +40,17 @@ const useCreatePost = ({ title, image, channelId, token }) => {
 };
 
 const useGetPostByPostId = ({ postId }) =>
-  useQuery("/posts/postId", async () => {
-    const { data } = await axios.get(`/posts/${postId}`);
+  useQuery(
+    `/posts/postId/${postId}`,
+    async () => {
+      const { data } = await axios.get(`/posts/${postId}`);
 
-    return data;
-  });
+      return data;
+    },
+    {
+      enabled: !!postId,
+    },
+  );
 
 const useUpdatePost = ({
   postId,
