@@ -7,6 +7,7 @@ const Common = {
     title: "2.4rem",
     fs20: "2.0rem",
     fs16: "1.6rem",
+    fs13: "1.3rem",
   },
 };
 
