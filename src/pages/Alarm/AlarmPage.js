@@ -64,7 +64,11 @@ export default function AlarmPage() {
             </Text>
           </div>
         )}
-        <Button style={{ marginTop: "50px" }} onClick={readAlarm}>
+        <Button
+          height="50px"
+          style={{ marginTop: "100px", justifyContent: "center" }}
+          onClick={readAlarm}
+        >
           모두 읽기
         </Button>
       </Wrapper>
