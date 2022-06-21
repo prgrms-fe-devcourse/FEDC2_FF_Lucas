@@ -5,6 +5,8 @@ import Text from "../../components/Text/Text";
 import Input from "../../components/Input/Input";
 import Button from "../../components/Button/Button";
 import useForm from "../../hooks/useForm";
+import Image from "../../components/Image/Image";
+import logo from "../../images/logo.png";
 
 const CardForm = styled.form`
   height: 100vh;
@@ -19,16 +21,11 @@ const FormWrapper = styled.div`
   border-radius: 10px;
   background-color: rgba(0, 0, 0, 0.05);
   width: 100%;
-  height: 70%;
+  height: 80%;
   margin: 0 35%;
   justify-content: center;
   text-align: center;
   gap: 30px;
-`;
-
-const SignUpHeader = styled.h1`
-  font-size: 50px;
-  margin-bottom: 50px;
 `;
 
 const ButtonWrapper = styled.div`
@@ -93,7 +90,12 @@ const SignUp = () => {
     <CardForm onSubmit={handleSubmit}>
       <FormWrapper>
         <div style={{ display: "flex", flexDirection: "column", gap: "30px" }}>
-          <SignUpHeader>Fashion Feedback</SignUpHeader>
+          <Image
+            src={logo}
+            alt="logo"
+            width="400px"
+            style={{ transform: "rotate(9.5deg)", margin: "0 auto" }}
+          />
           <Input
             type="email"
             name="email"

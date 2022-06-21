@@ -2,11 +2,12 @@ import styled from "@emotion/styled";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { Search, Smile, Bell, User } from "react-feather";
+import { Search, Bell, User } from "react-feather";
 import Button from "../Button/Button";
 import Common from "../../styles/common";
 import UserTooltip from "../UserTooltip/UserTooltip";
 import { useGlobalContext } from "../../store/GlobalProvider";
+import logo from "../../images/logo.png";
 
 const Header = styled.div`
   background-color: ${Common.colors.secondaryColor};
@@ -67,7 +68,11 @@ function UpperHeader() {
     <Header>
       <Wrapper>
         <Link to="/">
-          <Smile style={{ color: "black" }} />
+          <img
+            src={logo}
+            alt="logo"
+            style={{ width: "200px", transform: "rotate(9.5deg)" }}
+          />
         </Link>
       </Wrapper>
       <Wrapper>
