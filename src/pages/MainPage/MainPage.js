@@ -86,7 +86,17 @@ export default function MainPage() {
 
   useEffect(() => {
     if (!isLoading) {
-      setPostArr(allPost);
+      const parsed = allPost.map(post => {
+        const { title, content } = parseJsonStringToObject({
+          jsonString: post.title,
+          defaultKey: "title",
+          restKeys: ["content"],
+        });
+
+        return { ...post, title, content };
+      });
+
+      setPostArr(parsed);
     }
   }, [allPost]);
 
