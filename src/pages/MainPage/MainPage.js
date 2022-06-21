@@ -57,14 +57,15 @@ export default function MainPage() {
     document.documentElement.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const LIMIT = 4;
+  const LIMIT = 8;
   const [channelId, setChannelId] = useState("");
   const [postArr, setPostArr] = useState([]);
-  const [defaultPostArr, setDefaultPostArr] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPost, setSeletedPost] = useState(null);
   const [offset, setOffset] = useState(0);
   const [totalCount, setTotalCount] = useState(LIMIT);
+
+  const { state } = useGlobalContext();
 
   const onIntersecting = useCallback(() => {
     if (postArr.length >= totalCount) {
@@ -80,14 +81,25 @@ export default function MainPage() {
 
   const { data } = useGetPosts({ channelId, offset, limit: LIMIT });
   const { data: total } = useGetPosts({ channelId, key: "total" });
-  const { state } = useGlobalContext();
+  const { data: allPost, isLoading, refetch, remove } = useGetAllPost();
+
+  useEffect(() => {
+    if (!isLoading) {
+      setPostArr(allPost);
+    }
+  }, [allPost]);
 
   useEffect(() => {
     if (!data) {
       return;
     }
+    console.log(postArr, data, offset);
     setPostArr([...postArr, ...data]);
   }, [data]);
+
+  // useEffect(() => {
+  //   console.log("postArr 변경", postArr, data);
+  // }, [postArr]);
 
   useEffect(() => {
     if (!total) {
@@ -95,19 +107,6 @@ export default function MainPage() {
     }
     setTotalCount(total.length);
   }, [total]);
-
-  useEffect(() => {
-    setPostArr([]);
-    setDefaultPostArr([]);
-    setOffset(0);
-  }, [channelId]);
-
-  const { data: allPost, isLoading } = useGetAllPost();
-  useEffect(() => {
-    if (!isLoading) {
-      setDefaultPostArr(allPost);
-    }
-  }, [allPost]);
 
   const onHandlePost = ({ changedTarget, postId }) => {
     const tempPost = postArr.map(post =>
@@ -123,88 +122,49 @@ export default function MainPage() {
     setPostArr(postArr.filter(post => post._id !== postId));
   };
 
+  const onChangeChannel = id => {
+    console.log("초기화");
+    moveToTop();
+    setPostArr([]);
+    setOffset(0);
+    setTotalCount(0);
+    if (!id) {
+      remove();
+      refetch();
+    }
+    setChannelId(id);
+  };
+
   return (
     <>
       <Header>
         <UpperHeader />
-        <LowerHeader setChannelId={setChannelId} />
+        <LowerHeader onChangeChannel={onChangeChannel} />
       </Header>
       <Main>
         <Carousel second={5000} height={300} />
         <ContentDiv>
-          {postArr.length !== 0
-            ? postArr.map((e, index) => {
-                const isLast = index === postArr.length - 1;
-                return isLast ? (
-                  <div ref={setLastIntersectingImage} key={e._id}>
-                    <StyledCard
-                      width={250}
-                      src={e.image}
-                      title={e.title}
-                      userName={e.author.fullName}
-                      likeCount={e.likes.length}
-                      commentCount={e.comments.length}
-                      date={e.createdAt.slice(0, 10)}
-                      key={e._id}
-                      onClick={() => {
-                        setIsModalOpen(true);
-                        setSeletedPost(e);
-                      }}
-                    />
-                  </div>
-                ) : (
-                  <StyledCard
-                    width={250}
-                    src={e.image}
-                    title={e.title}
-                    userName={e.author.fullName}
-                    likeCount={e.likes.length}
-                    commentCount={e.comments.length}
-                    date={e.createdAt.slice(0, 10)}
-                    key={e._id}
-                    onClick={() => {
-                      setIsModalOpen(true);
-                      setSeletedPost(e);
-                    }}
-                  />
-                );
-              })
-            : defaultPostArr.map((e, index) => {
-                const isLast = index === postArr.length - 1;
-                return isLast ? (
-                  <div ref={setLastIntersectingImage} key={e._id}>
-                    <StyledCard
-                      width={250}
-                      src={e.image}
-                      title={e.title}
-                      userName={e.author.fullName}
-                      likeCount={e.likes.length}
-                      commentCount={e.comments.length}
-                      date={e.createdAt.slice(0, 10)}
-                      key={e._id}
-                      onClick={() => {
-                        setIsModalOpen(true);
-                        setSeletedPost(e);
-                      }}
-                    />
-                  </div>
-                ) : (
-                  <StyledCard
-                    width={250}
-                    src={e.image}
-                    title={e.title}
-                    userName={e.author.fullName}
-                    likeCount={e.likes.length}
-                    commentCount={e.comments.length}
-                    date={e.createdAt.slice(0, 10)}
-                    key={e._id}
-                    onClick={() => {
-                      setIsModalOpen(true);
-                      setSeletedPost(e);
-                    }}
-                  />
-                );
-              })}
+          {postArr.map((e, index) => {
+            const isLast = index === postArr.length - 1;
+            return (
+              <div ref={isLast ? setLastIntersectingImage : null} key={e._id}>
+                <StyledCard
+                  width={250}
+                  src={e.image}
+                  title={e.title}
+                  userName={e.author.fullName}
+                  likeCount={e.likes.length}
+                  commentCount={e.comments.length}
+                  date={e.createdAt.slice(0, 10)}
+                  key={e._id}
+                  onClick={() => {
+                    setIsModalOpen(true);
+                    setSeletedPost(e);
+                  }}
+                />
+              </div>
+            );
+          })}
         </ContentDiv>
         {state.userInfo ? (
           <Button
