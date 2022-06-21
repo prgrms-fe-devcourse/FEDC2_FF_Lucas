@@ -18,7 +18,7 @@ import AlarmPage from "./pages/Alarm/AlarmPage";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import SearchPage from "./pages/Search/SearchPage";
 
-axios.defaults.baseURL = `http://kdt.frontend.2nd.programmers.co.kr:5006`;
+axios.defaults.baseURL = `https://kdt.frontend.2nd.programmers.co.kr:5006`;
 
 function App() {
   const { state, storedToken, setChannels, setUser } = useGlobalContext();
