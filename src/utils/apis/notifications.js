@@ -10,12 +10,22 @@ const useGetAlarmList = ({ token }) =>
   });
 
 const useReadAlarm = ({ token }) =>
-  useQuery("/get/notification/seen", async () => {
-    const { data } = await axios.get(`notifications/seen`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return data;
-  });
+  useQuery(
+    "/put/notification/seen",
+    async () => {
+      const { data } = await axios.put(
+        `notifications/seen`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
+      return data;
+    },
+    {
+      enabled: false,
+    },
+  );
 
 const useCreateAlarm = ({
   token,

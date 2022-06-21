@@ -138,12 +138,14 @@ const DetailPage = ({ post, onHandlePost, onDeletePost }) => {
             likes={post.likes}
             postId={post._id}
             onHandlePost={onHandlePost}
+            userId={post.author._id}
           />
           <hr style={{ color: "#bbb", width: "100%", margin: "15px 0" }} />
           <Comments
             comments={post.comments}
             postId={post._id}
             onHandlePost={onHandlePost}
+            userId={post.author._id}
           />
         </ContentContainer>
       </PageContainer>

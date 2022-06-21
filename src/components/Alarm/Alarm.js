@@ -21,11 +21,11 @@ const StyledText = styled(Text)`
   margin-right: 50px;
 `;
 
-export default function Alarm({ type, alarm, date = "4시간 전" }) {
+export default function Alarm({ type, alarm, date = "4시간 전", ...props }) {
   switch (type) {
     case "COMMENT":
       return (
-        <Wrapper>
+        <Wrapper style={{ ...props.style }}>
           <StyledImage src="https://picsum.photos/200" />
           <StyledText>{alarm} 님이 댓글을 남겼습니다.</StyledText>
           <StyledText style={{ color: "#d9d9d9" }}>{date}</StyledText>
@@ -33,7 +33,7 @@ export default function Alarm({ type, alarm, date = "4시간 전" }) {
       );
     case "LIKE":
       return (
-        <Wrapper>
+        <Wrapper style={{ ...props.style }}>
           <StyledImage src="https://picsum.photos/200" />
           <StyledText>{alarm} 님이 좋아요를 눌렀습니다.</StyledText>
           <StyledText style={{ color: "#d9d9d9" }}>{date}</StyledText>
@@ -41,7 +41,7 @@ export default function Alarm({ type, alarm, date = "4시간 전" }) {
       );
     case "FOLLOW":
       return (
-        <Wrapper>
+        <Wrapper style={{ ...props.style }}>
           <StyledImage src="https://picsum.photos/200" />
           <StyledText>{alarm} 님이 당신을 팔로우 했습니다.</StyledText>
           <StyledText style={{ color: "#d9d9d9" }}>{date}</StyledText>
@@ -49,7 +49,7 @@ export default function Alarm({ type, alarm, date = "4시간 전" }) {
       );
     case "MESSAGE":
       return (
-        <Wrapper>
+        <Wrapper style={{ ...props.style }}>
           <StyledImage src="https://picsum.photos/200" />
           <StyledText>{alarm} 님이 메시지를 보냈습니다.</StyledText>
           <StyledText style={{ color: "#d9d9d9" }}>{date}</StyledText>
@@ -64,4 +64,5 @@ Alarm.propTypes = {
   alarm: PropTypes.string,
   date: PropTypes.string,
   type: PropTypes.oneOf(["COMMENT", "LIKE", "FOLLOW", "MESSAGE"]),
+  style: PropTypes.objectOf(PropTypes.string),
 };

@@ -1,16 +1,18 @@
 import styled from "@emotion/styled";
+import { useEffect } from "react";
 import Alarm from "../../components/Alarm/Alarm";
+import Button from "../../components/Button/Button";
 import UpperHeader from "../../components/Header/UpperHeader";
 import Text from "../../components/Text/Text";
 import { useGlobalContext } from "../../store/GlobalProvider";
-import { useGetAlarmList } from "../../utils/apis/notifications";
+import { useGetAlarmList, useReadAlarm } from "../../utils/apis/notifications";
 
 const Wrapper = styled.div`
   margin: 0 20%;
 `;
 export default function AlarmPage() {
   const { state, storedToken } = useGlobalContext();
-  const { data } = useGetAlarmList({ token: storedToken });
+  const { data, refetch: getAlarm } = useGetAlarmList({ token: storedToken });
 
   function difference(date) {
     let statement = "";
@@ -31,6 +33,14 @@ export default function AlarmPage() {
     }
     return statement;
   }
+
+  const { refetch } = useReadAlarm({ token: storedToken });
+  const readAlarm = () => {
+    refetch();
+    getAlarm();
+  };
+  useEffect(() => {}, [data]);
+
   return (
     <>
       <UpperHeader />
@@ -39,10 +49,11 @@ export default function AlarmPage() {
           data.map(e =>
             e.author.fullName !== state.userInfo.user.fullName ? (
               <Alarm
-                type={e.comment ? "COMMENT" : "LIKE"}
+                type={e.comment || e.comment === null ? "COMMENT" : "LIKE"}
                 alarm={e.author.fullName}
                 date={difference(e.createdAt)}
                 key={e.createdAt}
+                style={e.seen ? { opacity: "60%" } : {}}
               />
             ) : null,
           )
@@ -53,6 +64,9 @@ export default function AlarmPage() {
             </Text>
           </div>
         )}
+        <Button style={{ marginTop: "50px" }} onClick={readAlarm}>
+          모두 읽기
+        </Button>
       </Wrapper>
     </>
   );
