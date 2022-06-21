@@ -1,14 +1,16 @@
 import styled from "@emotion/styled";
 import axios from "axios";
-import { Camera } from "react-feather";
+import { Save } from "react-feather";
 import UpperHeader from "../../components/Header/UpperHeader";
-import Image from "../../components/Image/Image";
+// import Image from "../../components/Image/Image";
 import Input from "../../components/Input/Input";
 import Text from "../../components/Text/Text";
 import Button from "../../components/Button/Button";
 import { useGlobalContext } from "../../store/GlobalProvider";
 import useForm from "../../hooks/useForm";
 import parseJsonStringToObject from "../../utils/parseJsonString";
+import ImageUpload from "../../components/ImageUpload/ImageUpload";
+import { updateProfileImage } from "../../utils/apis/users";
 
 const Header = styled.header`
   position: sticky;
@@ -18,7 +20,7 @@ const Main = styled.main`
   text-align: center;
 `;
 
-const ImageWrapper = styled.div`
+const ImageWrapper = styled.form`
   position: relative;
   display: inline-block;
 `;
@@ -31,7 +33,8 @@ const IconWrapper = styled.div`
   width: 60px;
   height: 60px;
   border-radius: 100%;
-  background-color: white;
+  background-color: transparent;
+  cursor: pointer;
 `;
 
 const InputWrapper = styled.form`
@@ -52,6 +55,19 @@ const FlexDiv = styled.div`
   justify-content: center;
   margin: 10px 0;
 `;
+const ProfileImage = styled.div`
+  width: 350px;
+  height: 350px;
+  border-radius: 50%;
+  background-color: #d9d9d9;
+  overflow: hidden;
+  &:hover {
+    background-color: "#4f508f";
+  }
+  &:active {
+    background-color: "#434379";
+  }
+`;
 
 const StyledInput = styled(Input)`
   border-radius: 10px;
@@ -61,10 +77,11 @@ const StyledInput = styled(Input)`
 `;
 
 const UpdateProfile = () => {
-  const { state, storedToken } = useGlobalContext();
+  const { state, setUser, storedToken } = useGlobalContext();
   const jsonString = state.userInfo.user && state.userInfo.user.username;
   const defaultFullName =
     (state.userInfo.user && state.userInfo.user.fullName) || "";
+  const defaultImage = (state.userInfo && state.userInfo.user.image) || "";
   const {
     height: defaultHeight,
     weight: defaultWeight,
@@ -73,6 +90,34 @@ const UpdateProfile = () => {
     jsonString,
     restKeys: ["height", "weight", "age"],
   });
+  const { handleChange: handleImageChange, handleSubmit: handleImageSubmit } =
+    useForm({
+      initialValues: {
+        image: defaultImage || "",
+      },
+      onSubmit: async ({ event }) => {
+        const changedImgae =
+          event.target.image.files && event.target.image.files[0];
+
+        try {
+          const nextUser = await updateProfileImage({
+            image: changedImgae,
+            token: storedToken,
+          });
+          setUser({ user: nextUser, token: storedToken });
+          alert("프로필 이미지를 변경했습니다.");
+        } catch (e) {
+          alert(`프로필 이미지 수정 실패 ${e}`);
+        }
+      },
+      validate: ({ image }) => {
+        const error = {};
+        if (!image) {
+          error.image = "이미지를 등록해주세요";
+        }
+        return error;
+      },
+    });
 
   const {
     errors,
@@ -170,24 +215,33 @@ const UpdateProfile = () => {
       <Header>
         <UpperHeader />
       </Header>
-
       <Main>
-        <ImageWrapper>
-          <Image
-            src="https://picsum.photos/200"
-            width="350px"
-            height="350px"
-            style={{
-              borderRadius: "50%",
-              overflow: "hidden",
-              margin: "10% 0",
+        <ImageWrapper onSubmit={handleImageSubmit}>
+          <ImageUpload
+            name="image"
+            isInnerPreview
+            wrapperStyles={{ margin: "10% 0" }}
+            prevImageUrl={defaultImage}
+            previewImageStyles={{
+              width: "100%",
+              height: "100%",
+              mode: "cover",
             }}
-          />
+            onChange={handleImageChange}
+          >
+            <ProfileImage />
+          </ImageUpload>
           <IconWrapper>
-            <Camera width="50px" height="50px" />
+            <Button
+              type="submit"
+              width="80px"
+              height="80px"
+              borderRadius="100%"
+            >
+              <Save width="50px" height="50px" />
+            </Button>
           </IconWrapper>
         </ImageWrapper>
-
         <InputWrapper onSubmit={handleInfoSubmit}>
           <FlexDiv>
             <span style={{ margin: "10px", width: "150px" }}>
