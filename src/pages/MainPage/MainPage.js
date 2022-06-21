@@ -13,6 +13,7 @@ import DetailPage from "../../components/DetailPage/DetailPage";
 import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 import { useGetAllPost, useGetPosts } from "../../utils/apis/posts";
 import { useGlobalContext } from "../../store/GlobalProvider";
+import parseJsonStringToObject from "../../utils/parseJsonString";
 
 const ContentDiv = styled.div`
   display: grid;
@@ -146,20 +147,18 @@ export default function MainPage() {
         <ContentDiv>
           {postArr.map((e, index) => {
             const isLast = index === postArr.length - 1;
-            let titleContentObject = {};
-            try {
-              titleContentObject = JSON.parse(e.title);
-            } catch (error) {
-              console.error(error);
-              titleContentObject = { title: e.title, content: "" };
-            }
+            const { title, content } = parseJsonStringToObject({
+              jsonString: e.title,
+              defaultKey: "title",
+              restKeys: ["content"],
+            });
             return (
               <div ref={isLast ? setLastIntersectingImage : null} key={e._id}>
                 <StyledCard
                   width={250}
                   src={e.image}
-                  title={titleContentObject.title}
-                  content={titleContentObject.content}
+                  title={title}
+                  content={content}
                   userName={e.author.fullName}
                   likeCount={e.likes.length}
                   commentCount={e.comments.length}
@@ -169,8 +168,8 @@ export default function MainPage() {
                     setIsModalOpen(true);
                     setSeletedPost({
                       ...e,
-                      title: titleContentObject.title,
-                      content: titleContentObject.content,
+                      title,
+                      content,
                     });
                   }}
                 />
