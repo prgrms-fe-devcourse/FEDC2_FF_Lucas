@@ -6,6 +6,8 @@ import Input from "../../components/Input/Input";
 import Button from "../../components/Button/Button";
 import useForm from "../../hooks/useForm";
 import { useGlobalContext } from "../../store/GlobalProvider";
+import logo from "../../images/logo.png";
+import Image from "../../components/Image/Image";
 
 const CardForm = styled.form`
   height: 100vh;
@@ -25,11 +27,6 @@ const FormWrapper = styled.div`
   justify-content: center;
   text-align: center;
   gap: 30px;
-`;
-
-const LoginHeader = styled.h1`
-  font-size: 50px;
-  margin-bottom: 50px;
 `;
 
 const ButtonWrapper = styled.div`
@@ -75,7 +72,12 @@ const Login = () => {
     <CardForm onSubmit={handleSubmit}>
       <FormWrapper>
         <div style={{ display: "flex", flexDirection: "column", gap: "30px" }}>
-          <LoginHeader>Fashion Feedback</LoginHeader>
+          <Image
+            src={logo}
+            alt="logo"
+            width="400px"
+            style={{ transform: "rotate(9.5deg)", margin: "0 auto" }}
+          />
           <Input
             type="email"
             name="email"
