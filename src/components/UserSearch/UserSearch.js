@@ -21,9 +21,9 @@ const StyledImage = styled(Image)`
   height: 100px;
   border-radius: 100%;
 `;
-export default function UserSearch({ userName = "루카스" }) {
+export default function UserSearch({ userName = "루카스", onClick }) {
   return (
-    <Wrapper>
+    <Wrapper onClick={onClick}>
       <StyledImage src="https://picsum.photos/200" />
       <InnerWrapper>{userName}</InnerWrapper>
     </Wrapper>
@@ -32,4 +32,5 @@ export default function UserSearch({ userName = "루카스" }) {
 
 UserSearch.propTypes = {
   userName: PropTypes.string,
+  onClick: PropTypes.func,
 };
