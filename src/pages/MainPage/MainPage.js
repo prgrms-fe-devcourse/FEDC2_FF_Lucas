@@ -94,8 +94,16 @@ export default function MainPage() {
     if (!data) {
       return;
     }
-    console.log(postArr, data, offset);
-    setPostArr([...postArr, ...data]);
+    const parsed = data.map(post => {
+      const { title, content } = parseJsonStringToObject({
+        jsonString: post.title,
+        defaultKey: "title",
+        restKeys: ["content"],
+      });
+
+      return { ...post, title, content };
+    });
+    setPostArr([...postArr, ...parsed]);
   }, [data]);
 
   // useEffect(() => {
@@ -147,18 +155,13 @@ export default function MainPage() {
         <ContentDiv>
           {postArr.map((e, index) => {
             const isLast = index === postArr.length - 1;
-            const { title, content } = parseJsonStringToObject({
-              jsonString: e.title,
-              defaultKey: "title",
-              restKeys: ["content"],
-            });
             return (
               <div ref={isLast ? setLastIntersectingImage : null} key={e._id}>
                 <StyledCard
                   width={250}
                   src={e.image}
-                  title={title}
-                  content={content}
+                  title={e.title}
+                  content={e.content}
                   userName={e.author.fullName}
                   likeCount={e.likes.length}
                   commentCount={e.comments.length}
@@ -168,8 +171,6 @@ export default function MainPage() {
                     setIsModalOpen(true);
                     setSeletedPost({
                       ...e,
-                      title,
-                      content,
                     });
                   }}
                 />
