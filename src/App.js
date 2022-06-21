@@ -19,7 +19,7 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import SearchPage from "./pages/Search/SearchPage";
 import EditPage from "./pages/Post/EditPage";
 
-axios.defaults.baseURL = `http://kdt.frontend.2nd.programmers.co.kr:5006`;
+axios.defaults.baseURL = `https://kdt.frontend.2nd.programmers.co.kr:5006`;
 
 function App() {
   const { state, storedToken, setChannels, setUser } = useGlobalContext();
