@@ -50,6 +50,7 @@ const Button = ({
   active = { backgroundColor: "#434379" },
   children,
   onClick,
+  disabled,
   ...props
 }) => (
   <StyledButton
@@ -67,6 +68,7 @@ const Button = ({
     hover={hover}
     active={active}
     onClick={onClick}
+    disabled={disabled}
     {...props}
   >
     {children}
@@ -87,6 +89,7 @@ Button.propTypes = {
   hover: PropTypes.objectOf(PropTypes.string),
   active: PropTypes.objectOf(PropTypes.string),
   onClick: PropTypes.func,
+  disabled: PropTypes.bool,
   children: PropTypes.node,
 };
 
