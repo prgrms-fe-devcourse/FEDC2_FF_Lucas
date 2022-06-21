@@ -68,29 +68,42 @@ const EditPage = () => {
 
   const post = locationState && locationState.post;
 
-  const deafultTitle = post && post.title ? post.title : "";
-  const defaultContent = post && post.content ? post.content : "";
+  let defaultTitle = "";
+  let defaultContent = "";
+  let titleContentObject = null;
   const defaultImage = post && post.image ? post.imgae : "";
   const defaultChaanelId = post && post.channel ? post.channel._id : "";
 
+  try {
+    titleContentObject = post && post.title && JSON.parse(post.title);
+  } catch (e) {
+    console.error(e);
+    titleContentObject = { title: post.title, content: "" };
+  }
+
+  if (titleContentObject) {
+    defaultTitle = titleContentObject.title;
+    defaultContent = titleContentObject.content;
+  }
+
   const { errors, handleChange, handleSubmit } = useForm({
     initialValues: {
-      title: deafultTitle,
+      title: defaultTitle,
       content: defaultContent,
       image: defaultImage,
       channelId: defaultChaanelId,
     },
     onSubmit: async ({ title, content, event }) => {
-      // TODO: content 칼럼도 전송하기
-      console.log(`글 작성 등록\n제목: ${title}, 내용: ${content}\n `);
-
       const changedImgae =
         event.target.image.files && event.target.image.files[0];
 
       try {
         await updatePost({
           postId: post._id,
-          title,
+          title: JSON.stringify({
+            title,
+            content,
+          }),
           image: changedImgae || post.image,
           imageToDeletePublicId: null,
           channelId: post.channel._id,
@@ -168,7 +181,7 @@ const EditPage = () => {
               inputStyles={{
                 border: "none",
               }}
-              defaultValue={deafultTitle}
+              defaultValue={defaultTitle}
               name="title"
               onChange={handleChange}
             />
