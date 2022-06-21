@@ -38,9 +38,12 @@ function App() {
     setUser({ user: authUser, token: storedToken });
   }, [authUser]);
 
+  const NO_TOKEN = "";
   const NO_AUTH_USER = "";
   const isReadyState =
-    (authUser && state.userInfo !== null) || authUser === NO_AUTH_USER;
+    storedToken === NO_TOKEN ||
+    (authUser && state.userInfo !== null) ||
+    authUser === NO_AUTH_USER;
 
   return (
     <div className="App">
