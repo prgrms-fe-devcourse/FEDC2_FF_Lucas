@@ -52,10 +52,7 @@ const useCreateAlarm = ({
       return data;
     },
     {
-      enabled: !!notificationType,
-      notificationTypeId,
-      userId,
-      postId,
+      enabled: !!notificationTypeId,
     },
   );
 

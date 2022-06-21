@@ -13,6 +13,9 @@ const Wrapper = styled.div`
 export default function AlarmPage() {
   const { state, storedToken } = useGlobalContext();
   const { data, refetch: getAlarm } = useGetAlarmList({ token: storedToken });
+  useEffect(() => {
+    getAlarm();
+  });
 
   function difference(date) {
     let statement = "";
