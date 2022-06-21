@@ -5,6 +5,7 @@ import { Heart } from "react-feather";
 import Text from "../Text/Text";
 import { useGlobalContext } from "../../store/GlobalProvider";
 import { createLike, deleteLike } from "../../utils/apis/likes";
+import { useCreateAlarm } from "../../utils/apis/notifications";
 
 const LikesContainer = styled.div`
   width: 40px;
@@ -23,9 +24,10 @@ const LikesContainer = styled.div`
   }
 `;
 
-const Likes = ({ likes, postId, onHandlePost }) => {
+const Likes = ({ likes, postId, onHandlePost, userId }) => {
   const [currentUserLike, setCurrentUserLike] = useState(null);
   const { state, storedToken } = useGlobalContext();
+  const [likeId, setLikeId] = useState("");
 
   useEffect(() => {
     if (!state.userInfo || !state.userInfo.user) return;
@@ -57,6 +59,7 @@ const Likes = ({ likes, postId, onHandlePost }) => {
     } else {
       try {
         const { data } = await createLike(postId, storedToken);
+        setLikeId(data._id);
         setCurrentUserLike(data);
         onHandlePost({ changedTarget: { likes: likes.concat(data) }, postId });
       } catch (e) {
@@ -64,6 +67,14 @@ const Likes = ({ likes, postId, onHandlePost }) => {
       }
     }
   };
+
+  useCreateAlarm({
+    token: storedToken,
+    notificationType: "LIKE",
+    notificationTypeId: likeId,
+    userId,
+    postId,
+  });
 
   return (
     <LikesContainer onClick={toggleLike}>
@@ -87,6 +98,7 @@ Likes.propTypes = {
     }),
   ),
   postId: PropTypes.string,
+  userId: PropTypes.string,
   onHandlePost: PropTypes.func,
 };
 
