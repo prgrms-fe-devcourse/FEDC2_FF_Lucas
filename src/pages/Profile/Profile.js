@@ -59,6 +59,7 @@ const Profile = () => {
   useEffect(() => {
     setPostArr(data);
   }, [data]);
+  console.log(data);
 
   return (
     <>
@@ -147,7 +148,7 @@ const Profile = () => {
         )}
 
         <ContentDiv>
-          {postArr.length > 0 ? (
+          {postArr && postArr.length > 0 ? (
             postArr.map(e => (
               <StyledCard
                 width={250}
