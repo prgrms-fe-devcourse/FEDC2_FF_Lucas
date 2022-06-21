@@ -11,6 +11,7 @@ import Card from "../../components/Card/Card";
 import Footer from "../../components/Footer/Footer";
 import { useGetPostsByAuthorId } from "../../utils/apis/posts";
 import { useGlobalContext } from "../../store/GlobalProvider";
+import parseJsonStringToObject from "../../utils/parseJsonString";
 
 const Header = styled.header`
   position: sticky;
@@ -149,15 +150,24 @@ const Profile = () => {
 
         <ContentDiv>
           {postArr && postArr.length > 0 ? (
-            postArr.map(e => (
-              <StyledCard
-                width={250}
-                title={e.title}
-                likeCount={e.likes.length}
-                date={e.createdAt.slice(0, 10)}
-                key={e._id}
-              />
-            ))
+            postArr.map(e => {
+              const { title, content } = parseJsonStringToObject({
+                jsonString: e.title,
+                defaultKey: "title",
+                restKeys: ["content"],
+              });
+
+              return (
+                <StyledCard
+                  width={250}
+                  title={title}
+                  content={content}
+                  likeCount={e.likes.length}
+                  date={e.createdAt.slice(0, 10)}
+                  key={e._id}
+                />
+              );
+            })
           ) : (
             <Text
               style={{
