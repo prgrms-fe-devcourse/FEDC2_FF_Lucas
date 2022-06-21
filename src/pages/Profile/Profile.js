@@ -147,17 +147,26 @@ const Profile = () => {
         )}
 
         <ContentDiv>
-          {postArr
-            ? postArr.map(e => (
-                <StyledCard
-                  width={250}
-                  title={e.title}
-                  likeCount={e.likes.length}
-                  date={e.createdAt.slice(0, 10)}
-                  key={e._id}
-                />
-              ))
-            : null}
+          {postArr.length > 0 ? (
+            postArr.map(e => (
+              <StyledCard
+                width={250}
+                title={e.title}
+                likeCount={e.likes.length}
+                date={e.createdAt.slice(0, 10)}
+                key={e._id}
+              />
+            ))
+          ) : (
+            <Text
+              style={{
+                fontSize: `${Common.fontSize.fs16}`,
+                margin: "0 auto",
+              }}
+            >
+              🥲 게시물이 존재하지 않습니다!
+            </Text>
+          )}
         </ContentDiv>
       </Main>
       <Footer />
