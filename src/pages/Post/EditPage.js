@@ -67,24 +67,10 @@ const EditPage = () => {
   const { state: locationState } = useLocation();
 
   const post = locationState && locationState.post;
-
-  let defaultTitle = "";
-  let defaultContent = "";
-  let titleContentObject = null;
-  const defaultImage = post && post.image ? post.imgae : "";
-  const defaultChaanelId = post && post.channel ? post.channel._id : "";
-
-  try {
-    titleContentObject = post && post.title && JSON.parse(post.title);
-  } catch (e) {
-    console.error(e);
-    titleContentObject = { title: post.title, content: "" };
-  }
-
-  if (titleContentObject) {
-    defaultTitle = titleContentObject.title;
-    defaultContent = titleContentObject.content;
-  }
+  const defaultTitle = (post && post.title) || "";
+  const defaultContent = (post && post.content) || "";
+  const defaultImage = (post && post.image) || "";
+  const defaultChaanelId = (post && post.channel) || "";
 
   const { errors, handleChange, handleSubmit } = useForm({
     initialValues: {
