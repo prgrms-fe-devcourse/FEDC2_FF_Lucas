@@ -73,7 +73,18 @@ const Profile = () => {
   const [selectedPost, setSeletedPost] = useState(null);
 
   useEffect(() => {
-    setPostArr(data);
+    if (!data) return;
+    const parsed = data.map(post => {
+      const { title, content } = parseJsonStringToObject({
+        jsonString: post.title,
+        defaultKey: "title",
+        restKeys: ["content"],
+      });
+
+      return { ...post, title, content };
+    });
+
+    setPostArr(parsed);
   }, [data]);
 
   const onHandlePost = ({ changedTarget, postId }) => {
@@ -177,19 +188,12 @@ const Profile = () => {
         )}
 
         <ContentDiv>
-          {postArr && postArr.length > 0 ? (
-            postArr.map(e => {
-              const { title, content } = parseJsonStringToObject({
-                jsonString: e.title,
-                defaultKey: "title",
-                restKeys: ["content"],
-              });
-
-              return (
+          {postArr && postArr.length > 0
+            ? postArr.map(e => (
                 <StyledCard
                   width={250}
-                  title={title}
-                  content={content}
+                  title={e.title}
+                  content={e.content}
                   likeCount={e.likes.length}
                   commentCount={e.comments.length}
                   src={e.image}
@@ -197,26 +201,23 @@ const Profile = () => {
                   key={e._id}
                   onClick={() => {
                     setIsModalOpen(true);
-                    setSeletedPost({
-                      ...e,
-                      title,
-                      content,
-                    });
+                    setSeletedPost(e);
                   }}
                 />
-              );
-            })
-          ) : (
-            <Text
-              style={{
-                fontSize: `${Common.fontSize.fs16}`,
-                margin: "0 auto",
-              }}
-            >
-              🥲 게시물이 존재하지 않습니다!
-            </Text>
-          )}
+              ))
+            : null}
         </ContentDiv>
+        {postArr && postArr.length === 0 && (
+          <Text
+            block
+            style={{
+              fontSize: `${Common.fontSize.fs16}`,
+              margin: "30px auto",
+            }}
+          >
+            🥲 게시물이 존재하지 않습니다!
+          </Text>
+        )}
       </Main>
       <Modal
         width="80%"

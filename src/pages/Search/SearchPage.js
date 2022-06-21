@@ -10,6 +10,7 @@ import Modal from "../../components/Modal/Modal";
 import DetailPage from "../../components/DetailPage/DetailPage";
 import useSearch from "../../utils/apis/search";
 import { useGetPostByPostId } from "../../utils/apis/posts";
+import parseJsonStringToObject from "../../utils/parseJsonString";
 
 const Wrapper = styled.div`
   margin: 50px 15%;
@@ -64,12 +65,28 @@ export default function SearchPage() {
 
   useEffect(() => {
     if (!postData) return;
-    setSeletedPost(postData);
+    const { title, content } = parseJsonStringToObject({
+      jsonString: postData.title,
+      defaultKey: "title",
+      restKeys: ["content"],
+    });
+    setSeletedPost({ ...postData, title, content });
   }, [postData]);
 
   useEffect(() => {
     if (!data) return;
-    setPostArr(data);
+
+    const parsed = data.map(post => {
+      const { title, content } = parseJsonStringToObject({
+        jsonString: post.title,
+        defaultKey: "title",
+        restKeys: ["content"],
+      });
+
+      return { ...post, title, content };
+    });
+
+    setPostArr(parsed);
   }, [data]);
 
   return (
