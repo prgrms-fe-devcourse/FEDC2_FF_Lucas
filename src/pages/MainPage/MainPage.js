@@ -64,25 +64,24 @@ export default function MainPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPost, setSeletedPost] = useState(null);
   const [offset, setOffset] = useState(0);
-  const [totalCount, setTotalCount] = useState(LIMIT);
 
   const { state } = useGlobalContext();
 
+  const { data } = useGetPosts({ channelId, offset, limit: LIMIT });
+  const { data: total } = useGetPosts({ channelId, key: "total" });
+  const { data: allPost, isLoading, refetch, remove } = useGetAllPost();
+
   const onIntersecting = useCallback(() => {
-    if (postArr.length >= totalCount) {
+    if (!channelId || postArr.length >= total.length) {
       return;
     }
-    setOffset(offset + LIMIT);
-  }, [setOffset, offset, totalCount]);
+    setOffset(prevOffset => prevOffset + LIMIT);
+  }, [setOffset, postArr, total, channelId]);
 
   const { setLastIntersectingImage } = useInfiniteScroll({
     onIntersecting,
     options: { threshold: 0.3 },
   });
-
-  const { data } = useGetPosts({ channelId, offset, limit: LIMIT });
-  const { data: total } = useGetPosts({ channelId, key: "total" });
-  const { data: allPost, isLoading, refetch, remove } = useGetAllPost();
 
   useEffect(() => {
     if (!isLoading) {
@@ -101,7 +100,8 @@ export default function MainPage() {
   }, [allPost]);
 
   useEffect(() => {
-    if (!data) {
+    // TODO : data가 동일해도 함수 실행되는 버그 존재. 추후 원인을 알아내서 아래 하드코딩 빼야함
+    if (!data || postArr.find(post => post._id === data[0]._id)) {
       return;
     }
     const parsed = data.map(post => {
@@ -113,15 +113,9 @@ export default function MainPage() {
 
       return { ...post, title, content };
     });
+
     setPostArr([...postArr, ...parsed]);
   }, [data]);
-
-  useEffect(() => {
-    if (!total) {
-      return;
-    }
-    setTotalCount(total.length);
-  }, [total]);
 
   const onHandlePost = ({ changedTarget, postId }) => {
     const tempPost = postArr.map(post =>
@@ -138,11 +132,10 @@ export default function MainPage() {
   };
 
   const onChangeChannel = id => {
-    console.log("초기화");
+    if (id === channelId) return;
     moveToTop();
     setPostArr([]);
     setOffset(0);
-    setTotalCount(0);
     if (!id) {
       remove();
       refetch();
