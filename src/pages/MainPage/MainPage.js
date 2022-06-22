@@ -150,7 +150,7 @@ export default function MainPage() {
         <LowerHeader onChangeChannel={onChangeChannel} />
       </Header>
       <Main>
-        <Carousel second={5000} height={300} />
+        <Carousel second={5000} height={250} />
         <ContentDiv>
           {postArr.map((e, index) => {
             const isLast = index === postArr.length - 1;
