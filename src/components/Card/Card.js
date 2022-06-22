@@ -3,6 +3,7 @@ import { Heart, MessageSquare } from "react-feather";
 import styled from "@emotion/styled";
 import Image from "../Image/Image";
 import Text from "../Text/Text";
+import DEFAULT_PROFILE_IMAGE_URL from "../../utils/constants";
 
 const Wrapper = styled.div`
   border: 1px solid #d9d9d9;
@@ -38,7 +39,7 @@ const SocialWrapper = styled.div`
 
 export default function Card({
   src = "https://picsum.photos/200",
-  profileImg = "https://picsum.photos/200",
+  profileImg = DEFAULT_PROFILE_IMAGE_URL,
   date = "22.06.13",
   userName = "루카스팀",
   title = "fashion feedback",

@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import styled from "@emotion/styled";
 import Image from "../Image/Image";
+import DEFAULT_PROFILE_IMAGE_URL from "../../utils/constants";
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,7 +24,7 @@ const StyledImage = styled(Image)`
 `;
 export default function UserSearch({
   userName = "루카스",
-  profileImg,
+  profileImg = DEFAULT_PROFILE_IMAGE_URL,
   onClick,
 }) {
   return (
