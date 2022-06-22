@@ -106,6 +106,7 @@ export default function SearchPage() {
               <UserSearch
                 userName={e.fullName}
                 key={e._id}
+                profileImg={e.image}
                 onClick={() =>
                   navigate("/profile", { state: { authorId: e._id } })
                 }
@@ -127,9 +128,9 @@ export default function SearchPage() {
                 date={e.createdAt.slice(0, 10)}
                 likeCount={e.likes.length}
                 src={e.image}
+                profileImg={e.author.image}
                 title={e.title}
                 key={e._id}
-                profileImg
                 userName
                 onClick={() => onClickPost(e._id)}
               />
