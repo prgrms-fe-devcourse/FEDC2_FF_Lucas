@@ -159,6 +159,7 @@ export default function MainPage() {
                 <StyledCard
                   width={250}
                   src={e.image}
+                  profileImg={e.author.image}
                   title={e.title}
                   content={e.content}
                   userName={e.author.fullName}
