@@ -137,7 +137,7 @@ const UpdateProfile = () => {
           weight,
           age,
         });
-        await axios({
+        const { data: nextUser } = await axios({
           method: "PUT",
           url: "/settings/update-user",
           headers: { Authorization: `Bearer ${storedToken}` },
@@ -146,6 +146,8 @@ const UpdateProfile = () => {
             username: userInfoString,
           },
         });
+
+        setUser({ user: nextUser, token: storedToken });
         alert("회원정보를 변경했습니다.");
       } catch (e) {
         alert(`회원정보 변경 실패.\n ${e}`);
