@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
-import { Save } from "react-feather";
+import { Camera } from "react-feather";
+import { useEffect, useRef, useState } from "react";
 import UpperHeader from "../../components/Header/UpperHeader";
 import Input from "../../components/Input/Input";
 import Text from "../../components/Text/Text";
@@ -29,12 +30,8 @@ const ImageWrapper = styled.form`
 `;
 
 const IconWrapper = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-  transform: translate(0, 450%);
-  width: 60px;
-  height: 60px;
+  width: 80px;
+  height: 80px;
   border-radius: 100%;
   background-color: transparent;
   cursor: pointer;
@@ -58,25 +55,16 @@ const FlexDiv = styled.div`
   justify-content: center;
   margin: 10px 0;
 `;
-const ProfileImage = styled.div`
-  width: 350px;
-  height: 350px;
-  border-radius: 50%;
-  background-color: #d9d9d9;
-  overflow: hidden;
-  &:hover {
-    background-color: "#4f508f";
-  }
-  &:active {
-    background-color: "#434379";
-  }
-`;
 
 const StyledInput = styled(Input)`
   border-radius: 10px;
   background-color: white;
   border: none;
   outline: none;
+`;
+
+const HiddenSubmit = styled.button`
+  display: "none";
 `;
 
 const UpdateProfile = () => {
@@ -94,34 +82,37 @@ const UpdateProfile = () => {
     jsonString,
     restKeys: ["height", "weight", "age"],
   });
-  const { handleChange: handleImageChange, handleSubmit: handleImageSubmit } =
-    useForm({
-      initialValues: {
-        image: defaultImage || "",
-      },
-      onSubmit: async ({ event }) => {
-        const changedImgae =
-          event.target.image.files && event.target.image.files[0];
+  const {
+    values: { image: changedImage },
+    handleChange: handleImageChange,
+    handleSubmit: handleImageSubmit,
+  } = useForm({
+    initialValues: {
+      image: defaultImage || "",
+    },
+    onSubmit: async ({ event }) => {
+      const changedImgae =
+        event.target.image.files && event.target.image.files[0];
 
-        try {
-          const nextUser = await updateProfileImage({
-            image: changedImgae,
-            token: storedToken,
-          });
-          setUser({ user: nextUser, token: storedToken });
-          alert("프로필 이미지를 변경했습니다.");
-        } catch (e) {
-          alert(`프로필 이미지 수정 실패 ${e}`);
-        }
-      },
-      validate: ({ image }) => {
-        const error = {};
-        if (!image) {
-          error.image = "이미지를 등록해주세요";
-        }
-        return error;
-      },
-    });
+      try {
+        const nextUser = await updateProfileImage({
+          image: changedImgae,
+          token: storedToken,
+        });
+        setUser({ user: nextUser, token: storedToken });
+        alert("프로필 이미지를 변경했습니다.");
+      } catch (e) {
+        alert(`프로필 이미지 수정 실패 ${e}`);
+      }
+    },
+    validate: ({ image }) => {
+      const error = {};
+      if (!image) {
+        error.image = "이미지를 등록해주세요";
+      }
+      return error;
+    },
+  });
 
   const {
     errors,
@@ -204,6 +195,16 @@ const UpdateProfile = () => {
       return newErrors;
     },
   });
+  const [countClick, setCountClick] = useState(0);
+  const imageFormRef = useRef(null);
+
+  useEffect(() => {
+    if (countClick === 0) {
+      return;
+    }
+
+    imageFormRef.current.click();
+  }, [changedImage]);
 
   return (
     <>
@@ -212,11 +213,35 @@ const UpdateProfile = () => {
       </Header>
       <Main>
         <ImageWrapper onSubmit={handleImageSubmit}>
+          <HiddenSubmit type="submit" ref={imageFormRef} />
           <ImageUpload
             name="image"
-            isInnerPreview
-            wrapperStyles={{ margin: "10% 0" }}
             prevImageUrl={defaultImage}
+            wrapperStyles={{
+              position: "relative",
+            }}
+            style={{
+              position: "absolute",
+              top: "0",
+              right: "0",
+              transform: "translate(0, 270%)",
+              width: "100px",
+              height: "100px",
+              borderRadius: "100%",
+              backgroundColor: "white",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+            previewImageWrapperStyles={{
+              width: "350px",
+              height: "350px",
+              borderRadius: "50%",
+              backgroundColor: "#d9d9d9",
+              overflow: "hidden",
+              margin: "10% 0",
+            }}
             previewImageStyles={{
               width: "100%",
               height: "100%",
@@ -224,18 +249,18 @@ const UpdateProfile = () => {
             }}
             onChange={handleImageChange}
           >
-            <ProfileImage />
+            <IconWrapper>
+              <Button
+                type="button"
+                width="80px"
+                height="80px"
+                borderRadius="100%"
+                onClick={() => setCountClick(countClick + 1)}
+              >
+                <Camera width="50px" height="50px" />
+              </Button>
+            </IconWrapper>
           </ImageUpload>
-          <IconWrapper>
-            <Button
-              type="submit"
-              width="80px"
-              height="80px"
-              borderRadius="100%"
-            >
-              <Save width="50px" height="50px" />
-            </Button>
-          </IconWrapper>
         </ImageWrapper>
         <InputWrapper onSubmit={handleInfoSubmit}>
           <FlexDiv>
