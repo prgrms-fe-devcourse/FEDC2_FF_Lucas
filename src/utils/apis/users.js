@@ -84,6 +84,16 @@ const updateUserInfo = async ({ fullName, username, token }) => {
   return data;
 };
 
+const updatePassword = async ({ password, token }) =>
+  axios({
+    method: "PUT",
+    url: "/settings/update-password",
+    headers: { Authorization: `Bearer ${token}` },
+    data: {
+      password,
+    },
+  });
+
 export {
   useGetUsers,
   useLogin,
@@ -92,4 +102,5 @@ export {
   useGetUser,
   updateProfileImage,
   updateUserInfo,
+  updatePassword,
 };

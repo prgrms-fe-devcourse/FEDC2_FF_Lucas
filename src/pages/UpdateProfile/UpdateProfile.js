@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import axios from "axios";
 import { Save } from "react-feather";
 import UpperHeader from "../../components/Header/UpperHeader";
 // import Image from "../../components/Image/Image";
@@ -10,7 +9,11 @@ import { useGlobalContext } from "../../store/GlobalProvider";
 import useForm from "../../hooks/useForm";
 import parseJsonStringToObject from "../../utils/parseJsonString";
 import ImageUpload from "../../components/ImageUpload/ImageUpload";
-import { updateProfileImage, updateUserInfo } from "../../utils/apis/users";
+import {
+  updateProfileImage,
+  updateUserInfo,
+  updatePassword,
+} from "../../utils/apis/users";
 
 const Header = styled.header`
   position: sticky;
@@ -178,14 +181,8 @@ const UpdateProfile = () => {
     },
     onSubmit: async ({ password }) => {
       try {
-        await axios({
-          method: "PUT",
-          url: "/settings/update-password",
-          headers: { Authorization: `Bearer ${storedToken}` },
-          data: {
-            password,
-          },
-        });
+        await updatePassword({ password, token: storedToken });
+
         alert("비밀번호를 변경했습니다.");
       } catch (e) {
         alert(`비밀번호 변경 실패.\n ${e}`);
