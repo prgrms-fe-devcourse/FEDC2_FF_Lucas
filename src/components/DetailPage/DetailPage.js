@@ -130,7 +130,7 @@ const DetailPage = ({ post, onHandlePost, onDeletePost }) => {
           </ProfileContainer>
           <Image {...imageProps} />
         </ContentContainer>
-        <ContentContainer style={{ padding: "15px" }}>
+        <ContentContainer style={{ padding: "15px", lineHeight: "2.5rem" }}>
           <Text size={32} strong block>
             {post.title}
           </Text>
