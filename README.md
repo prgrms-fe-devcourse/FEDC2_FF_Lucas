@@ -32,7 +32,7 @@ Then, you can access to http://localhost:3000
 
 ---
 
-## 기술 스택
+## Tech stack
 
 **Frontend**
 
@@ -48,7 +48,7 @@ Then, you can access to http://localhost:3000
 - ![title](https://img.shields.io/badge/-Slack-4A154B?&logo=Slack&logoColor=white)
 
 ---
-## 정적 페이지 
+## Deployment 
 
 
 배포주소
@@ -56,7 +56,7 @@ Then, you can access to http://localhost:3000
 
 ---
 
-## 프로젝트 구조
+## Structure
 
 ```bash
 |-- FEDC2_FF_Lucas
