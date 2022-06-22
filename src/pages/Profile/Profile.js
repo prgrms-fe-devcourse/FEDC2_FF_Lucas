@@ -62,6 +62,16 @@ const StyledCard = styled(Card)`
   margin-bottom: 30px;
 `;
 
+const ImageWrapper = styled.div`
+  width: 350px;
+  height: 350px;
+  border-radius: 100%;
+  background-color: #d9d9d9;
+  overflow: hidden;
+  margin: 2%;
+  display: inline-block;
+`;
+
 const Profile = () => {
   const { state } = useGlobalContext();
   const { state: searchState } = useLocation();
@@ -130,16 +140,17 @@ const Profile = () => {
         <UpperHeader />
       </Header>
       <Main>
-        <Image
-          src={(user && user.image) || DEFAULT_PROFILE_IMAGE_URL}
-          style={{
-            width: "400px",
-            height: "400px",
-            borderRadius: "50%",
-            overflow: "hidden",
-            margin: "2% 0",
-          }}
-        />
+        <ImageWrapper>
+          <Image
+            src={(user && user.image) || DEFAULT_PROFILE_IMAGE_URL}
+            style={{
+              borderRadius: "100%",
+              transform: "scale(1.1)",
+            }}
+            width="350px"
+          />
+        </ImageWrapper>
+
         <FlexDiv>
           <GridDiv>
             <Text bold="true" size={`${Common.fontSize.fs16}`}>
