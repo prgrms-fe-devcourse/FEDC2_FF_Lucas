@@ -10,7 +10,7 @@ import { useGlobalContext } from "../../store/GlobalProvider";
 import useForm from "../../hooks/useForm";
 import parseJsonStringToObject from "../../utils/parseJsonString";
 import ImageUpload from "../../components/ImageUpload/ImageUpload";
-import { updateProfileImage } from "../../utils/apis/users";
+import { updateProfileImage, updateUserInfo } from "../../utils/apis/users";
 
 const Header = styled.header`
   position: sticky;
@@ -132,19 +132,14 @@ const UpdateProfile = () => {
     },
     onSubmit: async ({ fullName, height, weight, age }) => {
       try {
-        const userInfoString = JSON.stringify({
-          height,
-          weight,
-          age,
-        });
-        const { data: nextUser } = await axios({
-          method: "PUT",
-          url: "/settings/update-user",
-          headers: { Authorization: `Bearer ${storedToken}` },
-          data: {
-            fullName,
-            username: userInfoString,
-          },
+        const nextUser = await updateUserInfo({
+          fullName,
+          username: JSON.stringify({
+            height,
+            weight,
+            age,
+          }),
+          token: storedToken,
         });
 
         setUser({ user: nextUser, token: storedToken });
