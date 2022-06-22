@@ -100,7 +100,10 @@ const Comments = ({ comments, postId, onHandlePost, userId }) => {
             height={30}
             style={{ borderRadius: "50%", marginRight: "10px" }}
           />
-          <Text block style={{ flexGrow: "1" }}>
+          <Text block strong style={{ marginRight: "5px", flexShrink: 0 }}>
+            {comment.author.fullName}
+          </Text>
+          <Text block style={{ flexGrow: "1", wordBreak: "break-word" }}>
             {comment.comment}
           </Text>
           {state.userInfo && state.userInfo.user._id === comment.author._id ? (
