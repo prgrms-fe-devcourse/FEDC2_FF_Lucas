@@ -9,6 +9,7 @@ import Common from "../../styles/common";
 import UserTooltip from "../UserTooltip/UserTooltip";
 import { useGlobalContext } from "../../store/GlobalProvider";
 import logo from "../../images/logo.png";
+import DEFAULT_PROFILE_IMAGE_URL from "../../utils/constants";
 
 const Header = styled.div`
   background-color: ${Common.colors.secondaryColor};
@@ -128,6 +129,7 @@ function UpperHeader() {
               </Link>
               <UserTooltip
                 onMouseLeave={toggle}
+                src={state.userInfo.user.image || DEFAULT_PROFILE_IMAGE_URL}
                 style={{ display: show ? "block" : "none" }}
               />
             </span>
