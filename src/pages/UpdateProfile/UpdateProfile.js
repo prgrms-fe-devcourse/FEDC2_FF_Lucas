@@ -64,7 +64,7 @@ const StyledInput = styled(Input)`
 `;
 
 const HiddenSubmit = styled.button`
-  display: "none";
+  display: none;
 `;
 
 const UpdateProfile = () => {
@@ -241,6 +241,7 @@ const UpdateProfile = () => {
               backgroundColor: "#d9d9d9",
               overflow: "hidden",
               margin: "10% 0",
+              paddingLeft: 0,
             }}
             previewImageStyles={{
               width: "100%",
