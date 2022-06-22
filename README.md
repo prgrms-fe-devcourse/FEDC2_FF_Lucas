@@ -51,7 +51,7 @@ Then, you can access to http://localhost:3000
 ## 정적 페이지 
 
 
-http://fuding-bucket.s3-website.ap-northeast-2.amazonaws.com
+배포주소
 
 
 ---
