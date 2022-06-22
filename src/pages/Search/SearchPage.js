@@ -140,6 +140,7 @@ export default function SearchPage() {
       </Wrapper>
       <Modal
         width="80%"
+        height="80%"
         visible={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       >
