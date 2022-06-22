@@ -1,3 +1,4 @@
+import React from "react";
 import styled from "@emotion/styled";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +10,7 @@ import Button from "../Button/Button";
 import Likes from "../Likes/Likes";
 import Comments from "../Comments/Comments";
 import { deletePost } from "../../utils/apis/posts";
+import DEFAULT_PROFILE_IMAGE_URL from "../../utils/constants";
 
 const PageContainer = styled.div`
   display: flex;
@@ -98,7 +100,7 @@ const DetailPage = ({ post, onHandlePost, onDeletePost }) => {
         <ContentContainer>
           <ProfileContainer>
             <Image
-              src="https://picsum.photos/100"
+              src={post.author.image || DEFAULT_PROFILE_IMAGE_URL}
               width={40}
               height={40}
               style={{ borderRadius: "50%", marginRight: "5px" }}
@@ -198,6 +200,7 @@ DetailPage.propTypes = {
     content: PropTypes.string,
     author: PropTypes.shape({
       fullName: PropTypes.string,
+      image: PropTypes.string,
       _id: PropTypes.string,
     }),
     createdAt: PropTypes.string,
@@ -208,4 +211,4 @@ DetailPage.propTypes = {
   onDeletePost: PropTypes.func,
 };
 
-export default DetailPage;
+export default React.memo(DetailPage);
