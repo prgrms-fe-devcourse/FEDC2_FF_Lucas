@@ -50,12 +50,22 @@ export default function Card({
 }) {
   return (
     <Wrapper style={{ width: `${width}px` }} {...props}>
-      <Image src={src} style={{ height: "auto" }} />
+      <div
+        style={{
+          width: "100%",
+          height: "300px",
+          backgroundImage: `url(${src})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      />
       <InfoWrapper>
         <UserWrapper>
           <Image
             src={profileImg}
             width="40px"
+            height="40px"
             style={{ borderRadius: "100%" }}
           />
           <Text block strong style={{ flexGrow: "1" }}>
@@ -66,7 +76,15 @@ export default function Card({
           </Text>
         </UserWrapper>
         <DescriptionWrapper>
-          <Text block style={{ lineHeight: "25px" }}>
+          <Text
+            block
+            style={{
+              lineHeight: "25px",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
             {title}
           </Text>
           <SocialWrapper>
