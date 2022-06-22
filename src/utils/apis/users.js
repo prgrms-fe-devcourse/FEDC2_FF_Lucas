@@ -70,6 +70,20 @@ const updateProfileImage = async ({ image = "", token = "" }) => {
   return data;
 };
 
+const updateUserInfo = async ({ fullName, username, token }) => {
+  const { data } = await axios({
+    method: "PUT",
+    url: "/settings/update-user",
+    headers: { Authorization: `Bearer ${token}` },
+    data: {
+      fullName,
+      username,
+    },
+  });
+
+  return data;
+};
+
 export {
   useGetUsers,
   useLogin,
@@ -77,4 +91,5 @@ export {
   useSignup,
   useGetUser,
   updateProfileImage,
+  updateUserInfo,
 };
