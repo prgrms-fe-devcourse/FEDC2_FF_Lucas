@@ -18,7 +18,7 @@ const Text = ({
   };
 
   return (
-    <Tag style={{ ...props.style, ...fontStyle }} {...props}>
+    <Tag {...props} style={{ ...props.style, ...fontStyle }}>
       {children}
     </Tag>
   );
