@@ -48,8 +48,6 @@ const GlobalProvider = ({ children }) => {
     null,
   );
 
-  console.log("create global", state, storedToken);
-
   const setUser = async userInfo => {
     dispatch({ type: "SET_USER", userInfo, setStoredToken, removeStoredToken });
   };

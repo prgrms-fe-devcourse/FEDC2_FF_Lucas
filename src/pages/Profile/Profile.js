@@ -113,7 +113,7 @@ const Profile = () => {
       }),
     );
   }, [user]);
-  console.log(state.userInfo, userInfo);
+
   const isOwnProfile =
     state.userInfo &&
     state.userInfo.user &&
