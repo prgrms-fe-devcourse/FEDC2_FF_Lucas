@@ -79,7 +79,12 @@ const Likes = ({ likes, postId, onHandlePost, userId }) => {
   return (
     <LikesContainer onClick={toggleLike}>
       <Heart size={30} color="red" fill={currentUserLike ? "red" : "white"} />
-      <Text size={15} color="#333" strong>
+      <Text
+        size={15}
+        color="#333"
+        strong
+        style={{ lineHeight: 1, marginTop: "3px" }}
+      >
         {likes.length}
       </Text>
     </LikesContainer>

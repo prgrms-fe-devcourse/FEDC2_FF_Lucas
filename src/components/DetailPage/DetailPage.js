@@ -82,6 +82,7 @@ const DetailPage = ({ post, onHandlePost, onDeletePost }) => {
     placeholder: "https://via.placeholder.com/300",
     lazy: true,
     width: "100%",
+    height: "calc(100% - 54px)",
   };
 
   const onDelete = async () => {
@@ -130,15 +131,20 @@ const DetailPage = ({ post, onHandlePost, onDeletePost }) => {
           </ProfileContainer>
           <Image {...imageProps} />
         </ContentContainer>
-        <ContentContainer style={{ padding: "15px", lineHeight: "2.5rem" }}>
-          <Text size={32} strong block>
+        <ContentContainer style={{ padding: "15px" }}>
+          <Text size={32} strong style={{ lineHeight: "2.5rem" }}>
             {post.title}
           </Text>
           <hr style={{ color: "#bbb", width: "100%", margin: "15px 0" }} />
           <PostInfoContainer
             style={{ lineHeight: "1.5rem", overflowWrap: "break-word" }}
           >
-            {post.content}
+            {post.content.split("\n").map(line => (
+              <>
+                {line}
+                <br />
+              </>
+            ))}
           </PostInfoContainer>
           <Likes
             likes={post.likes}
