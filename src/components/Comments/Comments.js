@@ -9,6 +9,7 @@ import Button from "../Button/Button";
 import { useGlobalContext } from "../../store/GlobalProvider";
 import { createComment, deleteComment } from "../../utils/apis/comments";
 import { useCreateAlarm } from "../../utils/apis/notifications";
+import DEFAULT_PROFILE_IMAGE_URL from "../../utils/constants";
 
 const CommentsContainer = styled.div`
   overflow: auto;
@@ -92,7 +93,7 @@ const Comments = ({ comments, postId, onHandlePost, userId }) => {
       {comments.map(comment => (
         <CommentWrapper key={comment._id}>
           <Image
-            src="https://picsum.photos/100"
+            src={comment.author.image || DEFAULT_PROFILE_IMAGE_URL}
             width={30}
             height={30}
             style={{ borderRadius: "50%", marginRight: "10px" }}
