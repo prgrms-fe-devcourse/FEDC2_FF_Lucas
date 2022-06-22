@@ -12,14 +12,16 @@ import { useCreateAlarm } from "../../utils/apis/notifications";
 import DEFAULT_PROFILE_IMAGE_URL from "../../utils/constants";
 
 const CommentsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   overflow: auto;
-  min-height: 70px;
+  min-height: 200px;
 `;
 
 const CommentWrapper = styled.div`
   display: flex;
   align-items: center;
-  margin: 5px 0;
+  margin: 10px 0;
   &:hover .comments-delete-icon {
     display: block;
   }
@@ -31,7 +33,7 @@ const CommentWrapper = styled.div`
 
 const InputContainer = styled.div`
   display: flex;
-  margin-top: 10px;
+  margin-top: auto;
   align-items: center;
   height: 32px;
 `;
