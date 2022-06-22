@@ -130,7 +130,7 @@ const Profile = () => {
       </Header>
       <Main>
         <Image
-          src="https://picsum.photos/200"
+          src={user && user.image}
           style={{
             width: "400px",
             height: "400px",
@@ -225,6 +225,7 @@ const Profile = () => {
                   likeCount={e.likes.length}
                   commentCount={e.comments.length}
                   src={e.image}
+                  profileImg={e.author.image}
                   date={e.createdAt.slice(0, 10)}
                   key={e._id}
                   onClick={() => {
