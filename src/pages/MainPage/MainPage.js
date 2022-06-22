@@ -18,10 +18,10 @@ import parseJsonStringToObject from "../../utils/parseJsonString";
 const ContentDiv = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(auto-filt, minmax(300px, 4fr));
   justify-items: center;
   padding-top: 50px;
   margin: 0 15%;
+  grid-auto-rows: 1fr;
   @media (max-width: 1400px) {
     grid-template-columns: repeat(3, 1fr);
   }

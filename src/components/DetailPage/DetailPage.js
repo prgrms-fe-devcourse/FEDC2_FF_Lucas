@@ -135,7 +135,11 @@ const DetailPage = ({ post, onHandlePost, onDeletePost }) => {
             {post.title}
           </Text>
           <hr style={{ color: "#bbb", width: "100%", margin: "15px 0" }} />
-          <PostInfoContainer>{post.content}</PostInfoContainer>
+          <PostInfoContainer
+            style={{ lineHeight: "1.5rem", overflowWrap: "break-word" }}
+          >
+            {post.content}
+          </PostInfoContainer>
           <Likes
             likes={post.likes}
             postId={post._id}
