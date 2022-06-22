@@ -14,6 +14,7 @@ import { useGetPostsByAuthorId } from "../../utils/apis/posts";
 import { useGlobalContext } from "../../store/GlobalProvider";
 import parseJsonStringToObject from "../../utils/parseJsonString";
 import { useGetUser } from "../../utils/apis/users";
+import DEFAULT_PROFILE_IMAGE_URL from "../../utils/constants";
 
 const Header = styled.header`
   position: sticky;
@@ -130,7 +131,7 @@ const Profile = () => {
       </Header>
       <Main>
         <Image
-          src={user && user.image}
+          src={(user && user.image) || DEFAULT_PROFILE_IMAGE_URL}
           style={{
             width: "400px",
             height: "400px",

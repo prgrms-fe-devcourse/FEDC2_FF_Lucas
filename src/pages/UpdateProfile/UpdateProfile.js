@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import { Save } from "react-feather";
 import UpperHeader from "../../components/Header/UpperHeader";
-// import Image from "../../components/Image/Image";
 import Input from "../../components/Input/Input";
 import Text from "../../components/Text/Text";
 import Button from "../../components/Button/Button";
@@ -14,6 +13,7 @@ import {
   updateUserInfo,
   updatePassword,
 } from "../../utils/apis/users";
+import DEFAULT_PROFILE_IMAGE_URL from "../../utils/constants";
 
 const Header = styled.header`
   position: sticky;
@@ -84,7 +84,8 @@ const UpdateProfile = () => {
   const jsonString = state.userInfo.user && state.userInfo.user.username;
   const defaultFullName =
     (state.userInfo.user && state.userInfo.user.fullName) || "";
-  const defaultImage = (state.userInfo && state.userInfo.user.image) || "";
+  const defaultImage =
+    (state.userInfo && state.userInfo.user.image) || DEFAULT_PROFILE_IMAGE_URL;
   const {
     height: defaultHeight,
     weight: defaultWeight,
